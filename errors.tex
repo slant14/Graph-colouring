@@ -1,0 +1,101 @@
+
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\lstdefinestyle{plain}{
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  keepspaces=true,
+  frame=single,
+  showstringspaces=false,
+  breaklines=true
+}
+
+\title{Type-System Errors}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Type-System Errors Only}
+
+\begin{enumerate}
+  \item \textbf{Kind mismatch} --- using a palette where a graph is expected.
+\begin{lstlisting}[style=plain]
+transform t = toUDG(p3)
+\end{lstlisting}
+
+  \item \textbf{Vertex not in graph} --- restriction mentions a vertex outside the graph.
+\begin{lstlisting}[style=plain]
+graph g = { vertices=[1,2,3], edges=[(1,2)] }
+restrictions r = { precolor 4 : red; }
+\end{lstlisting}
+
+  \item \textbf{Edge endpoint not in graph} --- edge uses an undeclared vertex.
+\begin{lstlisting}[style=plain]
+graph g = { vertices=[1,2,3], edges=[(1,4)] }
+\end{lstlisting}
+
+  \item \textbf{Color not in palette} --- restriction uses a color unavailable in the palette.
+\begin{lstlisting}[style=plain]
+palette p = colors [red, blue]
+restrictions r = { precolor 1 : green; }
+\end{lstlisting}
+
+  \item \textbf{Palette-size contradiction} --- restriction asks for more colors than the palette provides.
+\begin{lstlisting}[style=plain]
+palette p = colors [red, blue]
+restrictions r = { useExactly 3; }
+\end{lstlisting}
+
+  \item \textbf{Wrong graph in restriction set} --- a restriction set typed for one graph is reused on another.
+\begin{lstlisting}[style=plain]
+graph g1 = { vertices=[1,2,3], edges=[(1,2)] }
+graph g2 = { vertices=[a,b], edges=[(a,b)] }
+restrictions r1 = { precolor 1 : red; }
+instance x = color g2 using p subject-to r1
+\end{lstlisting}
+
+  \item \textbf{Wrong graph in keep/drop} --- transform options mention vertices not in the input graph.
+\begin{lstlisting}[style=plain]
+graph g = { vertices=[1,2,3], edges=[(1,2)] }
+transform t = toUDG(preserve chromatic, drop=[4])
+\end{lstlisting}
+
+  \item \textbf{Overlapping keep/drop} --- the same vertex is both kept and dropped.
+\begin{lstlisting}[style=plain]
+transform t = toUDG(preserve chromatic, keep=[1,2], drop=[2,3])
+\end{lstlisting}
+
+  \item \textbf{Exact transform with elimination} --- exact mode cannot drop vertices.
+\begin{lstlisting}[style=plain]
+transform t = toUDG(exact, drop=[4,5])
+\end{lstlisting}
+
+  \item \textbf{Guarantee mismatch} --- using a weak transform as if it preserves a stronger property.
+\begin{lstlisting}[style=plain]
+transform t = toUDG(preserve kColorable(3))
+-- later treated as preserve chromatic
+\end{lstlisting}
+
+  \item \textbf{Wrong value in vertex position} --- a color is used where a vertex is required.
+\begin{lstlisting}[style=plain]
+restrictions r = { precolor red : blue; }
+\end{lstlisting}
+
+  \item \textbf{Ill-typed UDG literal} --- points/edges do not match the UDG vertex set.
+\begin{lstlisting}[style=plain]
+udg {
+  radius = 1.0,
+  points = [1@(0,0), 4@(1,0)],
+  edges  = [(1,2)]
+}
+\end{lstlisting}
+\end{enumerate}
+
+\end{document}

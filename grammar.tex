@@ -1,0 +1,245 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{amsmath}
+
+\lstdefinestyle{plain}{
+  basicstyle=\ttfamily\small,
+  columns=fullflexible,
+  keepspaces=true,
+  frame=single,
+  showstringspaces=false,
+  breaklines=true
+}
+
+\title{Refined Grammar and AST}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Grammar}
+
+\begin{lstlisting}[style=plain]
+Program        ::= { Decl }
+
+Decl           ::= GraphDecl
+                 | PaletteDecl
+                 | RestrDecl
+                 | TransformDecl
+                 | InstanceDecl
+                 | QueryDecl
+
+GraphDecl      ::= "graph" Ident "=" GraphExpr
+PaletteDecl    ::= "palette" Ident "=" PaletteExpr
+RestrDecl      ::= "restrictions" Ident "=" "{"
+                     { Restriction ";" }
+                   "}"
+TransformDecl  ::= "transform" Ident "=" TransformExpr
+InstanceDecl   ::= "instance" Ident "=" InstanceExpr
+QueryDecl      ::= "compute" Ident "=" QueryExpr
+
+InstanceExpr   ::= "color" GraphRef
+                   [ "using" PaletteRef ]
+                   [ "subject-to" RestrRef ]
+                   [ "via" TransformRef ]
+
+QueryExpr      ::= "chromaticNumber" "(" GraphRef ")"
+
+GraphExpr      ::= GraphLiteral
+                 | UdgLiteral
+                 | "apply" TransformRef "to" GraphRef
+
+GraphLiteral   ::= "{"
+                    "vertices" "=" "[" VertexList "]" ","
+                    "edges"    "=" "[" EdgeList "]"
+                   "}"
+
+UdgLiteral     ::= "udg" "{"
+                    "radius" "=" Real ","
+                    "edges"  "=" "[" EdgeList "]"
+                   "}"
+
+TransformExpr  ::= "toUDG" "(" TransformMode
+                     [ "," TransformOptions ]
+                   ")"
+                 | "compose" "[" TransformRefList "]"
+
+TransformMode  ::= "exact"
+                 | "preserve" Property
+
+TransformOptions ::= TransformOption
+                     { "," TransformOption }
+
+TransformOption ::= "radius" "=" Real
+                  | "keep" "=" "[" VertexList "]"
+                  | "drop" "=" "[" VertexList "]"
+                  | "trackOrigin" "=" Bool
+                  | "preservePalette" "=" Bool
+                  | "preserveRestrictions" "=" Bool
+
+Property       ::= "kColorable" "(" Nat ")"
+                 | "chromatic"
+                 | "bipartite"
+                 | "paletteFeasible"
+
+PaletteExpr    ::= "colors" "[" ColorList "]"
+                 | "size" Nat
+
+Restriction    ::= "precolor" Vertex ":" Color
+                 | "allow" Vertex ":" "[" ColorList "]"
+                 | "forbid" Vertex ":" "[" ColorList "]"
+                 | "sameColor" "(" Vertex "," Vertex ")"
+                 | "differentColor" "(" Vertex "," Vertex ")"
+                 | "useAtMost" Nat
+                 | "useExactly" Nat
+                 | "distinctOn" "[" VertexList "]"
+
+Edge           ::= "(" Vertex "," Vertex ")"
+
+VertexList       ::= Vertex { "," Vertex }
+EdgeList         ::= Edge { "," Edge }
+ColorList        ::= Color { "," Color }
+TransformRefList ::= Ident { "," Ident }
+
+GraphRef       ::= Ident
+PaletteRef     ::= Ident
+RestrRef       ::= Ident
+TransformRef   ::= Ident
+
+Vertex         ::= Ident | Nat
+Color          ::= Ident | String
+Ident          ::= letter { letter | digit | "_" }
+Nat            ::= digit { digit }
+Real           ::= Nat [ "." Nat ]
+Bool           ::= "true" | "false"
+\end{lstlisting}
+
+\section*{AST}
+
+\begin{lstlisting}[style=plain]
+type Name   = String
+type Vertex = String
+type Color  = String
+type Edge   = (Vertex, Vertex)
+type Radius = Double
+
+data Program = Program [Decl]
+
+data Decl
+  = DGraph Name GraphExpr
+  | DPalette Name PaletteExpr
+  | DRestrictions Name [Restriction]
+  | DTransform Name TransformExpr
+  | DInstance Name InstanceExpr
+  | DQuery Name QueryExpr
+
+data GraphExpr
+  = GraphLit [Vertex] [Edge]
+  | UdgLit Radius [Edge]
+  | ApplyTransform Name Name
+
+data TransformExpr
+  = ToUDG TransformMode [TransformOption]
+  | Compose [Name]
+
+data TransformMode
+  = Exact
+  | Preserve Property
+
+data Property
+  = KColorable Int
+  | Chromatic
+  | Bipartite
+  | PaletteFeasible
+
+data TransformOption
+  = RadiusOpt Double
+  | KeepVertices [Vertex]
+  | DropVertices [Vertex]
+  | TrackOrigin Bool
+  | PreservePalette Bool
+  | PreserveRestrictions Bool
+
+data PaletteExpr
+  = ExplicitPalette [Color]
+  | PaletteSize Int
+
+data Restriction
+  = Precolor Vertex Color
+  | Allow Vertex [Color]
+  | Forbid Vertex [Color]
+  | SameColor Vertex Vertex
+  | DifferentColor Vertex Vertex
+  | UseAtMost Int
+  | UseExactly Int
+  | DistinctOn [Vertex]
+
+data InstanceExpr = InstanceExpr
+  { instGraph        :: Name
+  , instPalette      :: Maybe Name
+  , instRestrictions :: Maybe Name
+  , instTransform    :: Maybe Name
+  }
+
+data QueryExpr
+  = ChromaticNumber Name
+\end{lstlisting}
+
+\section*{Example}
+
+\begin{lstlisting}[style=plain]
+graph gInput = {
+  vertices = [1,2,3,4,5],
+  edges    = [(1,2),(2,3),(3,1),(1,4),(3,5)]
+}
+
+graph gU = udg {
+  radius = 1.0,
+  edges  = [(1,2),(2,3),(1,3)]
+}
+
+palette pNamed = colors [red, blue, green]
+palette pSized = size 3
+
+restrictions rMain = {
+  precolor 1 : red;
+  allow 2 : [red, blue];
+  forbid 3 : [red];
+  sameColor(4,5);
+  differentColor(1,2);
+  useAtMost 3;
+  useExactly 3;
+  distinctOn [1,2,3]
+}
+
+transform tExact = toUDG(
+  exact,
+  radius=1.0
+)
+
+transform tPreserve = toUDG(
+  preserve chromatic,
+  keep=[1,2,3],
+  drop=[4,5],
+  trackOrigin=true,
+  preservePalette=true,
+  preserveRestrictions=false
+)
+
+transform tAll = compose [tExact, tPreserve]
+
+graph gOut = apply tPreserve to gInput
+
+instance inst1 = color gInput using pNamed subject-to rMain via tPreserve
+instance inst2 = color gOut using pSized
+
+compute chiInput = chromaticNumber(gInput)
+compute chiOut   = chromaticNumber(gOut)
+\end{lstlisting}
+
+\end{document}
