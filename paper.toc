@@ -1,0 +1,57 @@
+\contentsline {paragraph}{Keywords.}{1}{section*.1}%
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Two tempting designs, and why one is correct}{3}{subsection.1.1}%
+\contentsline {paragraph}{Design A --- geometric supergraph embedding.}{3}{section*.3}%
+\contentsline {paragraph}{Design B --- exact gadgetized reduction.}{3}{section*.4}%
+\contentsline {subsection}{\numberline {1.2}Contributions}{3}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Related Work}{4}{section.2}%
+\contentsline {paragraph}{Graph coloring and its complexity.}{4}{section*.5}%
+\contentsline {paragraph}{Unit-disk graphs.}{4}{section*.6}%
+\contentsline {paragraph}{Rydberg MWIS and gadgetized reductions.}{5}{section*.7}%
+\contentsline {paragraph}{Spectral and force-directed layout.}{5}{section*.8}%
+\contentsline {paragraph}{Graph decomposition and bounded width.}{5}{section*.9}%
+\contentsline {paragraph}{Type-and-effect systems.}{5}{section*.10}%
+\contentsline {section}{\numberline {3}Problem Setup and Pipeline Overview}{5}{section.3}%
+\contentsline {paragraph}{Hardware primitive.}{6}{section*.11}%
+\contentsline {paragraph}{The two-layer pipeline.}{6}{section*.12}%
+\contentsline {section}{\numberline {4}Primary Path: Exact Gadgetized Reduction}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Stage 1: Colorability $\to $ Independent Set}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Stage 2: Independent Set $\to $ Unit-Disk MWIS}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Decoding and End-to-End Correctness}{8}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Size and Feasibility Bounds}{8}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Worked Example: $3$-Coloring a Small Graph}{9}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Secondary Path: Heuristic Geometry and the Layout Optimizer}{9}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Why Geometric Supergraphs Cannot Bound Inflation}{9}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}The Re-targeted Role: Layout Optimizer for the Gadget Instance}{10}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}The Seven Heuristics}{10}{subsection.5.3}%
+\contentsline {paragraph}{H1 --- Geometric loss minimization.}{10}{section*.13}%
+\contentsline {paragraph}{H2 --- Crossing/chain-aware weighting.}{10}{section*.14}%
+\contentsline {paragraph}{H3 --- Clique/over-packing control.}{10}{section*.15}%
+\contentsline {paragraph}{H4 --- Laplacian eigenmap initialization.}{11}{section*.16}%
+\contentsline {paragraph}{H5 --- Local repair with a monotone potential.}{11}{section*.17}%
+\contentsline {paragraph}{H6 --- Radius sweep and Pareto selection.}{11}{section*.18}%
+\contentsline {paragraph}{H7 --- Inflation/quality as evaluation, not objective.}{11}{section*.19}%
+\contentsline {subsection}{\numberline {5.4}Corrected Exactly-Realizable Families}{11}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Integrated Pipeline}{11}{section.6}%
+\contentsline {section}{\numberline {7}Complexity Analysis}{12}{section.7}%
+\contentsline {section}{\numberline {8}The Coloring Language and Its Certified-Reduction Type System}{13}{section.8}%
+\contentsline {subsection}{\numberline {8.1}The Surface Language}{13}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Problem-Types and the Certified-Reduction Judgment}{14}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Per-Stage Typing Rules and Soundness}{15}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Three Refinements}{16}{subsection.8.4}%
+\contentsline {paragraph}{Refinement A: certificate grade.}{16}{section*.20}%
+\contentsline {paragraph}{Refinement B: the safety effect.}{16}{section*.21}%
+\contentsline {paragraph}{Refinement C: decomposition (split/stitch).}{16}{section*.22}%
+\contentsline {section}{\numberline {9}Implementation, Mechanized Proofs, and Empirical Validation}{17}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Mechanized Correctness in Coq}{17}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}The Typed Front End}{17}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Validating the Reduction by Rydberg Simulation}{18}{subsection.9.3}%
+\contentsline {subsection}{\numberline {9.4}Defeating the Simulation Wall by Certified Decomposition}{18}{subsection.9.4}%
+\contentsline {subsection}{\numberline {9.5}The DIMACS Mycielski Benchmark}{19}{subsection.9.5}%
+\contentsline {subsection}{\numberline {9.6}The Genuine Analog Emulator}{20}{subsection.9.6}%
+\contentsline {section}{\numberline {10}Discussion and Limitations}{21}{section.10}%
+\contentsline {paragraph}{What is and isn't guaranteed.}{21}{section*.23}%
+\contentsline {paragraph}{The size wall.}{21}{section*.24}%
+\contentsline {paragraph}{Status of the secondary path.}{21}{section*.25}%
+\contentsline {section}{\numberline {11}Future Work}{21}{section.11}%
+\contentsline {section}{\numberline {12}Conclusion}{21}{section.12}%

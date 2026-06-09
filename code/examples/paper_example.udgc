@@ -1,0 +1,30 @@
+-- The example program from main.tex, Section "A Language for Certified
+-- Coloring Compilation". A 3-coloring of a small graph compiled through the
+-- exact gadget pipeline, plus the (typed, weaker) supergraph path.
+
+gInput :: Graph
+gInput = graph { vertices = [1, 2, 3, 4, 5]
+               , edges    = [(1,2), (2,3), (3,1), (1,4), (3,5)] }
+
+pNamed :: Palette
+pNamed = colors [red, blue, green]
+
+restrictions rMain = { precolor 1 : red;
+                       differentColor (1, 2);
+                       useAtMost 3 }
+
+-- the exact primary pipeline, fully typed as a chain of certified reductions
+encode3 :: Coloring 5 3 ~> Dev 75
+encode3 = colorChoice 3 >>> gadgetize >>> layout opts >>> emit
+
+-- run it: the measured bitstring would decode to a proper coloring (soundness)
+solve3 :: Result
+solve3 = color gInput using pNamed subjectTo rMain via encode3
+
+-- secondary (supergraph) path: SAME vertices, carries a safety effect.
+super :: Coloring 5 3 ~> Coloring 5 4 ! asafe 1
+super = superUDG
+
+-- a pure query
+chiInput :: Int
+chiInput = chromaticNumber (gInput)

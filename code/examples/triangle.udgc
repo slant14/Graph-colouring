@@ -1,0 +1,17 @@
+-- Smallest end-to-end example: 3-coloring the triangle K3 through the exact
+-- gadget pipeline. Both the explicit-keyword and signature-driven binding forms
+-- are exercised.
+
+graph gK3 = graph { vertices = [a, b, c]
+                  , edges    = [(a,b), (b,c), (a,c)] }
+
+palette pRGB = colors [red, green, blue]
+
+encodeK3 :: Coloring 3 3 ~> Dev 45
+encodeK3 = colorChoice 3 >>> gadgetize >>> layout opts >>> emit
+
+solveK3 :: Result
+solveK3 = color gK3 using pRGB via encodeK3
+
+chiK3 :: Int
+chiK3 = chromaticNumber (gK3)

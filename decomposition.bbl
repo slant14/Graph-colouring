@@ -1,0 +1,31 @@
+\begin{thebibliography}{1}
+
+\bibitem{ArnborgProskurowski1989}
+Stefan Arnborg and Andrzej Proskurowski.
+\newblock Linear time algorithms for {NP}-hard problems restricted to partial
+  $k$-trees.
+\newblock {\em Discrete Applied Mathematics}, 23(1):11--24, 1989.
+
+\bibitem{Bodlaender1996}
+Hans~L Bodlaender.
+\newblock A linear-time algorithm for finding tree-decompositions of small
+  treewidth.
+\newblock {\em SIAM Journal on Computing}, 25(6):1305--1317, 1996.
+
+\bibitem{Dirac1961}
+Gabriel~Andrew Dirac.
+\newblock On rigid circuit graphs.
+\newblock {\em Abhandlungen aus dem Mathematischen Seminar der Universit\"at
+  Hamburg}, 25(1--2):71--76, 1961.
+
+\bibitem{RobertsonSeymour1986}
+Neil Robertson and Paul~D Seymour.
+\newblock Graph minors. {II}. algorithmic aspects of tree-width.
+\newblock {\em Journal of Algorithms}, 7(3):309--322, 1986.
+
+\bibitem{Tarjan1985}
+Robert~E Tarjan.
+\newblock Decomposition by clique separators.
+\newblock {\em Discrete Mathematics}, 55(2):221--232, 1985.
+
+\end{thebibliography}

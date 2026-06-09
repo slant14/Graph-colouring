@@ -1,0 +1,19 @@
+-- The impossibility result as a type error. The star K1,6 has chi = 2, but no
+-- UDG supergraph can bound its chromatic inflation, because sigma(G) = 6 > 5
+-- (Theorem "Supergraph inflation is unbounded"). The same-vertex `superUDG`
+-- transform therefore does NOT type-check on this graph: the checker rejects the
+-- supergraph path and points to the exact gadget path instead.
+
+gStar :: Graph
+gStar = graph { vertices = [c, 1, 2, 3, 4, 5, 6]
+              , edges    = [(c,1), (c,2), (c,3), (c,4), (c,5), (c,6)] }
+
+p2 :: Palette
+p2 = size 2
+
+tSuper :: Coloring 7 2 ~> Coloring 7 2 ! asafe 1
+tSuper = superUDG
+
+-- ill-typed: sigma(gStar) = 6 > 5
+badStar :: Result
+badStar = color gStar using p2 via tSuper

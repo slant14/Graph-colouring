@@ -1,0 +1,9 @@
+name,n,m,chi,k,whole_slots,max_piece_slots,device_calls,colorable,expected_colorable,proper,seconds,ok,note
+Petersen,10,15,3,3,30,10,4,True,True,True,2.0,True,"cubic, χ=3"
+Frucht,12,18,3,3,36,9,4,True,True,True,1.4,True,"cubic, χ=3"
+Heawood,14,21,2,2,28,11,4,True,True,True,2.1,True,bipartite
+Pappus,18,27,2,2,36,11,6,True,True,True,2.3,True,bipartite
+Desargues,20,30,2,2,40,11,7,True,True,True,2.6,True,bipartite
+Dodecahedral,20,30,3,3,60,10,25,True,True,True,6.5,True,"cubic, χ=3"
+C30 (cycle),30,30,2,3,90,11,8,True,True,True,4.5,True,"n·k=90, trivial seps"
+C21 (odd),21,21,3,2,42,12,17,False,False,,7.7,True,"odd cycle, NOT 2-col"

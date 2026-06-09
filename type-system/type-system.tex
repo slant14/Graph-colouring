@@ -1,0 +1,480 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!70!black,urlcolor=blue!70!black}
+
+% ── theorem-ish environments ────────────────────────────────────────────────────
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+% ── self-contained inference-rule kit (no external pkg available) ────────────────
+\newcommand{\rn}[1]{\textsc{\footnotesize #1}}
+\newcommand{\irule}[2]{\ensuremath{\dfrac{\;#1\;}{\;#2\;}}}
+% reduction arrow with a decoder written above it
+\newcommand{\redto}[1]{\mathrel{\overset{\textstyle #1}{\rightsquigarrow}}}
+\newcommand{\redtos}[2]{\mathrel{\overset{\textstyle #1}{\underset{#2}{\rightsquigarrow}}}}
+
+% ── a small highlighted "key point" box (no extra packages) ─────────────────────
+\newcommand{\idearemark}[1]{%
+  \par\smallskip\noindent
+  \fcolorbox{black}{yellow!12}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{\textbf{Key point.}\ #1}}%
+  \par\smallskip}
+
+% ── problem-type (sort) macros ──────────────────────────────────────────────────
+\newcommand{\Col}{\mathsf{Col}}
+\newcommand{\IS}{\mathsf{IS}}
+\newcommand{\WIS}{\mathsf{WIS}}
+\newcommand{\UDG}{\mathsf{UDG}}
+\newcommand{\UDGa}{\widetilde{\mathsf{UDG}}}
+\newcommand{\Dev}{\mathsf{Dev}}
+\newcommand{\Sol}{\mathrm{Sol}}
+\newcommand{\dec}{\mathrm{dec}}
+\newcommand{\alphacol}{\alpha}
+\newcommand{\Nmax}{N_{\max}}
+\newcommand{\safe}{\textsf{safe}}
+\newcommand{\asafe}[1]{\textsf{asafe}(#1)}
+\newcommand{\realizes}{\mathsf{realizes}}
+\newcommand{\false}{\mathsf{false}}
+\newcommand{\miss}{\mathsf{miss}}
+\newcommand{\totopt}{\mathsf{tot\text{-}opt}}
+
+\title{\textbf{A Type Discipline for the Reduction Stages}\\[0.35em]
+  \large Indexed problem-types, carried decoders, and a soundness theorem for\\
+  colouring $\to$ IS $\to$ gadget $\to$ unit-disk layout $\to$ device}
+\author{Design sketch --- companion to the paper and the Haskell harness}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent This is a sketch of a type system aimed at \emph{one thing only}: making
+the correctness of the compilation \emph{stages} static. Ordinary programming
+errors --- scope, arity, base types, totality of plain functions --- are
+\textbf{not} our concern; those are delegated to a standard Hindley--Milner core
+with refinements (Sec.~\ref{sec:scope}). What we add on top is a small
+\emph{certified-reduction calculus}: every stage is typed as an answer-preserving
+morphism that \emph{carries an executable decoder}, indices track the invariants
+the paper proves ($\alphacol(G')=n$, $\mathrm{MWIS}(A)=\alphacol+C$, exact unit-disk
+realizability, device budget), and a single composition rule yields the end-to-end
+soundness theorem. The geometry stage is given a deliberately \emph{weaker} type
+when it leaves false edges, which is exactly the honest separation ``heuristics
+affect feasibility, never the answer.'' The whole discipline is the \emph{static
+shadow} of the runtime oracle already in \texttt{code/}.
+\end{abstract}
+
+\tableofcontents
+
+% =============================================================================
+\section{Scope: what we delegate, what we invent}
+\label{sec:scope}
+% =============================================================================
+
+\paragraph{Delegated (adopt off the shelf).} Variables, binding, function arity,
+products/sums, plain base types ($\mathbb{Z}$, lists, finite maps, the
+\texttt{Graph} carrier), and totality of ordinary functions are handled by a
+standard typed core --- take Hindley--Milner with a refinement/SMT layer (in the
+style of liquid types). We write $\Gamma \vdash e : T$ for that judgment and never
+re-derive it.
+
+\paragraph{Invented here (the subject of this note).} A second judgment form for
+\emph{transformation stages}. Its types are not ordinary data types but
+\emph{problem-types} --- ``an instance of $k$-colouring on $n$ vertices,'' ``a
+weighted-IS instance with offset $C$,'' ``a unit-disk instance that fits the
+device'' --- and its arrows are \emph{certified reductions} carrying decoders.
+This is the part that turns the paper's theorems into typing rules.
+
+\idearemark{The slogan: \emph{base types say a program is well-formed; problem-types
+say a \textbf{reduction} is faithful.} We only build the second.}
+
+% =============================================================================
+\section{Problem-types (the sorts)}
+\label{sec:sorts}
+% =============================================================================
+
+A \emph{problem-type} names a class of decision/optimisation instances together
+with the indices we must track to state preservation. Let $G$ range over input
+graphs, $\kappa$ over colourings, $S$ over (weighted) vertex sets, $m$ over device
+bitstrings.
+
+\begin{align*}
+A,B \;::=\;
+&\ \Col\langle n,k\rangle                       && \text{$k$-colouring instance, $n=|V|$}\\
+&\ \Col\langle n,k \mid \beta{:}\,B\rangle       && \text{boundary-precoloured ($\beta$ proper on $B\subseteq V$)}\\
+&\ \IS\langle N\rangle\{\,P\,\}                   && \text{independent-set instance, $N$ nodes, refinement $P$}\\
+&\ \WIS\langle N,\,C\rangle                       && \text{weighted IS, $N$ nodes, additive offset $C$}\\
+&\ \UDG\langle N,\,r,\,d\rangle                   && \text{\emph{exactly} realised unit-disk inst.\ (radius $r$, spacing $d$)}\\
+&\ \UDGa\langle N,\,r,\,d \mid f\rangle           && \text{\emph{approximately} realised, $f$ residual false edges}\\
+&\ \Dev\langle N\rangle \quad (N\le \Nmax)        && \text{device-feasible instance}
+\end{align*}
+
+Each problem-type $A$ comes with a \emph{solution domain} $\Sol(A)$ (colourings,
+vertex sets, bitstrings) and an \emph{optimum} $\mathrm{opt}(A)\in\mathbb{R}\cup\{\bot\}$.
+The refinement $P$ on $\IS$ is propositional and is where Stage-1 exactness lives:
+the canonical one is
+\[
+  P_{\mathrm{s1}} \;\equiv\; \bigl(\alphacol = n \iff G \text{ is } k\text{-colourable}\bigr)\ \wedge\ \alphacol \le n .
+\]
+
+\begin{remark}[Why $\UDGa$ exists]
+$\UDG$ is the placement in which the realised unit-disk graph equals the
+\emph{prescribed} gadget adjacency \emph{exactly}. When the layout optimiser leaves
+false edges (the generic case before Nguyen gadgets), the object is honestly a
+\emph{different} graph, so it gets a different type, $\UDGa$, and --- crucially ---
+\textbf{$\UDGa$ is not a legal source for the exact decoder} (Sec.~\ref{sec:stages}).
+The type is what stops us from silently reading an answer off a corrupted layout.
+\end{remark}
+
+% =============================================================================
+\section{The certified-reduction judgment}
+\label{sec:judgment}
+% =============================================================================
+
+\begin{definition}[Decoder]
+A \emph{decoder} from $B$ to $A$ is a partial map $\delta:\Sol(B)\rightharpoonup\Sol(A)$.
+It is \emph{total on optima}, written $\totopt(\delta)$, if $\delta$ is defined on
+every $s\in\Sol(B)$ with value $\mathrm{opt}(B)$ and maps it to a value-$\mathrm{opt}(A)$
+solution of $A$.
+\end{definition}
+
+\begin{definition}[Certified reduction]
+The judgment
+\[
+  \vdash\ \tau \;:\; A \;\redto{\delta}\; B
+\]
+asserts: $\tau$ is a transformation taking an instance of $A$ to an instance of
+$B$, $\delta$ is a decoder $B\!\rightharpoonup\!A$ with $\totopt(\delta)$, and
+\[
+  \text{(answer preservation)}\qquad
+  \mathrm{opt}(A)\ \text{is recoverable as}\ \delta(s^\star)\ \text{for any optimum } s^\star \text{ of } B .
+\]
+Equivalently: \emph{solve $B$ on the device, apply $\delta$, get the answer to $A$.}
+\end{definition}
+
+This single arrow is the backbone. Everything else either \emph{introduces} an
+arrow for one stage (Sec.~\ref{sec:stages}), \emph{composes} arrows
+(Sec.~\ref{sec:compose}), or \emph{refines} the discipline with extra indices
+(safety, budget, decomposition).
+
+% =============================================================================
+\section{Per-stage typing rules}
+\label{sec:stages}
+% =============================================================================
+
+In each rule the premises above the line are the \emph{proof obligations}; in the
+implementation they are discharged either by a once-and-for-all proof or by the
+brute-force oracle in \texttt{code/} (Sec.~\ref{sec:code}).
+
+\paragraph{Stage 1 --- colour-choice.} The standard colouring$\to$IS reduction,
+indices recording $N=nk$ and the exactness refinement.
+\[
+  \irule{n=|V(G)| \qquad k\ge 1}
+        {\vdash\ \mathsf{colorChoice}_k \;:\; \Col\langle n,k\rangle
+          \;\redto{\mathsf{decodeColoring}}\; \IS\langle nk\rangle\{P_{\mathrm{s1}}\}}
+  \qquad\rn{S1}
+\]
+$\mathsf{decodeColoring}$ is total on size-$n$ independent sets (one slot per
+vertex) and partial elsewhere --- exactly $\totopt$.
+
+\paragraph{Stage 2 --- gadget.} The weighted-IS embedding with its \emph{static}
+offset.
+\[
+  \irule{C = 2\,|E(G')|}
+        {\vdash\ \mathsf{gadgetize} \;:\; \IS\langle N\rangle\{P\}
+          \;\redto{\mathsf{decodeLogical}}\; \WIS\langle N+2|E(G')|,\ C\rangle}
+  \qquad\rn{S2}
+\]
+The offset $C$ is carried in the type so ``subtract $C$'' is type-directed; the
+invariant $\mathrm{MWIS}=\alphacol+C$ is the obligation. $\mathsf{decodeLogical}$
+(keep logical atoms) is $\totopt$.
+
+\paragraph{Stage 3 --- layout.} Here the type \emph{branches} on realizability.
+Let $p$ be a placement and $r$ a radius, and write $\realizes(p,r)$ for
+``the unit-disk graph of $(p,r)$ has edge set exactly $E_A$'' and
+$\miss(p,r)=\varnothing$, $\false(p,r)$ for the residual false edges.
+\[
+  \irule{\realizes(p,r) \qquad \mathsf{spacing}(p)\ge d}
+        {\vdash\ \mathsf{layout}(p,r)\;:\; \WIS\langle N,C\rangle
+          \;\redto{\mathrm{id}}\; \UDG\langle N,r,d\rangle}
+  \qquad\rn{S3-exact}
+\]
+\[
+  \irule{\miss(p,r)=\varnothing \qquad f=|\false(p,r)|>0}
+        {\vdash\ \mathsf{layout}(p,r)\;:\; \WIS\langle N,C\rangle
+          \;\rightsquigarrow\; \UDGa\langle N,r,d \mid f\rangle}
+  \qquad\rn{S3-approx}
+\]
+Note \rn{S3-exact} carries the identity decoder (geometry never relabels a
+solution) and lands in $\UDG$; \rn{S3-approx} carries \emph{no} certified decoder
+and lands in $\UDGa$. The only way to turn $\UDGa$ back into a legal $\UDG$ is to
+interpose the metric repair transform that re-routes false edges through copy /
+crossing gadgets,
+\[
+  \irule{\ }
+        {\vdash\ \mathsf{nguyen}\;:\; \UDGa\langle N,r,d\mid f\rangle
+          \;\redto{\mathsf{decodeRoute}}\; \WIS\langle N',C'\rangle}
+  \qquad\rn{Repair}
+\]
+after which \rn{S3-exact} can be attempted again. \emph{This is the type-level form
+of the deferred engineering fork: without \rn{Repair}, a false-edged layout simply
+does not type at the exact level.}
+
+\paragraph{Emit --- device budget.} Crossing onto hardware needs the atom count
+to fit.
+\[
+  \irule{N\le \Nmax}
+        {\vdash\ \mathsf{emit}\;:\; \UDG\langle N,r,d\rangle \;\redto{\mathrm{id}}\; \Dev\langle N\rangle}
+  \qquad\rn{Fit}
+\]
+
+\idearemark{The pipeline can reach $\Dev$ \textbf{only through $\UDG$}, never
+through $\UDGa$. So ``the machine measured a bitstring'' is connected to ``a correct
+colouring'' by a \emph{chain of $\totopt$ decoders} --- or it is not connected at
+all, and the type checker says so.}
+
+% =============================================================================
+\section{Composition and the soundness theorem}
+\label{sec:compose}
+% =============================================================================
+
+\[
+  \irule{\vdash\ \tau_1 : A \redto{\delta_1} B \qquad \vdash\ \tau_2 : B \redto{\delta_2} C}
+        {\vdash\ \tau_2\circ\tau_1 \;:\; A \;\redto{\delta_1\circ\delta_2}\; C}
+  \qquad\rn{Comp}
+\]
+
+\begin{theorem}[Pipeline soundness]
+\label{thm:sound}
+If
+\[
+  \vdash\ \Pi \;:\; \Col\langle n,k\rangle \;\redto{\delta}\; \Dev\langle N\rangle
+  \quad\text{is derivable (so }N\le\Nmax\text{ and every layer realised \emph{exactly}),}
+\]
+then for any device measurement $m$ with value $\mathrm{opt}(\Dev\langle N\rangle)$,
+the decoded $\delta(m)$ is a proper $k$-colouring of $G$ if one exists, and
+otherwise the pipeline reports ``not $k$-colourable'' soundly.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+By induction on the derivation using \rn{Comp}: each arrow is answer-preserving
+with a $\totopt$ decoder, and the composite of $\totopt$ decoders is $\totopt$, so
+$\delta=\delta_{\mathrm{s1}}\circ\delta_{\mathrm{s2}}\circ\mathrm{id}\circ\mathrm{id}$
+maps an optimum bitstring back through $\WIS$ (strip offset $C$), $\IS$ (read one
+slot per vertex), to a colouring; the Stage-1 refinement $P_{\mathrm{s1}}$ supplies
+the iff. The only non-identity geometric step is admitted by \rn{S3-exact}, whose
+premise $\realizes(p,r)$ guarantees the realised graph \emph{is} $A$, so its optima
+coincide. \qed
+\end{proof}
+
+\begin{corollary}[Ill-ordered pipelines are ill-typed]
+\label{cor:order}
+The following do not type, matching the error catalogue (\texttt{errors.tex}
+\#6/\#10, pipeline-stage ordering):
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item $\mathsf{gadgetize}$ before $\mathsf{colorChoice}$: \rn{S2} expects $\IS$,
+        is given $\Col$ --- no rule applies.
+  \item $\mathsf{emit}$ before $\mathsf{layout}$: \rn{Fit} expects $\UDG$, is given
+        $\WIS$.
+  \item reading an answer off a false-edged layout: there is no $\totopt$ decoder
+        out of $\UDGa$ (only \rn{Repair}, which goes \emph{back} to $\WIS$).
+\end{itemize}
+\end{corollary}
+
+% =============================================================================
+\section{Refinement A: certificate grade (witness-relative vs.\ true $\chi$)}
+\label{sec:grade}
+% =============================================================================
+
+The paper's vocabulary distinguishes a cheap, machine-checkable certificate from a
+proof-only one. We expose this as a \emph{grade} $g\in\{\,\mathsf{w},\mathsf{\chi}\,\}$
+on colouring conclusions, with $\mathsf{w}\sqsubseteq\mathsf{\chi}$:
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item $\Col\langle n,k\rangle^{\mathsf{w}}$ --- \emph{witness-relative}: a carried
+        colouring $\kappa$ certifies $\chi(G)\le|\kappa|$ in poly time. Default.
+  \item $\Col\langle n,k\rangle^{\mathsf{\chi}}$ --- \emph{exact}: $\chi(G)=k$ as a
+        discharged proof obligation. Stronger, proof-only.
+\end{itemize}
+All stage rules are grade-polymorphic and \emph{preserve} the grade; only an
+explicit $\mathsf{prove}_\chi$ step (a discharged lower-bound proof, e.g.\ a clique
+or an exhaustive small-case check) lifts $\mathsf{w}\Rightarrow\mathsf{\chi}$.
+Theorem~\ref{thm:sound} holds at grade $\mathsf{w}$ already --- which is the point:
+\emph{soundness of the compilation does not require knowing the true chromatic
+number.}
+
+% =============================================================================
+\section{Refinement B: the safety effect (optional supergraph path)}
+\label{sec:safety}
+% =============================================================================
+
+The \emph{secondary} (supergraph) path rewrites $G$ on the \emph{same} vertices by
+adding edges, decoded by restriction. Such a transform may inflate $\chi$, so it
+carries a \emph{safety effect} $s$:
+\[
+  \vdash\ t \;:\; \Col\langle n,k\rangle \;\redtos{\mathsf{restrict}}{s}\; \Col\langle n,k'\rangle,
+  \qquad
+  s\in\{\,\safe,\ \asafe{c}\,\}.
+\]
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+  \item $\safe$: $\chi$ preserved (poly-time, $\chi(\text{target})=\chi(\text{source})$).
+  \item $\asafe{c}$: never lowers $\chi$, and $\chi(\text{target})\le\chi(\text{source})+c$.
+\end{itemize}
+
+\paragraph{Effect monoid (composition).}
+\[
+  \safe\oplus\safe=\safe,\qquad
+  \safe\oplus\asafe{c}=\asafe{c},\qquad
+  \asafe{c}\oplus\asafe{c'}=\asafe{c+c'} .
+\]
+The composition rule combines decoders \emph{and} effects:
+\[
+  \irule{\vdash t_1 : A \redtos{\delta_1}{s_1} B \qquad \vdash t_2 : B \redtos{\delta_2}{s_2} C}
+        {\vdash t_2\circ t_1 : A \redtos{\delta_1\circ\delta_2}{\,s_1\oplus s_2\,} C}
+  \qquad\rn{Comp-S}
+\]
+
+\paragraph{Mandatory precondition (the impossibility theorem, as a side-condition).}
+A $\safe$/$\asafe{c}$ introduction is \emph{only} derivable under the neighbourhood
+bound $\sigma(G)=\max_v\alphacol(G[N(v)])\le 5$; otherwise the only available type
+is $\textsf{unsafe}$ (no $\chi$ certificate). This is precisely the paper's
+$\chi(K_{1,n})=2$ vs.\ $\chi(H)\ge\lceil n/5\rceil$ obstruction, refusing to type as
+the type system.
+
+\begin{remark}[Answering ``does transform order affect safety?'']
+Because $\oplus$ sums the bumps $c$ but the \emph{carrier graph} differs between
+orders, two orderings of the same multiset of $\asafe{\cdot}$ transforms are
+type-equal only if their accumulated bounds and side-conditions both match. The
+type therefore \emph{records} order-sensitivity as a difference in the derived
+effect --- turning the open question of \texttt{questions.md} into a checkable
+property rather than a conjecture.
+\end{remark}
+
+% =============================================================================
+\section{Refinement C: decomposition (precolour / split / stitch)}
+\label{sec:decomp}
+% =============================================================================
+
+Decomposition is where the discipline becomes \emph{substructural}: pieces are
+resources, and a shared separator is a value two pieces must \emph{agree} on.
+
+\paragraph{Precolour.} Pinning a proper partial colouring $\beta$ on $B$ yields a
+constrained instance; the precoloured colour-choice graph is smaller.
+\[
+  \irule{\beta:B\to[k]\ \text{proper partial on } G}
+        {\vdash\ \mathsf{pin}_\beta : \Col\langle n,k\rangle \;\redto{\mathsf{ext}_\beta}\; \Col\langle n,k\mid\beta\rangle}
+  \qquad\rn{Pre}
+\]
+\[
+  \irule{\ }
+        {\vdash\ \mathsf{colorChoice}_k : \Col\langle n,k\mid\beta{:}B\rangle
+          \;\redto{\mathsf{decodeColoring}_\beta}\;
+          \IS\langle k(n-|B|)+|B|\rangle\{P_{\mathrm{s1}}\}}
+  \qquad\rn{S1-$\beta$}
+\]
+
+\paragraph{Split (resource-bounded).} A separator $S$ with pieces $G_1,\dots,G_p$
+($G_i=G[S\cup C_i]$, width $w=\max_i|G_i|$) produces a \emph{context} of subgoals,
+each of which must individually fit the device.
+\[
+  \irule{S\ \text{separates}\ G \qquad w=\max_i|G_i| \qquad (w k)^2\le \Nmax}
+        {\vdash\ \mathsf{split}_S : \Col\langle n,k\rangle \;\Longrightarrow\;
+           \{\,\Col\langle |G_i|,k\mid\beta_i{:}S\rangle\,\}_{i=1}^{p}}
+  \qquad\rn{Split}
+\]
+The premise $(wk)^2\le\Nmax$ is the typed budget: \emph{peak device size depends on
+$w$, not $n$}, so each piece is compiled by the primary pipeline to its own
+$\Dev\langle N_i\rangle$ with $N_i\le\Nmax$. This is register spilling, for atoms.
+
+\paragraph{Stitch (agreement).} Piece solutions combine \emph{iff} they agree on
+shared vertices.
+\[
+  \irule{\forall i\ \kappa_i\ \text{proper on}\ G_i \qquad
+         \forall i,j\ \text{sharing}\ S:\ \kappa_i|_S=\kappa_j|_S}
+        {\vdash\ \mathsf{stitch} : \{\kappa_i\}_i \;\redto{\ \cup\ }\; \kappa\ \text{proper on}\ G}
+  \qquad\rn{Stitch}
+\]
+For a \emph{clique} separator the agreement premise is discharged \emph{for free}
+by a relabelling coercion (no enumeration):
+\[
+  \irule{S\ \text{a clique} \qquad k\ge|S| \qquad \kappa_i,\kappa_j\ \text{proper}}
+        {\exists\pi\in\mathrm{Sym}([k]):\ (\pi\circ\kappa_j)|_S=\kappa_i|_S}
+  \qquad\rn{Realign}
+\]
+For a general (non-clique) separator the agreement is found by a \emph{bounded
+search} over the boundary table --- at most $k^{|S|}$ candidate $\beta$ --- an
+effect that the type records as the cost $O(k^{|S|})$ the user already pays in
+\texttt{decomposition.tex}.
+
+\begin{theorem}[Decomposed soundness]
+\label{thm:decsound}
+If \rn{Split} produces pieces each compiled by a derivation of
+Theorem~\ref{thm:sound}, and \rn{Stitch} applies (agreement holds, by \rn{Realign}
+in the clique case), then $\kappa=\bigcup_i\kappa_i$ is a proper $k$-colouring of
+$G$, using peak device size $O((wk)^2)\le\Nmax$.
+\end{theorem}
+
+% =============================================================================
+\section{The discipline is the static shadow of your oracle}
+\label{sec:code}
+% =============================================================================
+
+Every rule corresponds to a function already in (or planned for) \texttt{code/},
+and every premise to a property the brute-force oracle checks. The type system is
+what you get by promoting those runtime checks to static obligations.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}lll@{}}
+\toprule
+rule & code artefact & obligation checked by \\
+\midrule
+\rn{S1}        & \texttt{Stage1.colorChoiceGraph}, \texttt{decodeColoring} & oracle: $\alphacol(G')=n\!\iff\!k$-col \\
+\rn{S2}        & \texttt{Gadget.gadgetize}, \texttt{gOffset}, \texttt{decodeLogical} & oracle: $\mathrm{MWIS}(A)=\alphacol+C$ \\
+\rn{S3-exact}  & \texttt{Layout.layoutGadget}, \texttt{minFeasibleRadius} & \texttt{missingEdges}$=\varnothing$ \\
+\rn{S3-approx} & \texttt{Layout.falseEdges} & $|\mathsf{falseEdges}|=f>0$ \\
+\rn{Fit}       & \texttt{order ag} vs.\ $\Nmax$ & atom-count comparison \\
+\rn{Pre}, \rn{S1-$\beta$} & \texttt{colorChoiceGraphPrecolored} & oracle (precoloured exactness) \\
+\rn{Split}, \rn{Stitch} & decomposition driver \emph{(to build)} & agreement on $S$; budget $(wk)^2\!\le\!\Nmax$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\idearemark{Implementation path: keep the oracle as the \emph{runtime} witness, and
+introduce each typing rule as a refinement obligation that, when the proof is
+absent, \emph{falls back} to the oracle on small instances. Mechanise \rn{S1},
+\rn{S2}, \rn{Comp}, and Theorem~\ref{thm:sound} first (in Lean/Coq, or as Liquid
+refinements); they are the smallest closed core that already yields end-to-end
+faithfulness.}
+
+% =============================================================================
+\section*{Minimal core to build first}
+\addcontentsline{toc}{section}{Minimal core to build first}
+% =============================================================================
+
+\begin{enumerate}[leftmargin=1.5em,itemsep=2pt]
+  \item Problem-types $\Col,\IS,\WIS,\UDG,\UDGa,\Dev$ with their indices
+        (Sec.~\ref{sec:sorts}).
+  \item The arrow $A\redto{\delta}B$ with $\totopt$ decoders, rules \rn{S1},
+        \rn{S2}, \rn{S3-exact}, \rn{Fit}, \rn{Comp} (Secs.~\ref{sec:judgment}--\ref{sec:compose}).
+  \item Theorem~\ref{thm:sound} (composition of decoders) --- the payoff.
+  \item Then layer in $\UDGa$/\rn{Repair} (honesty about geometry),
+        the safety effect (supergraph path), and decomposition.
+\end{enumerate}
+
+\noindent Everything beyond step~3 is optional polish; steps 1--3 already make
+``the measured bitstring decodes to a correct colouring'' a \emph{typed}
+guarantee --- which is the certified-compilation thesis in its smallest form.
+
+\end{document}

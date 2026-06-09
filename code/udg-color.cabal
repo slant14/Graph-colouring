@@ -1,0 +1,53 @@
+cabal-version:      2.4
+name:               udg-color
+version:            0.1.0.0
+synopsis:           Certified graph-coloring -> UDG-MWIS compiler: language, type checker, and validation harness
+description:        A surface language (parser + AST), a certified-reduction
+                    type-and-effect checker, and an elaborator that lowers a
+                    well-typed program to the (un-simulated) device instance,
+                    on top of the brute-force oracle and exact-reduction stages
+                    from the paper.
+build-type:         Simple
+
+common warnings
+    ghc-options: -Wall
+
+library
+    import:           warnings
+    hs-source-dirs:   src
+    exposed-modules:  UDGColor.Graph
+                      UDGColor.Oracle
+                      UDGColor.Stage1
+                      UDGColor.Gadget
+                      UDGColor.Layout
+                      UDGColor.Viz
+                      UDGColor.Ast
+                      UDGColor.Parser
+                      UDGColor.TypeCheck
+                      UDGColor.Elaborate
+                      UDGColor.Emit
+    build-depends:    base >=4 && <5, containers, parsec
+    default-language: Haskell2010
+
+executable udgc
+    import:           warnings
+    hs-source-dirs:   app
+    main-is:          Main.hs
+    build-depends:    base, udg-color, directory
+    default-language: Haskell2010
+
+test-suite spec
+    import:           warnings
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test
+    main-is:          Spec.hs
+    build-depends:    base, containers, directory, udg-color
+    default-language: Haskell2010
+
+test-suite langspec
+    import:           warnings
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test
+    main-is:          LangSpec.hs
+    build-depends:    base, udg-color
+    default-language: Haskell2010

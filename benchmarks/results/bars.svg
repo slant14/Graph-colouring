@@ -1,0 +1,112 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='460' viewBox='0 0 1000 460' font-family='sans-serif'>
+<rect width='100%' height='100%' fill='white'/>
+<text x='500.0' y='28' text-anchor='middle' font-size='18' font-weight='bold'>Graph colouring: expected (oracle) vs actual (Rydberg MWIS sim)</text>
+<line x1='60' y1='350.0' x2='980' y2='350.0' stroke='#eee' stroke-width='1'/>
+<text x='52' y='354.0' text-anchor='end' font-size='11' fill='#555'>0</text>
+<line x1='60' y1='292.0' x2='980' y2='292.0' stroke='#eee' stroke-width='1'/>
+<text x='52' y='296.0' text-anchor='end' font-size='11' fill='#555'>1</text>
+<line x1='60' y1='234.0' x2='980' y2='234.0' stroke='#eee' stroke-width='1'/>
+<text x='52' y='238.0' text-anchor='end' font-size='11' fill='#555'>2</text>
+<line x1='60' y1='176.0' x2='980' y2='176.0' stroke='#eee' stroke-width='1'/>
+<text x='52' y='180.0' text-anchor='end' font-size='11' fill='#555'>3</text>
+<line x1='60' y1='118.0' x2='980' y2='118.0' stroke='#eee' stroke-width='1'/>
+<text x='52' y='122.0' text-anchor='end' font-size='11' fill='#555'>4</text>
+<line x1='60' y1='60.0' x2='980' y2='60.0' stroke='#eee' stroke-width='1'/>
+<text x='52' y='64.0' text-anchor='end' font-size='11' fill='#555'>5</text>
+<line x1='60' y1='60' x2='60' y2='350' stroke='#333'/>
+<line x1='60' y1='350' x2='980' y2='350' stroke='#333'/>
+<rect x='68.2' y='118.0' width='15.3' height='232.0' fill='#4477cc'/>
+<rect x='87.6' y='118.0' width='15.3' height='232.0' fill='#2e9e5b'/>
+<text x='75.9' y='114.0' text-anchor='middle' font-size='10' fill='#4477cc'>4</text>
+<text x='95.2' y='114.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>4</text>
+<text x='85.6' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 85.6 364.0)'>P4 (path) k=2</text>
+<rect x='119.3' y='234.0' width='15.3' height='116.0' fill='#4477cc'/>
+<rect x='138.7' y='234.0' width='15.3' height='116.0' fill='#2e9e5b'/>
+<text x='127.0' y='230.0' text-anchor='middle' font-size='10' fill='#4477cc'>2</text>
+<text x='146.3' y='230.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>2</text>
+<text x='136.7' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 136.7 364.0)'>P4 (path) k=1</text>
+<rect x='170.4' y='118.0' width='15.3' height='232.0' fill='#4477cc'/>
+<rect x='189.8' y='118.0' width='15.3' height='232.0' fill='#2e9e5b'/>
+<text x='178.1' y='114.0' text-anchor='middle' font-size='10' fill='#4477cc'>4</text>
+<text x='197.4' y='114.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>4</text>
+<text x='187.8' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 187.8 364.0)'>C4 (cycle) k=2</text>
+<rect x='221.6' y='234.0' width='15.3' height='116.0' fill='#4477cc'/>
+<rect x='240.9' y='234.0' width='15.3' height='116.0' fill='#2e9e5b'/>
+<text x='229.2' y='230.0' text-anchor='middle' font-size='10' fill='#4477cc'>2</text>
+<text x='248.6' y='230.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>2</text>
+<text x='238.9' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 238.9 364.0)'>C4 (cycle) k=1</text>
+<rect x='272.7' y='60.0' width='15.3' height='290.0' fill='#4477cc'/>
+<rect x='292.0' y='60.0' width='15.3' height='290.0' fill='#2e9e5b'/>
+<text x='280.3' y='56.0' text-anchor='middle' font-size='10' fill='#4477cc'>5</text>
+<text x='299.7' y='56.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>5</text>
+<text x='290.0' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 290.0 364.0)'>C5 (cycle) k=3</text>
+<rect x='323.8' y='118.0' width='15.3' height='232.0' fill='#4477cc'/>
+<rect x='343.1' y='118.0' width='15.3' height='232.0' fill='#2e9e5b'/>
+<text x='331.4' y='114.0' text-anchor='middle' font-size='10' fill='#4477cc'>4</text>
+<text x='350.8' y='114.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>4</text>
+<text x='341.1' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 341.1 364.0)'>C5 (cycle) k=2</text>
+<rect x='374.9' y='176.0' width='15.3' height='174.0' fill='#4477cc'/>
+<rect x='394.2' y='176.0' width='15.3' height='174.0' fill='#2e9e5b'/>
+<text x='382.6' y='172.0' text-anchor='middle' font-size='10' fill='#4477cc'>3</text>
+<text x='401.9' y='172.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>3</text>
+<text x='392.2' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 392.2 364.0)'>K3 (triangle) k=3</text>
+<rect x='426.0' y='234.0' width='15.3' height='116.0' fill='#4477cc'/>
+<rect x='445.3' y='234.0' width='15.3' height='116.0' fill='#2e9e5b'/>
+<text x='433.7' y='230.0' text-anchor='middle' font-size='10' fill='#4477cc'>2</text>
+<text x='453.0' y='230.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>2</text>
+<text x='443.3' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 443.3 364.0)'>K3 (triangle) k=2</text>
+<rect x='477.1' y='118.0' width='15.3' height='232.0' fill='#4477cc'/>
+<rect x='496.4' y='118.0' width='15.3' height='232.0' fill='#2e9e5b'/>
+<text x='484.8' y='114.0' text-anchor='middle' font-size='10' fill='#4477cc'>4</text>
+<text x='504.1' y='114.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>4</text>
+<text x='494.4' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 494.4 364.0)'>K4 (complete) k=4</text>
+<rect x='528.2' y='176.0' width='15.3' height='174.0' fill='#4477cc'/>
+<rect x='547.6' y='176.0' width='15.3' height='174.0' fill='#2e9e5b'/>
+<text x='535.9' y='172.0' text-anchor='middle' font-size='10' fill='#4477cc'>3</text>
+<text x='555.2' y='172.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>3</text>
+<text x='545.6' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 545.6 364.0)'>K4 (complete) k=3</text>
+<rect x='579.3' y='60.0' width='15.3' height='290.0' fill='#4477cc'/>
+<rect x='598.7' y='60.0' width='15.3' height='290.0' fill='#2e9e5b'/>
+<text x='587.0' y='56.0' text-anchor='middle' font-size='10' fill='#4477cc'>5</text>
+<text x='606.3' y='56.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>5</text>
+<text x='596.7' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 596.7 364.0)'>K2,3 (bipartite) k=2</text>
+<rect x='630.4' y='176.0' width='15.3' height='174.0' fill='#4477cc'/>
+<rect x='649.8' y='176.0' width='15.3' height='174.0' fill='#2e9e5b'/>
+<text x='638.1' y='172.0' text-anchor='middle' font-size='10' fill='#4477cc'>3</text>
+<text x='657.4' y='172.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>3</text>
+<text x='647.8' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 647.8 364.0)'>K2,3 (bipartite) k=1</text>
+<rect x='681.6' y='60.0' width='15.3' height='290.0' fill='#4477cc'/>
+<rect x='700.9' y='60.0' width='15.3' height='290.0' fill='#2e9e5b'/>
+<text x='689.2' y='56.0' text-anchor='middle' font-size='10' fill='#4477cc'>5</text>
+<text x='708.6' y='56.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>5</text>
+<text x='698.9' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 698.9 364.0)'>K1,4 (star) k=2</text>
+<rect x='732.7' y='118.0' width='15.3' height='232.0' fill='#4477cc'/>
+<rect x='752.0' y='118.0' width='15.3' height='232.0' fill='#2e9e5b'/>
+<text x='740.3' y='114.0' text-anchor='middle' font-size='10' fill='#4477cc'>4</text>
+<text x='759.7' y='114.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>4</text>
+<text x='750.0' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 750.0 364.0)'>K1,4 (star) k=1</text>
+<rect x='783.8' y='60.0' width='15.3' height='290.0' fill='#4477cc'/>
+<rect x='803.1' y='60.0' width='15.3' height='290.0' fill='#2e9e5b'/>
+<text x='791.4' y='56.0' text-anchor='middle' font-size='10' fill='#4477cc'>5</text>
+<text x='810.8' y='56.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>5</text>
+<text x='801.1' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 801.1 364.0)'>Bull k=3</text>
+<rect x='834.9' y='118.0' width='15.3' height='232.0' fill='#4477cc'/>
+<rect x='854.2' y='118.0' width='15.3' height='232.0' fill='#2e9e5b'/>
+<text x='842.6' y='114.0' text-anchor='middle' font-size='10' fill='#4477cc'>4</text>
+<text x='861.9' y='114.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>4</text>
+<text x='852.2' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 852.2 364.0)'>Bull k=2</text>
+<rect x='886.0' y='60.0' width='15.3' height='290.0' fill='#4477cc'/>
+<rect x='905.3' y='60.0' width='15.3' height='290.0' fill='#2e9e5b'/>
+<text x='893.7' y='56.0' text-anchor='middle' font-size='10' fill='#4477cc'>5</text>
+<text x='913.0' y='56.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>5</text>
+<text x='903.3' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 903.3 364.0)'>W5 (wheel) k=3</text>
+<rect x='937.1' y='118.0' width='15.3' height='232.0' fill='#4477cc'/>
+<rect x='956.4' y='118.0' width='15.3' height='232.0' fill='#2e9e5b'/>
+<text x='944.8' y='114.0' text-anchor='middle' font-size='10' fill='#4477cc'>4</text>
+<text x='964.1' y='114.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>4</text>
+<text x='954.4' y='364.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-35 954.4 364.0)'>W5 (wheel) k=2</text>
+<rect x='70' y='66' width='12' height='12' fill='#4477cc'/>
+<text x='88' y='77' font-size='12'>expected α(G′)</text>
+<rect x='70' y='84' width='12' height='12' fill='#2e9e5b'/>
+<text x='88' y='95' font-size='12'>actual (sim) — green=match, red=mismatch</text>
+</svg>

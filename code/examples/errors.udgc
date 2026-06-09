@@ -1,0 +1,27 @@
+-- A catalogue of static type errors (see errors.tex). Running
+--   udgc --check examples/errors.udgc
+-- reports each with its errors.tex number.
+
+-- #3: edge endpoint 4 is not among the declared vertices
+gBad :: Graph
+gBad = graph { vertices = [1, 2, 3], edges = [(1,4)] }
+
+pSmall :: Palette
+pSmall = colors [red, blue]
+
+-- validated where it is used (below): vertex 4 (#2), color green (#4),
+-- useExactly 3 against a size-2 palette (#5)
+restrictions rBad = { precolor 4 : green; useExactly 3 }
+
+-- #9: an exact transform cannot drop vertices
+tExactDrop :: Coloring 3 2 ~> UDG 0
+tExactDrop = toUDG(exact, drop=[2, 3])
+
+-- #8: the same vertex appears in both keep and drop
+tOverlap = toUDG(preserve chromatic, keep=[1, 2], drop=[2, 3])
+
+-- stage-ordering error: emit (UDG ~> Dev) cannot follow colorChoice (Col ~> IS)
+tMisordered = colorChoice 2 >>> emit
+
+badInstance :: Result
+badInstance = color gBad using pSmall subjectTo rBad

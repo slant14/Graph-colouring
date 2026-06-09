@@ -1,0 +1,62 @@
+\contentsline {paragraph}{Keywords.}{1}{section*.1}%
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Two tempting designs, and why one is correct}{3}{subsection.1.1}%
+\contentsline {paragraph}{Design A --- geometric supergraph embedding.}{3}{section*.3}%
+\contentsline {paragraph}{Design B --- exact gadgetized reduction.}{3}{section*.4}%
+\contentsline {subsection}{\numberline {1.2}From a pipeline to a typed language}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Contributions}{4}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Literature Review}{4}{section.2}%
+\contentsline {paragraph}{Graph coloring and its complexity.}{4}{section*.5}%
+\contentsline {paragraph}{Unit-disk graphs.}{4}{section*.6}%
+\contentsline {paragraph}{Rydberg MWIS and gadgetized reductions.}{4}{section*.7}%
+\contentsline {paragraph}{Spectral and force-directed layout.}{5}{section*.8}%
+\contentsline {paragraph}{Type-and-effect disciplines and certified transformation.}{5}{section*.9}%
+\contentsline {section}{\numberline {3}Problem Formulation}{5}{section.3}%
+\contentsline {paragraph}{Hardware primitive.}{5}{section*.10}%
+\contentsline {paragraph}{The compilation problem.}{5}{section*.11}%
+\contentsline {paragraph}{The two-layer pipeline.}{6}{section*.12}%
+\contentsline {section}{\numberline {4}The Transformation, Step by Step}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Stage 1: Colorability $\to $ Independent Set}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Stage 2: Independent Set $\to $ Unit-Disk MWIS}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Decoding and End-to-End Correctness}{7}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Size and Feasibility Bounds}{8}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Worked Example: $3$-Coloring a Small Graph}{8}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Secondary Path: Heuristic Geometry and the Layout Optimizer}{8}{subsection.4.6}%
+\contentsline {subsubsection}{\numberline {4.6.1}Why geometric supergraphs cannot bound inflation}{9}{subsubsection.4.6.1}%
+\contentsline {subsubsection}{\numberline {4.6.2}The re-targeted role: layout optimizer for the gadget instance}{9}{subsubsection.4.6.2}%
+\contentsline {subsubsection}{\numberline {4.6.3}The seven heuristics}{10}{subsubsection.4.6.3}%
+\contentsline {paragraph}{H1 --- Geometric loss minimization.}{10}{section*.13}%
+\contentsline {paragraph}{H2 --- Crossing/chain-aware weighting.}{10}{section*.14}%
+\contentsline {paragraph}{H3 --- Clique/over-packing control.}{10}{section*.15}%
+\contentsline {paragraph}{H4 --- Laplacian eigenmap initialization.}{10}{section*.16}%
+\contentsline {paragraph}{H5 --- Local repair with a monotone potential.}{10}{section*.17}%
+\contentsline {paragraph}{H6 --- Radius sweep and Pareto selection.}{11}{section*.18}%
+\contentsline {paragraph}{H7 --- Inflation/quality as evaluation, not objective.}{11}{section*.19}%
+\contentsline {subsubsection}{\numberline {4.6.4}Corrected exactly-realizable families}{11}{subsubsection.4.6.4}%
+\contentsline {section}{\numberline {5}Integrated Pipeline}{11}{section.5}%
+\contentsline {section}{\numberline {6}Complexity Analysis}{12}{section.6}%
+\contentsline {section}{\numberline {7}A Language for Certified Coloring Compilation}{13}{section.7}%
+\contentsline {subsection}{\numberline {7.1}What we keep from Haskell, and what we change}{13}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Concrete grammar}{13}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Abstract syntax (Haskell)}{15}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Example program}{16}{subsection.7.4}%
+\contentsline {section}{\numberline {8}The Type System}{16}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Problem-types (the sorts)}{17}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}The certified-reduction judgment}{17}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Per-stage typing rules}{17}{subsection.8.3}%
+\contentsline {paragraph}{Stage 1 --- color-choice.}{17}{section*.20}%
+\contentsline {paragraph}{Stage 2 --- gadget.}{18}{section*.21}%
+\contentsline {paragraph}{Stage 3 --- layout (branches on realizability).}{18}{section*.22}%
+\contentsline {paragraph}{Emit --- device budget.}{18}{section*.23}%
+\contentsline {subsection}{\numberline {8.4}Composition and the soundness theorem}{18}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}Refinement A: certificate grade}{19}{subsection.8.5}%
+\contentsline {subsection}{\numberline {8.6}Refinement B: the safety effect (supergraph path)}{19}{subsection.8.6}%
+\contentsline {paragraph}{Effect monoid.}{19}{section*.24}%
+\contentsline {paragraph}{Mandatory precondition (the impossibility theorem as a side-condition).}{19}{section*.25}%
+\contentsline {subsection}{\numberline {8.7}The discipline is the static shadow of the oracle}{19}{subsection.8.7}%
+\contentsline {section}{\numberline {9}Discussion and Limitations}{20}{section.9}%
+\contentsline {paragraph}{What is and isn't guaranteed.}{20}{section*.26}%
+\contentsline {paragraph}{The size wall.}{20}{section*.27}%
+\contentsline {paragraph}{Status of the secondary path.}{20}{section*.28}%
+\contentsline {section}{\numberline {10}Future Work}{20}{section.10}%
+\contentsline {section}{\numberline {11}Conclusion}{20}{section.11}%

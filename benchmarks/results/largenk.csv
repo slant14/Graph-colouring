@@ -1,0 +1,6 @@
+name,n,m,chi,k,whole_slots,max_piece_slots,device_calls,colors_used,colorable,expected_colorable,proper,seconds,ok,note
+C24 (cycle),24,24,2,8,192,11,8,5,True,True,True,8.5,True,"n·k=192, 2^192 monolithic"
+Ladder 2x10,20,28,2,8,160,11,10,4,True,True,True,8.6,True,"tw 2, n·k=160"
+Petersen,10,15,3,8,80,13,3,6,True,True,True,12.2,True,"cubic, n·k=80"
+Dodecahedral,20,30,3,8,160,13,7,7,True,True,True,21.7,True,"cubic, n·k=160"
+"Star K1,12",13,12,2,10,130,11,12,2,True,True,True,13.2,True,"k=10, n·k=130"

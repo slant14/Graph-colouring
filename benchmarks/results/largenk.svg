@@ -1,0 +1,77 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1000' height='460' viewBox='0 0 1000 460' font-family='sans-serif'>
+<rect width='100%' height='100%' fill='white'/>
+<text x='500.0' y='26' text-anchor='middle' font-size='17' font-weight='bold'>Decomposition: whole n·k vs max simulated piece (device size stays small)</text>
+<line x1='60' y1='370.0' x2='980' y2='370.0' stroke='#eee'/>
+<text x='52' y='374.0' text-anchor='end' font-size='11' fill='#555'>0</text>
+<line x1='60' y1='354.2' x2='980' y2='354.2' stroke='#eee'/>
+<text x='52' y='358.2' text-anchor='end' font-size='11' fill='#555'>10</text>
+<line x1='60' y1='338.4' x2='980' y2='338.4' stroke='#eee'/>
+<text x='52' y='342.4' text-anchor='end' font-size='11' fill='#555'>20</text>
+<line x1='60' y1='322.6' x2='980' y2='322.6' stroke='#eee'/>
+<text x='52' y='326.6' text-anchor='end' font-size='11' fill='#555'>30</text>
+<line x1='60' y1='306.7' x2='980' y2='306.7' stroke='#eee'/>
+<text x='52' y='310.7' text-anchor='end' font-size='11' fill='#555'>40</text>
+<line x1='60' y1='290.9' x2='980' y2='290.9' stroke='#eee'/>
+<text x='52' y='294.9' text-anchor='end' font-size='11' fill='#555'>50</text>
+<line x1='60' y1='275.1' x2='980' y2='275.1' stroke='#eee'/>
+<text x='52' y='279.1' text-anchor='end' font-size='11' fill='#555'>60</text>
+<line x1='60' y1='259.3' x2='980' y2='259.3' stroke='#eee'/>
+<text x='52' y='263.3' text-anchor='end' font-size='11' fill='#555'>70</text>
+<line x1='60' y1='243.5' x2='980' y2='243.5' stroke='#eee'/>
+<text x='52' y='247.5' text-anchor='end' font-size='11' fill='#555'>80</text>
+<line x1='60' y1='227.7' x2='980' y2='227.7' stroke='#eee'/>
+<text x='52' y='231.7' text-anchor='end' font-size='11' fill='#555'>90</text>
+<line x1='60' y1='211.8' x2='980' y2='211.8' stroke='#eee'/>
+<text x='52' y='215.8' text-anchor='end' font-size='11' fill='#555'>100</text>
+<line x1='60' y1='196.0' x2='980' y2='196.0' stroke='#eee'/>
+<text x='52' y='200.0' text-anchor='end' font-size='11' fill='#555'>110</text>
+<line x1='60' y1='180.2' x2='980' y2='180.2' stroke='#eee'/>
+<text x='52' y='184.2' text-anchor='end' font-size='11' fill='#555'>120</text>
+<line x1='60' y1='164.4' x2='980' y2='164.4' stroke='#eee'/>
+<text x='52' y='168.4' text-anchor='end' font-size='11' fill='#555'>130</text>
+<line x1='60' y1='148.6' x2='980' y2='148.6' stroke='#eee'/>
+<text x='52' y='152.6' text-anchor='end' font-size='11' fill='#555'>140</text>
+<line x1='60' y1='132.8' x2='980' y2='132.8' stroke='#eee'/>
+<text x='52' y='136.8' text-anchor='end' font-size='11' fill='#555'>150</text>
+<line x1='60' y1='116.9' x2='980' y2='116.9' stroke='#eee'/>
+<text x='52' y='120.9' text-anchor='end' font-size='11' fill='#555'>160</text>
+<line x1='60' y1='101.1' x2='980' y2='101.1' stroke='#eee'/>
+<text x='52' y='105.1' text-anchor='end' font-size='11' fill='#555'>170</text>
+<line x1='60' y1='85.3' x2='980' y2='85.3' stroke='#eee'/>
+<text x='52' y='89.3' text-anchor='end' font-size='11' fill='#555'>180</text>
+<line x1='60' y1='69.5' x2='980' y2='69.5' stroke='#eee'/>
+<text x='52' y='73.5' text-anchor='end' font-size='11' fill='#555'>190</text>
+<line x1='60' y1='344.7' x2='980' y2='344.7' stroke='#d23c3c' stroke-dasharray='6,4' stroke-width='1.5'/>
+<text x='976' y='339.7' text-anchor='end' font-size='12' fill='#d23c3c'>monolithic wall NK_MAX = 16</text>
+<line x1='60' y1='60' x2='60' y2='370' stroke='#333'/>
+<line x1='60' y1='370' x2='980' y2='370' stroke='#333'/>
+<rect x='94.8' y='66.3' width='55.2' height='303.7' fill='#cc7a44'/>
+<rect x='154.0' y='352.6' width='55.2' height='17.4' fill='#2e9e5b'/>
+<text x='122.4' y='62.3' text-anchor='middle' font-size='10' fill='#cc7a44'>192</text>
+<text x='181.6' y='348.6' text-anchor='middle' font-size='10' fill='#2e9e5b'>11</text>
+<text x='152.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 152.0 384.0)'>C24 (cycle) k=8</text>
+<rect x='278.8' y='116.9' width='55.2' height='253.1' fill='#cc7a44'/>
+<rect x='338.0' y='352.6' width='55.2' height='17.4' fill='#2e9e5b'/>
+<text x='306.4' y='112.9' text-anchor='middle' font-size='10' fill='#cc7a44'>160</text>
+<text x='365.6' y='348.6' text-anchor='middle' font-size='10' fill='#2e9e5b'>11</text>
+<text x='336.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 336.0 384.0)'>Ladder 2x10 k=8</text>
+<rect x='462.8' y='243.5' width='55.2' height='126.5' fill='#cc7a44'/>
+<rect x='522.0' y='349.4' width='55.2' height='20.6' fill='#2e9e5b'/>
+<text x='490.4' y='239.5' text-anchor='middle' font-size='10' fill='#cc7a44'>80</text>
+<text x='549.6' y='345.4' text-anchor='middle' font-size='10' fill='#2e9e5b'>13</text>
+<text x='520.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 520.0 384.0)'>Petersen k=8</text>
+<rect x='646.8' y='116.9' width='55.2' height='253.1' fill='#cc7a44'/>
+<rect x='706.0' y='349.4' width='55.2' height='20.6' fill='#2e9e5b'/>
+<text x='674.4' y='112.9' text-anchor='middle' font-size='10' fill='#cc7a44'>160</text>
+<text x='733.6' y='345.4' text-anchor='middle' font-size='10' fill='#2e9e5b'>13</text>
+<text x='704.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 704.0 384.0)'>Dodecahedral k=8</text>
+<rect x='830.8' y='164.4' width='55.2' height='205.6' fill='#cc7a44'/>
+<rect x='890.0' y='352.6' width='55.2' height='17.4' fill='#2e9e5b'/>
+<text x='858.4' y='160.4' text-anchor='middle' font-size='10' fill='#cc7a44'>130</text>
+<text x='917.6' y='348.6' text-anchor='middle' font-size='10' fill='#2e9e5b'>11</text>
+<text x='888.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 888.0 384.0)'>Star K1,12 k=10</text>
+<rect x='70' y='66' width='12' height='12' fill='#cc7a44'/>
+<text x='88' y='77' font-size='12'>whole-graph n·k (monolithic — would skip)</text>
+<rect x='70' y='84' width='12' height='12' fill='#2e9e5b'/>
+<text x='88' y='95' font-size='12'>max piece slots actually simulated</text>
+</svg>

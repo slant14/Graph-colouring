@@ -1,0 +1,267 @@
+\begin{thebibliography}{10}
+
+\bibitem{ArnborgProskurowski1989}
+Stefan Arnborg and Andrzej Proskurowski.
+\newblock Linear time algorithms for {NP}-hard problems restricted to partial
+  $k$-trees.
+\newblock {\em Discrete Applied Mathematics}, 23(1):11--24, 1989.
+
+\bibitem{BartolettiDeganoFerrariZunino2009}
+Massimo Bartoletti, Pierpaolo Degano, Gian-Luigi Ferrari, and Roberto Zunino.
+\newblock Local policies for resource usage analysis.
+\newblock {\em ACM Transactions on Programming Languages and Systems (TOPLAS)},
+  31(6):1--43, 2009.
+
+\bibitem{Belkin2003}
+Mikhail Belkin and Partha Niyogi.
+\newblock Laplacian eigenmaps and spectral techniques for embedding and
+  clustering.
+\newblock {\em Advances in Neural Information Processing Systems}, 2003.
+
+\bibitem{BodeiDeganoFerrari1998}
+Chiara Bodei, Pierpaolo Degano, Gian-Luigi Ferrari, and Corrado Priami.
+\newblock Comparing flow algebras for process calculi.
+\newblock In {\em Concurrency Theory (CONCUR)}. Springer, 1998.
+
+\bibitem{Bodlaender1996}
+Hans~L Bodlaender.
+\newblock A linear-time algorithm for finding tree-decompositions of small
+  treewidth.
+\newblock {\em SIAM Journal on Computing}, 25(6):1305--1317, 1996.
+
+\bibitem{Bomze1999}
+Immanuel~M Bomze et~al.
+\newblock The maximum clique problem.
+\newblock {\em Handbook of combinatorial optimization}, pages 1--74, 1999.
+
+\bibitem{Boyd2004}
+Stephen Boyd and Lieven Vandenberghe.
+\newblock Convex optimization.
+\newblock {\em Cambridge University Press}, 2004.
+
+\bibitem{Brelaz1979}
+Daniel Brelaz.
+\newblock New methods to color the vertices of a graph.
+\newblock {\em Communications of the ACM}, 22(4):251--256, 1979.
+
+\bibitem{Breu1998}
+H~Breu and DG~Kirkpatrick.
+\newblock On the complexity of recognizing unit disk graphs.
+\newblock {\em Journal of Computational Geometry and Theory of Applications},
+  1998.
+
+\bibitem{Cerezo2021}
+Marco Cerezo et~al.
+\newblock Variational quantum algorithms.
+\newblock {\em Nature Reviews Physics}, 3(9):625--644, 2021.
+
+\bibitem{Chung1997}
+Fan~RK Chung.
+\newblock {\em Spectral Graph Theory}, volume~92.
+\newblock American Mathematical Society, 1997.
+
+\bibitem{Clark1990UDG}
+Brent~N Clark, Charles~J Colbourn, and David~S Johnson.
+\newblock Unit disk graphs.
+\newblock {\em Discrete Mathematics}, 86(1-3):165--177, 1990.
+
+\bibitem{Clark1990}
+WD~Clark.
+\newblock Unit distance graphs with chromatic number four.
+\newblock {\em American Mathematical Monthly}, 97:184--191, 1990.
+
+\bibitem{Cormen2009}
+Thomas~H Cormen, Charles~E Leiserson, Ronald~L Rivest, and Clifford Stein.
+\newblock {\em Introduction to Algorithms}.
+\newblock MIT Press, 3rd edition, 2009.
+
+\bibitem{DeganoFerrariGalletta2016}
+Pierpaolo Degano, Gian-Luigi Ferrari, and Letterio Galletta.
+\newblock A two-component language for adaptation: design, semantics, and
+  program analysis.
+\newblock {\em IEEE Transactions on Software Engineering}, 42(6):505--522,
+  2016.
+
+\bibitem{Dirac1961}
+Gabriel~Andrew Dirac.
+\newblock On rigid circuit graphs.
+\newblock {\em Abhandlungen aus dem Mathematischen Seminar der Universit\"at
+  Hamburg}, 25(1--2):71--76, 1961.
+
+\bibitem{Ebadi2021}
+Sepehr Ebadi et~al.
+\newblock Quantum phases from competing short-and long-range interactions in an
+  optical lattice.
+\newblock {\em Nature}, 595:227--232, 2021.
+
+\bibitem{Ebadi2022}
+Sepehr Ebadi, Alexander Keesling, Madelyn Cain, Tout~T Wang, Harry Levine,
+  Dolev Bluvstein, Giulia Semeghini, Ahmed Omran, J-G Liu, Rhine Samajdar,
+  et~al.
+\newblock Quantum optimization of maximum independent set using rydberg atom
+  arrays.
+\newblock {\em Science}, 376(6598):1209--1215, 2022.
+
+\bibitem{Fiedler1973}
+Miroslav Fiedler.
+\newblock Algebraic connectivity of graphs.
+\newblock {\em Czechoslovak Mathematical Journal}, 23(2):298--305, 1973.
+
+\bibitem{Fruchterman1991}
+Thomas~MJ Fruchterman and EM~Reingold.
+\newblock Graph drawing by force-directed placement.
+\newblock {\em Software: Practice and experience}, 21(11):1129--1164, 1991.
+
+\bibitem{GareyJohnson1979}
+Michael~R Garey and David~S Johnson.
+\newblock {\em Computers and Intractability: A Guide to the Theory of
+  {NP}-Completeness}.
+\newblock W. H. Freeman, 1979.
+
+\bibitem{Glover1997}
+Fred Glover and Manuel Laguna.
+\newblock {\em Tabu search}.
+\newblock Kluwer Academic Publishers, 1997.
+
+\bibitem{Golumbic1980}
+Martin~Charles Golumbic.
+\newblock Algorithmic graph theory and perfect graphs.
+\newblock {\em Academic Press}, 1980.
+
+\bibitem{Graham2022}
+TM~Graham et~al.
+\newblock Multi-qubit entanglement and algorithms on a programmable
+  neutral-atom quantum processor.
+\newblock {\em Nature}, 604:457--462, 2022.
+
+\bibitem{Henriet2021}
+Luc Henriet et~al.
+\newblock Quantum computing with neutral atoms.
+\newblock {\em Quantum}, 5:528, 2021.
+
+\bibitem{Heppes2003}
+A~Heppes.
+\newblock On the packing density of circles and spheres.
+\newblock {\em Mathematika}, 2003.
+
+\bibitem{Jungck2021}
+Daniel Jungck et~al.
+\newblock On the complexity of udg recognition and related problems.
+\newblock In {\em Computational Geometry}, 2021.
+
+\bibitem{Karp1972}
+Richard~M Karp.
+\newblock Reducibility among combinatorial problems.
+\newblock In {\em Complexity of Computer Computations}, pages 85--103.
+  Springer, 1972.
+
+\bibitem{Kirkpatrick1983}
+S~Kirkpatrick, CD~Gelatt, and MP~Vecchi.
+\newblock Optimization by simulated annealing.
+\newblock {\em Science}, 220(4598):671--680, 1983.
+
+\bibitem{Kruskal1964}
+Joseph~B Kruskal.
+\newblock Multidimensional scaling by optimizing goodness of fit to a nonmetric
+  hypothesis.
+\newblock {\em Psychometrika}, 29(1):1--27, 1964.
+
+\bibitem{Lovasz1983}
+Laszlo Lovasz.
+\newblock Kneser's conjecture, chromatic number, and homotopy.
+\newblock {\em Journal of Combinatorial Theory, Series A}, 34(3):319--324,
+  1983.
+
+\bibitem{LucassenGifford1988}
+John~M Lucassen and David~K Gifford.
+\newblock Polymorphic effect systems.
+\newblock In {\em Proceedings of the 15th ACM SIGPLAN-SIGACT Symposium on
+  Principles of Programming Languages (POPL)}, pages 47--57. ACM, 1988.
+
+\bibitem{Lyapunov1907}
+Aleksandr~M Lyapunov.
+\newblock The general problem of the stability of motion.
+\newblock {\em International Journal of Control}, 55(3):531--534, 1907.
+
+\bibitem{Madsen2023}
+Kent~T Madsen et~al.
+\newblock Scalable photonic platform for quantum information.
+\newblock {\em Nature}, 606:75--81, 2023.
+
+\bibitem{Miettinen2014}
+Kaisa Miettinen.
+\newblock {\em Nonlinear Multiobjective Optimization}.
+\newblock International Series in Operations Research \& Management Science.
+  Springer, 1999.
+
+\bibitem{Nesterov2004}
+Yurii Nesterov.
+\newblock Introductory lectures on convex optimization: A basic course.
+\newblock {\em Applied Optimization}, 87, 2004.
+
+\bibitem{Nguyen2023}
+Minh-Thi Nguyen, Jin-Guo Liu, Jonathan Wurtz, Mikhail~D Lukin, Sheng-Tao Wang,
+  and Hannes Pichler.
+\newblock Quantum optimization with arbitrary connectivity using rydberg atom
+  arrays.
+\newblock {\em PRX Quantum}, 4(1):010316, 2023.
+
+\bibitem{Pichler2018}
+Hannes Pichler, Sheng-Tao Wang, Leo Zhou, Soonwon Choi, and Mikhail~D Lukin.
+\newblock Quantum optimization for maximum independent set using rydberg atom
+  arrays.
+\newblock {\em arXiv preprint arXiv:1808.10816}, 2018.
+
+\bibitem{Preskill2018}
+John Preskill.
+\newblock Quantum computing in the nisq era and beyond.
+\newblock {\em Quantum}, 2:79, 2018.
+
+\bibitem{Roberts1969}
+Fred~S Roberts.
+\newblock Recent progresses in combinatorics.
+\newblock {\em Academic Press}, 1969.
+
+\bibitem{RobertsonSeymour1986}
+Neil Robertson and Paul~D Seymour.
+\newblock Graph minors. {II}. algorithmic aspects of tree-width.
+\newblock {\em Journal of Algorithms}, 7(3):309--322, 1986.
+
+\bibitem{Saffman2010}
+Mark Saffman, Timothy~G Walker, and Klaus Molmer.
+\newblock Quantum computing with neutral atoms.
+\newblock {\em Reviews of Modern Physics}, 82(3):2313, 2010.
+
+\bibitem{Scholl2022}
+Pascal Scholl et~al.
+\newblock Quantum computing hardware for neutral atoms.
+\newblock {\em Nature}, 605:202--206, 2022.
+
+\bibitem{Tarjan1985}
+Robert~E Tarjan.
+\newblock Decomposition by clique separators.
+\newblock {\em Discrete Mathematics}, 55(2):221--232, 1985.
+
+\bibitem{Tutte1954}
+WT~Tutte.
+\newblock On the chromatic polynomial.
+\newblock {\em Journal of Combinatorial Theory}, 2:145--155, 1954.
+
+\bibitem{Welsh1967}
+DJA Welsh and MB~Powell.
+\newblock An upper bound for the chromatic number of a graph and its
+  application to timetabling problems.
+\newblock {\em The Computer Journal}, 10(1):85--89, 1967.
+
+\bibitem{West2001}
+Douglas~B West.
+\newblock {\em Introduction to Graph Theory}.
+\newblock Prentice Hall, 2nd edition, 2001.
+
+\bibitem{Wurtz2023}
+Jonathan Wurtz, Alexei Bylinskii, Boaz Braverman, Jesse Amato-Grill, Sergio~H
+  Cantu, et~al.
+\newblock Aquila: {QuEra's} 256-qubit neutral-atom quantum computer.
+\newblock {\em arXiv preprint arXiv:2306.11727}, 2023.
+
+\end{thebibliography}

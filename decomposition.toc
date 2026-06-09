@@ -1,0 +1,19 @@
+\contentsline {section}{\numberline {1}Idea: decouple device size from $n$}{2}{section.1}%
+\contentsline {section}{\numberline {2}Preliminaries: separators, blocks, and width}{2}{section.2}%
+\contentsline {section}{\numberline {3}Clique-separator decomposition: free stitching}{2}{section.3}%
+\contentsline {section}{\numberline {4}Per-piece encoding by boundary precoloring}{3}{section.4}%
+\contentsline {section}{\numberline {5}The general case: tree-decomposition dynamic program}{4}{section.5}%
+\contentsline {section}{\numberline {6}The decomposition-aware pipeline}{4}{section.6}%
+\contentsline {section}{\numberline {7}The scaling result}{5}{section.7}%
+\contentsline {section}{\numberline {8}Worked examples}{6}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Example A --- the bowtie: a single cut vertex}{6}{subsection.8.1}%
+\contentsline {paragraph}{Step 1 --- decompose.}{6}{section*.2}%
+\contentsline {paragraph}{Step 2 --- solve $P_1$ (no boundary yet).}{6}{section*.3}%
+\contentsline {paragraph}{Step 3 --- solve $P_2$ with boundary precolored.}{6}{section*.4}%
+\contentsline {paragraph}{Step 4 --- stitch.}{7}{section*.5}%
+\contentsline {subsection}{\numberline {8.2}Example B --- a chain of triangles: $n\to \infty $ at constant device size}{7}{subsection.8.2}%
+\contentsline {paragraph}{Solve.}{7}{section*.6}%
+\contentsline {paragraph}{The point.}{7}{section*.7}%
+\contentsline {subsection}{\numberline {8.3}Example C --- a non-clique separator: paying the $k^{b}$ price}{7}{subsection.8.3}%
+\contentsline {paragraph}{Solve with $k=2$.}{7}{section*.8}%
+\contentsline {paragraph}{Lesson.}{8}{section*.9}%
