@@ -1,0 +1,344 @@
+\begin{thebibliography}{48}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Arnborg and Proskurowski(1989)}]{ArnborgProskurowski1989}
+\bibinfo{author}{Arnborg, S.}, \bibinfo{author}{Proskurowski, A.},
+  \bibinfo{year}{1989}.
+\newblock \bibinfo{title}{Linear time algorithms for {NP}-hard problems
+  restricted to partial $k$-trees}.
+\newblock \bibinfo{journal}{Discrete Applied Mathematics} \bibinfo{volume}{23},
+  \bibinfo{pages}{11--24}.
+%Type = Article
+\bibitem[{Bartoletti et~al.(2009)Bartoletti, Degano, Ferrari and
+  Zunino}]{BartolettiDeganoFerrariZunino2009}
+\bibinfo{author}{Bartoletti, M.}, \bibinfo{author}{Degano, P.},
+  \bibinfo{author}{Ferrari, G.L.}, \bibinfo{author}{Zunino, R.},
+  \bibinfo{year}{2009}.
+\newblock \bibinfo{title}{Local policies for resource usage analysis}.
+\newblock \bibinfo{journal}{ACM Transactions on Programming Languages and
+  Systems (TOPLAS)} \bibinfo{volume}{31}, \bibinfo{pages}{1--43}.
+%Type = Article
+\bibitem[{Belkin and Niyogi(2003)}]{Belkin2003}
+\bibinfo{author}{Belkin, M.}, \bibinfo{author}{Niyogi, P.},
+  \bibinfo{year}{2003}.
+\newblock \bibinfo{title}{Laplacian eigenmaps and spectral techniques for
+  embedding and clustering}.
+\newblock \bibinfo{journal}{Advances in Neural Information Processing Systems}
+  .
+%Type = Inproceedings
+\bibitem[{Bodei et~al.(1998)Bodei, Degano, Ferrari and
+  Priami}]{BodeiDeganoFerrari1998}
+\bibinfo{author}{Bodei, C.}, \bibinfo{author}{Degano, P.},
+  \bibinfo{author}{Ferrari, G.L.}, \bibinfo{author}{Priami, C.},
+  \bibinfo{year}{1998}.
+\newblock \bibinfo{title}{Comparing flow algebras for process calculi}, in:
+  \bibinfo{booktitle}{Concurrency Theory (CONCUR)},
+  \bibinfo{publisher}{Springer}.
+%Type = Article
+\bibitem[{Bodlaender(1996)}]{Bodlaender1996}
+\bibinfo{author}{Bodlaender, H.L.}, \bibinfo{year}{1996}.
+\newblock \bibinfo{title}{A linear-time algorithm for finding
+  tree-decompositions of small treewidth}.
+\newblock \bibinfo{journal}{SIAM Journal on Computing} \bibinfo{volume}{25},
+  \bibinfo{pages}{1305--1317}.
+%Type = Article
+\bibitem[{Bomze et~al.(1999)}]{Bomze1999}
+\bibinfo{author}{Bomze, I.M.}, et~al., \bibinfo{year}{1999}.
+\newblock \bibinfo{title}{The maximum clique problem}.
+\newblock \bibinfo{journal}{Handbook of combinatorial optimization} ,
+  \bibinfo{pages}{1--74}.
+%Type = Article
+\bibitem[{Boyd and Vandenberghe(2004)}]{Boyd2004}
+\bibinfo{author}{Boyd, S.}, \bibinfo{author}{Vandenberghe, L.},
+  \bibinfo{year}{2004}.
+\newblock \bibinfo{title}{Convex optimization}.
+\newblock \bibinfo{journal}{Cambridge University Press} .
+%Type = Article
+\bibitem[{Brelaz(1979)}]{Brelaz1979}
+\bibinfo{author}{Brelaz, D.}, \bibinfo{year}{1979}.
+\newblock \bibinfo{title}{New methods to color the vertices of a graph}.
+\newblock \bibinfo{journal}{Communications of the ACM} \bibinfo{volume}{22},
+  \bibinfo{pages}{251--256}.
+%Type = Article
+\bibitem[{Breu and Kirkpatrick(1998)}]{Breu1998}
+\bibinfo{author}{Breu, H.}, \bibinfo{author}{Kirkpatrick, D.},
+  \bibinfo{year}{1998}.
+\newblock \bibinfo{title}{On the complexity of recognizing unit disk graphs}.
+\newblock \bibinfo{journal}{Journal of Computational Geometry and Theory of
+  Applications} .
+%Type = Article
+\bibitem[{Cerezo et~al.(2021)}]{Cerezo2021}
+\bibinfo{author}{Cerezo, M.}, et~al., \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Variational quantum algorithms}.
+\newblock \bibinfo{journal}{Nature Reviews Physics} \bibinfo{volume}{3},
+  \bibinfo{pages}{625--644}.
+%Type = Book
+\bibitem[{Chung(1997)}]{Chung1997}
+\bibinfo{author}{Chung, F.R.}, \bibinfo{year}{1997}.
+\newblock \bibinfo{title}{Spectral Graph Theory}. volume~\bibinfo{volume}{92}.
+\newblock \bibinfo{publisher}{American Mathematical Society}.
+%Type = Article
+\bibitem[{Clark et~al.(1990)Clark, Colbourn and Johnson}]{Clark1990UDG}
+\bibinfo{author}{Clark, B.N.}, \bibinfo{author}{Colbourn, C.J.},
+  \bibinfo{author}{Johnson, D.S.}, \bibinfo{year}{1990}.
+\newblock \bibinfo{title}{Unit disk graphs}.
+\newblock \bibinfo{journal}{Discrete Mathematics} \bibinfo{volume}{86},
+  \bibinfo{pages}{165--177}.
+%Type = Article
+\bibitem[{Clark(1990)}]{Clark1990}
+\bibinfo{author}{Clark, W.}, \bibinfo{year}{1990}.
+\newblock \bibinfo{title}{Unit distance graphs with chromatic number four}.
+\newblock \bibinfo{journal}{American Mathematical Monthly}
+  \bibinfo{volume}{97}, \bibinfo{pages}{184--191}.
+%Type = Book
+\bibitem[{Cormen et~al.(2009)Cormen, Leiserson, Rivest and Stein}]{Cormen2009}
+\bibinfo{author}{Cormen, T.H.}, \bibinfo{author}{Leiserson, C.E.},
+  \bibinfo{author}{Rivest, R.L.}, \bibinfo{author}{Stein, C.},
+  \bibinfo{year}{2009}.
+\newblock \bibinfo{title}{Introduction to Algorithms}.
+\newblock \bibinfo{edition}{3rd} ed., \bibinfo{publisher}{MIT Press}.
+%Type = Article
+\bibitem[{Degano et~al.(2016)Degano, Ferrari and
+  Galletta}]{DeganoFerrariGalletta2016}
+\bibinfo{author}{Degano, P.}, \bibinfo{author}{Ferrari, G.L.},
+  \bibinfo{author}{Galletta, L.}, \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{A two-component language for adaptation: design,
+  semantics, and program analysis}.
+\newblock \bibinfo{journal}{IEEE Transactions on Software Engineering}
+  \bibinfo{volume}{42}, \bibinfo{pages}{505--522}.
+%Type = Article
+\bibitem[{Dirac(1961)}]{Dirac1961}
+\bibinfo{author}{Dirac, G.A.}, \bibinfo{year}{1961}.
+\newblock \bibinfo{title}{On rigid circuit graphs}.
+\newblock \bibinfo{journal}{Abhandlungen aus dem Mathematischen Seminar der
+  Universit\"at Hamburg} \bibinfo{volume}{25}, \bibinfo{pages}{71--76}.
+%Type = Article
+\bibitem[{Ebadi et~al.(2022)Ebadi, Keesling, Cain, Wang, Levine, Bluvstein,
+  Semeghini, Omran, Liu, Samajdar et~al.}]{Ebadi2022}
+\bibinfo{author}{Ebadi, S.}, \bibinfo{author}{Keesling, A.},
+  \bibinfo{author}{Cain, M.}, \bibinfo{author}{Wang, T.T.},
+  \bibinfo{author}{Levine, H.}, \bibinfo{author}{Bluvstein, D.},
+  \bibinfo{author}{Semeghini, G.}, \bibinfo{author}{Omran, A.},
+  \bibinfo{author}{Liu, J.G.}, \bibinfo{author}{Samajdar, R.}, et~al.,
+  \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Quantum optimization of maximum independent set using
+  rydberg atom arrays}.
+\newblock \bibinfo{journal}{Science} \bibinfo{volume}{376},
+  \bibinfo{pages}{1209--1215}.
+%Type = Article
+\bibitem[{Ebadi et~al.(2021)}]{Ebadi2021}
+\bibinfo{author}{Ebadi, S.}, et~al., \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Quantum phases from competing short-and long-range
+  interactions in an optical lattice}.
+\newblock \bibinfo{journal}{Nature} \bibinfo{volume}{595},
+  \bibinfo{pages}{227--232}.
+%Type = Article
+\bibitem[{Fiedler(1973)}]{Fiedler1973}
+\bibinfo{author}{Fiedler, M.}, \bibinfo{year}{1973}.
+\newblock \bibinfo{title}{Algebraic connectivity of graphs}.
+\newblock \bibinfo{journal}{Czechoslovak Mathematical Journal}
+  \bibinfo{volume}{23}, \bibinfo{pages}{298--305}.
+%Type = Article
+\bibitem[{Fruchterman and Reingold(1991)}]{Fruchterman1991}
+\bibinfo{author}{Fruchterman, T.M.}, \bibinfo{author}{Reingold, E.},
+  \bibinfo{year}{1991}.
+\newblock \bibinfo{title}{Graph drawing by force-directed placement}.
+\newblock \bibinfo{journal}{Software: Practice and experience}
+  \bibinfo{volume}{21}, \bibinfo{pages}{1129--1164}.
+%Type = Book
+\bibitem[{Garey and Johnson(1979)}]{GareyJohnson1979}
+\bibinfo{author}{Garey, M.R.}, \bibinfo{author}{Johnson, D.S.},
+  \bibinfo{year}{1979}.
+\newblock \bibinfo{title}{Computers and Intractability: A Guide to the Theory
+  of {NP}-Completeness}.
+\newblock \bibinfo{publisher}{W. H. Freeman}.
+%Type = Book
+\bibitem[{Glover and Laguna(1997)}]{Glover1997}
+\bibinfo{author}{Glover, F.}, \bibinfo{author}{Laguna, M.},
+  \bibinfo{year}{1997}.
+\newblock \bibinfo{title}{Tabu search}.
+\newblock \bibinfo{publisher}{Kluwer Academic Publishers}.
+%Type = Article
+\bibitem[{Golumbic(1980)}]{Golumbic1980}
+\bibinfo{author}{Golumbic, M.C.}, \bibinfo{year}{1980}.
+\newblock \bibinfo{title}{Algorithmic graph theory and perfect graphs}.
+\newblock \bibinfo{journal}{Academic Press} .
+%Type = Article
+\bibitem[{Graham et~al.(2022)}]{Graham2022}
+\bibinfo{author}{Graham, T.}, et~al., \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Multi-qubit entanglement and algorithms on a
+  programmable neutral-atom quantum processor}.
+\newblock \bibinfo{journal}{Nature} \bibinfo{volume}{604},
+  \bibinfo{pages}{457--462}.
+%Type = Article
+\bibitem[{Henriet et~al.(2021)}]{Henriet2021}
+\bibinfo{author}{Henriet, L.}, et~al., \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Quantum computing with neutral atoms}.
+\newblock \bibinfo{journal}{Quantum} \bibinfo{volume}{5}, \bibinfo{pages}{528}.
+%Type = Article
+\bibitem[{Heppes(2003)}]{Heppes2003}
+\bibinfo{author}{Heppes, A.}, \bibinfo{year}{2003}.
+\newblock \bibinfo{title}{On the packing density of circles and spheres}.
+\newblock \bibinfo{journal}{Mathematika} .
+%Type = Inproceedings
+\bibitem[{Jungck et~al.(2021)}]{Jungck2021}
+\bibinfo{author}{Jungck, D.}, et~al., \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{On the complexity of udg recognition and related
+  problems}, in: \bibinfo{booktitle}{Computational Geometry}.
+%Type = Incollection
+\bibitem[{Karp(1972)}]{Karp1972}
+\bibinfo{author}{Karp, R.M.}, \bibinfo{year}{1972}.
+\newblock \bibinfo{title}{Reducibility among combinatorial problems}, in:
+  \bibinfo{booktitle}{Complexity of Computer Computations}.
+  \bibinfo{publisher}{Springer}, pp. \bibinfo{pages}{85--103}.
+%Type = Article
+\bibitem[{Kirkpatrick et~al.(1983)Kirkpatrick, Gelatt and
+  Vecchi}]{Kirkpatrick1983}
+\bibinfo{author}{Kirkpatrick, S.}, \bibinfo{author}{Gelatt, C.},
+  \bibinfo{author}{Vecchi, M.}, \bibinfo{year}{1983}.
+\newblock \bibinfo{title}{Optimization by simulated annealing}.
+\newblock \bibinfo{journal}{Science} \bibinfo{volume}{220},
+  \bibinfo{pages}{671--680}.
+%Type = Article
+\bibitem[{Kruskal(1964)}]{Kruskal1964}
+\bibinfo{author}{Kruskal, J.B.}, \bibinfo{year}{1964}.
+\newblock \bibinfo{title}{Multidimensional scaling by optimizing goodness of
+  fit to a nonmetric hypothesis}.
+\newblock \bibinfo{journal}{Psychometrika} \bibinfo{volume}{29},
+  \bibinfo{pages}{1--27}.
+%Type = Article
+\bibitem[{Lovasz(1983)}]{Lovasz1983}
+\bibinfo{author}{Lovasz, L.}, \bibinfo{year}{1983}.
+\newblock \bibinfo{title}{Kneser's conjecture, chromatic number, and homotopy}.
+\newblock \bibinfo{journal}{Journal of Combinatorial Theory, Series A}
+  \bibinfo{volume}{34}, \bibinfo{pages}{319--324}.
+%Type = Inproceedings
+\bibitem[{Lucassen and Gifford(1988)}]{LucassenGifford1988}
+\bibinfo{author}{Lucassen, J.M.}, \bibinfo{author}{Gifford, D.K.},
+  \bibinfo{year}{1988}.
+\newblock \bibinfo{title}{Polymorphic effect systems}, in:
+  \bibinfo{booktitle}{Proceedings of the 15th ACM SIGPLAN-SIGACT Symposium on
+  Principles of Programming Languages (POPL)}, \bibinfo{publisher}{ACM}. pp.
+  \bibinfo{pages}{47--57}.
+%Type = Article
+\bibitem[{Lyapunov(1907)}]{Lyapunov1907}
+\bibinfo{author}{Lyapunov, A.M.}, \bibinfo{year}{1907}.
+\newblock \bibinfo{title}{The general problem of the stability of motion}.
+\newblock \bibinfo{journal}{International Journal of Control}
+  \bibinfo{volume}{55}, \bibinfo{pages}{531--534}.
+%Type = Article
+\bibitem[{Madsen et~al.(2023)}]{Madsen2023}
+\bibinfo{author}{Madsen, K.T.}, et~al., \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Scalable photonic platform for quantum information}.
+\newblock \bibinfo{journal}{Nature} \bibinfo{volume}{606},
+  \bibinfo{pages}{75--81}.
+%Type = Book
+\bibitem[{Miettinen(1999)}]{Miettinen2014}
+\bibinfo{author}{Miettinen, K.}, \bibinfo{year}{1999}.
+\newblock \bibinfo{title}{Nonlinear Multiobjective Optimization}.
+\newblock International Series in Operations Research \& Management Science,
+  \bibinfo{publisher}{Springer}.
+%Type = Article
+\bibitem[{Nesterov(2004)}]{Nesterov2004}
+\bibinfo{author}{Nesterov, Y.}, \bibinfo{year}{2004}.
+\newblock \bibinfo{title}{Introductory lectures on convex optimization: A basic
+  course}.
+\newblock \bibinfo{journal}{Applied Optimization} \bibinfo{volume}{87}.
+%Type = Article
+\bibitem[{Nguyen et~al.(2023)Nguyen, Liu, Wurtz, Lukin, Wang and
+  Pichler}]{Nguyen2023}
+\bibinfo{author}{Nguyen, M.T.}, \bibinfo{author}{Liu, J.G.},
+  \bibinfo{author}{Wurtz, J.}, \bibinfo{author}{Lukin, M.D.},
+  \bibinfo{author}{Wang, S.T.}, \bibinfo{author}{Pichler, H.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Quantum optimization with arbitrary connectivity
+  using rydberg atom arrays}.
+\newblock \bibinfo{journal}{PRX Quantum} \bibinfo{volume}{4},
+  \bibinfo{pages}{010316}.
+%Type = Article
+\bibitem[{Pichler et~al.(2018)Pichler, Wang, Zhou, Choi and
+  Lukin}]{Pichler2018}
+\bibinfo{author}{Pichler, H.}, \bibinfo{author}{Wang, S.T.},
+  \bibinfo{author}{Zhou, L.}, \bibinfo{author}{Choi, S.},
+  \bibinfo{author}{Lukin, M.D.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Quantum optimization for maximum independent set
+  using rydberg atom arrays}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:1808.10816} .
+%Type = Article
+\bibitem[{Preskill(2018)}]{Preskill2018}
+\bibinfo{author}{Preskill, J.}, \bibinfo{year}{2018}.
+\newblock \bibinfo{title}{Quantum computing in the nisq era and beyond}.
+\newblock \bibinfo{journal}{Quantum} \bibinfo{volume}{2}, \bibinfo{pages}{79}.
+%Type = Article
+\bibitem[{Roberts(1969)}]{Roberts1969}
+\bibinfo{author}{Roberts, F.S.}, \bibinfo{year}{1969}.
+\newblock \bibinfo{title}{Recent progresses in combinatorics}.
+\newblock \bibinfo{journal}{Academic Press} .
+%Type = Article
+\bibitem[{Robertson and Seymour(1986)}]{RobertsonSeymour1986}
+\bibinfo{author}{Robertson, N.}, \bibinfo{author}{Seymour, P.D.},
+  \bibinfo{year}{1986}.
+\newblock \bibinfo{title}{Graph minors. {II}. algorithmic aspects of
+  tree-width}.
+\newblock \bibinfo{journal}{Journal of Algorithms} \bibinfo{volume}{7},
+  \bibinfo{pages}{309--322}.
+%Type = Article
+\bibitem[{Saffman et~al.(2010)Saffman, Walker and Molmer}]{Saffman2010}
+\bibinfo{author}{Saffman, M.}, \bibinfo{author}{Walker, T.G.},
+  \bibinfo{author}{Molmer, K.}, \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{Quantum computing with neutral atoms}.
+\newblock \bibinfo{journal}{Reviews of Modern Physics} \bibinfo{volume}{82},
+  \bibinfo{pages}{2313}.
+%Type = Article
+\bibitem[{Scholl et~al.(2022)}]{Scholl2022}
+\bibinfo{author}{Scholl, P.}, et~al., \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Quantum computing hardware for neutral atoms}.
+\newblock \bibinfo{journal}{Nature} \bibinfo{volume}{605},
+  \bibinfo{pages}{202--206}.
+%Type = Article
+\bibitem[{Tarjan(1985)}]{Tarjan1985}
+\bibinfo{author}{Tarjan, R.E.}, \bibinfo{year}{1985}.
+\newblock \bibinfo{title}{Decomposition by clique separators}.
+\newblock \bibinfo{journal}{Discrete Mathematics} \bibinfo{volume}{55},
+  \bibinfo{pages}{221--232}.
+%Type = Article
+\bibitem[{Tutte(1954)}]{Tutte1954}
+\bibinfo{author}{Tutte, W.}, \bibinfo{year}{1954}.
+\newblock \bibinfo{title}{On the chromatic polynomial}.
+\newblock \bibinfo{journal}{Journal of Combinatorial Theory}
+  \bibinfo{volume}{2}, \bibinfo{pages}{145--155}.
+%Type = Article
+\bibitem[{Welsh and Powell(1967)}]{Welsh1967}
+\bibinfo{author}{Welsh, D.}, \bibinfo{author}{Powell, M.},
+  \bibinfo{year}{1967}.
+\newblock \bibinfo{title}{An upper bound for the chromatic number of a graph
+  and its application to timetabling problems}.
+\newblock \bibinfo{journal}{The Computer Journal} \bibinfo{volume}{10},
+  \bibinfo{pages}{85--89}.
+%Type = Book
+\bibitem[{West(2001)}]{West2001}
+\bibinfo{author}{West, D.B.}, \bibinfo{year}{2001}.
+\newblock \bibinfo{title}{Introduction to Graph Theory}.
+\newblock \bibinfo{edition}{2nd} ed., \bibinfo{publisher}{Prentice Hall}.
+%Type = Article
+\bibitem[{Wurtz et~al.(2023)Wurtz, Bylinskii, Braverman, Amato-Grill, Cantu
+  et~al.}]{Wurtz2023}
+\bibinfo{author}{Wurtz, J.}, \bibinfo{author}{Bylinskii, A.},
+  \bibinfo{author}{Braverman, B.}, \bibinfo{author}{Amato-Grill, J.},
+  \bibinfo{author}{Cantu, S.H.}, et~al., \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Aquila: {QuEra's} 256-qubit neutral-atom quantum
+  computer}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2306.11727} .
+
+\end{thebibliography}

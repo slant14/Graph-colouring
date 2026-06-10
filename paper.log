@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.18)  9 JUN 2026 17:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.18)  9 JUN 2026 20:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1007,89 +1007,83 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 86.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 95.
+(Font)              <10> on input line 92.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 95.
+(Font)              <7> on input line 92.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 95.
- (./paper.toc
-[1
+(Font)              <5> on input line 92.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10.95> on input line 124.
+ [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 3.
-)
-\tf@toc=\write5
-\openout5 = `paper.toc'.
-
- [2] [3]
-Overfull \hbox (6.35352pt too wide) in paragraph at lines 219--222
+Overfull \hbox (6.35352pt too wide) in paragraph at lines 188--191
 []\T1/lmr/m/n/10.95 An im-pos-si-bil-ity re-sult (The-o-rem [][]5.4[][]) that r
 ig-or-ously ex-plains why the geometric-supergraph
  []
 
 
-Overfull \hbox (1.91437pt too wide) in paragraph at lines 228--236
+Overfull \hbox (1.91437pt too wide) in paragraph at lines 197--205
 []\T1/lmr/m/n/10.95 A coloring-specification \T1/lmr/m/it/10.95 lan-guage \T1/l
 mr/m/n/10.95 and a \T1/lmr/m/it/10.95 certified-reduction type sys-tem \T1/lmr/
 m/n/10.95 (Sec-tion [][]8[][]): problem-
  []
 
-[4] [5]
+[2] [3] [4]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 401.
+(Font)              <9> on input line 385.
 
-Overfull \hbox (16.81332pt too wide) in paragraph at lines 410--413
+Overfull \hbox (16.81332pt too wide) in paragraph at lines 394--397
  [][] 
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 435.
+(hyperref)                removing `math shift' on input line 419.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\to' on input line 435.
+(hyperref)                removing `\to' on input line 419.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 435.
+(hyperref)                removing `math shift' on input line 419.
 
-[6]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 492.
-
+[5]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\to' on input line 492.
+(hyperref)                removing `math shift' on input line 476.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 492.
+(hyperref)                removing `\to' on input line 476.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 476.
 
 LaTeX Font Info:    Trying to load font information for OT1+lmss on input line 
-503.
+487.
 (/usr/share/texmf/tex/latex/lm/ot1lmss.fd
 File: ot1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [7]
+) [6]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 5
-96.
+80.
 
 (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 606.
+(hyperref)                removing `math shift' on input line 590.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 606.
+(hyperref)                removing `math shift' on input line 590.
 
-[8] [9] [10]
+[7] [8] [9]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 848.
+put line 832.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -1097,84 +1091,87 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[11] [12]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[10]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 9
-71.
+64.
  (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
+) [11]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[13] [14]
+[12] [13]
 
 LaTeX Font Warning: Font shape `T1/lmr/m/scit' undefined
-(Font)              using `T1/lmr/m/scsl' instead on input line 1141.
-
-
-LaTeX Font Warning: Font shape `T1/lmr/m/scit' undefined
-(Font)              using `T1/lmr/m/scsl' instead on input line 1142.
+(Font)              using `T1/lmr/m/scsl' instead on input line 1134.
 
 
 LaTeX Font Warning: Font shape `T1/lmr/m/scit' undefined
-(Font)              using `T1/lmr/m/scsl' instead on input line 1144.
+(Font)              using `T1/lmr/m/scsl' instead on input line 1135.
 
-[15]
+
+LaTeX Font Warning: Font shape `T1/lmr/m/scit' undefined
+(Font)              using `T1/lmr/m/scsl' instead on input line 1137.
+
+[14]
 LaTeX Font Info:    Trying to load font information for T1+lmss on input line 1
-167.
+160.
  (/usr/share/texmf/tex/latex/lm/t1lmss.fd
 File: t1lmss.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Overfull \hbox (12.23955pt too wide) detected at line 1196
+Overfull \hbox (12.23955pt too wide) detected at line 1189
 [] [] [] []
  []
 
 
 LaTeX Font Warning: Font shape `T1/lmr/m/scit' undefined
-(Font)              using `T1/lmr/m/scsl' instead on input line 1208.
+(Font)              using `T1/lmr/m/scsl' instead on input line 1201.
 
 
 LaTeX Font Warning: Font shape `T1/lmr/m/scit' undefined
-(Font)              using `T1/lmr/m/scsl' instead on input line 1209.
+(Font)              using `T1/lmr/m/scsl' instead on input line 1202.
 
 
-Overfull \hbox (10.83838pt too wide) in paragraph at lines 1214--1217
+Overfull \hbox (10.83838pt too wide) in paragraph at lines 1207--1210
 []\T1/lmr/m/n/10.95 Section [][]9.1[][] mech-a-nizes the core of this calculus-
 --sorts, the $[]$ ar-row, rules \T1/lmr/m/sc/9 S1\T1/lmr/m/n/10.95 /\T1/lmr/m/s
 c/9 S2\T1/lmr/m/n/10.95 /\T1/lmr/m/sc/9 Fit\T1/lmr/m/n/10.95 /\T1/lmr/m/sc/9 Co
 mp\T1/lmr/m/n/10.95 ,
  []
 
-[16] [17]
+[15] [16]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-Package pgfplots info on input line 1394: Using 'lua backend=false' for axis: y
+Package pgfplots info on input line 1387: Using 'lua backend=false' for axis: y
 mode=log unsupported (yet).
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[18]
+[17]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-Package pgfplots info on input line 1469: Using 'lua backend=false' for axis: x
+Package pgfplots info on input line 1462: Using 'lua backend=false' for axis: x
  coord trafo unsupported.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[19] [20] [21] (./paper.bbl [22] [23]) [24] (./paper.aux)
+[18] [19] [20] (./paper.bbl [21] [22]) [23] (./paper.aux)
 Package rerunfilecheck Info: File `paper.out' has not changed.
-(rerunfilecheck)             Checksum: 7F7FE03BFAA7E94D187660D408A123D6;7564.
+(rerunfilecheck)             Checksum: DB2C314E889B219AFCD34C7C465C6F57;7142.
  ) 
 Here is how much of TeX's memory you used:
- 35702 strings out of 480247
- 815330 string characters out of 5896151
- 1560696 words of memory out of 5000000
- 52824 multiletter control sequences out of 15000+600000
+ 35693 strings out of 480247
+ 815225 string characters out of 5896151
+ 1560689 words of memory out of 5000000
+ 52819 multiletter control sequences out of 15000+600000
  624241 words of font info for 114 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  100i,19n,104p,726b,2328s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1202,10 +1199,10 @@ mf/fonts/type1/public/lm/lmsy6.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy
 /usr/share/texmf/fonts/type1/public/lm/lmtt9.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on paper.pdf (24 pages, 647553 bytes).
+Output written on paper.pdf (23 pages, 644418 bytes).
 PDF statistics:
- 848 PDF objects out of 1000 (max. 8388607)
- 744 compressed objects within 8 object streams
- 217 named destinations out of 1000 (max. 500000)
- 277 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 815 PDF objects out of 1000 (max. 8388607)
+ 712 compressed objects within 8 object streams
+ 216 named destinations out of 1000 (max. 500000)
+ 261 words of extra memory for PDF output out of 10000 (max. 10000000)
 

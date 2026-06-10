@@ -1,0 +1,263 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\csgdef{mark@corau1}{1}
+\emailauthor{m.naderi@innopolis.university}{Mahmoud Naderi}
+\emailauthor{m.mazzara@innopolis.ru}{Manuel Mazzara}
+\emailauthor{paolo.ciancarini@unibo.it}{Paolo Ciancarini}
+\citation{Karp1972,GareyJohnson1979}
+\citation{Saffman2010,Henriet2021,Scholl2022}
+\citation{Pichler2018,Ebadi2022}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
+\citation{Nguyen2023}
+\@writefile{toc}{\contentsline {paragraph}{Design A --- geometric supergraph embedding.}{2}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Design B --- exact gadgetized reduction.}{2}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Contributions.}{2}{section*.3}\protected@file@percent }
+\citation{Karp1972,GareyJohnson1979}
+\citation{Tutte1954}
+\citation{Lovasz1983}
+\citation{Welsh1967}
+\citation{Brelaz1979}
+\citation{West2001}
+\citation{Bomze1999}
+\citation{Clark1990UDG}
+\citation{Breu1998,Jungck2021}
+\citation{Clark1990}
+\citation{Heppes2003}
+\citation{Pichler2018}
+\citation{Ebadi2022}
+\citation{Nguyen2023}
+\citation{Wurtz2023}
+\citation{Ebadi2021}
+\citation{Graham2022}
+\citation{Madsen2023}
+\citation{Cerezo2021,Preskill2018}
+\citation{Chung1997,Fiedler1973}
+\citation{Belkin2003}
+\citation{Fruchterman1991}
+\citation{Kruskal1964}
+\citation{Nesterov2004,Boyd2004}
+\citation{Kirkpatrick1983}
+\citation{Glover1997}
+\@writefile{toc}{\contentsline {paragraph}{Structure of the paper.}{3}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{3}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{2}{3}{Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{Graph coloring and its complexity.}{3}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Unit-disk graphs.}{3}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Rydberg MWIS and gadgetized reductions.}{3}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Spectral and force-directed layout.}{3}{section*.8}\protected@file@percent }
+\citation{Dirac1961}
+\citation{Tarjan1985}
+\citation{RobertsonSeymour1986}
+\citation{ArnborgProskurowski1989}
+\citation{Bodlaender1996}
+\citation{Cormen2009}
+\citation{LucassenGifford1988}
+\citation{BodeiDeganoFerrari1998,BartolettiDeganoFerrariZunino2009,DeganoFerrariGalletta2016}
+\citation{Pichler2018,Ebadi2022}
+\citation{Wurtz2023}
+\@writefile{toc}{\contentsline {paragraph}{Graph decomposition and bounded width.}{4}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Type-and-effect systems.}{4}{section*.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Problem Setup and Pipeline Overview}{4}{section.3}\protected@file@percent }
+\newlabel{sec:overview}{{3}{4}{Problem Setup and Pipeline Overview}{section.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Hardware primitive.}{4}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{The two-layer pipeline.}{4}{section*.12}\protected@file@percent }
+\citation{Nguyen2023}
+\citation{Pichler2018}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The two-layer pipeline. Correctness lives entirely in the blue (exact) path; the green (heuristic) path determines only hardware feasibility and analog-solve quality.}}{5}{figure.1}\protected@file@percent }
+\newlabel{fig:overview}{{1}{5}{The two-layer pipeline. Correctness lives entirely in the blue (exact) path; the green (heuristic) path determines only hardware feasibility and analog-solve quality}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Primary Path: Exact Gadgetized Reduction}{5}{section.4}\protected@file@percent }
+\newlabel{sec:gadget}{{4}{5}{Primary Path: Exact Gadgetized Reduction}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Stage 1: Colorability $\to $ Independent Set}{5}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:col2is}{{4.1}{5}{Stage 1: Colorability $\to $ Independent Set}{subsection.4.1}{}}
+\newlabel{def:choice}{{4.1}{5}{Stage 1: Colorability $\to $ Independent Set}{theorem.4.1}{}}
+\newlabel{thm:col2is}{{4.2}{5}{Exactness of Stage 1}{theorem.4.2}{}}
+\citation{Nguyen2023}
+\citation{Nguyen2023}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Stage 2: Independent Set $\to $ Unit-Disk MWIS}{6}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:gadgetize}{{4.2}{6}{Stage 2: Independent Set $\to $ Unit-Disk MWIS}{subsection.4.2}{}}
+\newlabel{thm:gadget}{{4.4}{6}{Gadgetized UD-MWIS embedding~\cite {Nguyen2023}}{theorem.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Decoding and End-to-End Correctness}{6}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:decode}{{4.3}{6}{Decoding and End-to-End Correctness}{subsection.4.3}{}}
+\newlabel{thm:endtoend}{{4.5}{6}{End-to-end exactness}{theorem.4.5}{}}
+\citation{Wurtz2023}
+\citation{Heppes2003}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Size and Feasibility Bounds}{7}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:size}{{4.4}{7}{Size and Feasibility Bounds}{subsection.4.4}{}}
+\newlabel{prop:atombudget}{{4.7}{7}{Atom budget}{theorem.4.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Worked Example: $3$-Coloring a Small Graph}{7}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:gadget-example}{{4.5}{7}{Worked Example: $3$-Coloring a Small Graph}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Secondary Path: Heuristic Geometry and the Layout Optimizer}{7}{section.5}\protected@file@percent }
+\newlabel{sec:heuristics}{{5}{7}{Secondary Path: Heuristic Geometry and the Layout Optimizer}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Why Geometric Supergraphs Cannot Bound Inflation}{7}{subsection.5.1}\protected@file@percent }
+\newlabel{sec:impossibility}{{5.1}{7}{Why Geometric Supergraphs Cannot Bound Inflation}{subsection.5.1}{}}
+\newlabel{prop:safety}{{5.2}{7}{Safety $\Rightarrow $ decoder correctness}{theorem.5.2}{}}
+\newlabel{lem:packing}{{5.3}{7}{Neighborhood packing in a UDG}{theorem.5.3}{}}
+\citation{Nesterov2004,Boyd2004}
+\citation{Brelaz1979}
+\citation{Heppes2003}
+\citation{Henriet2021,Scholl2022}
+\newlabel{thm:impossibility}{{5.4}{8}{Supergraph inflation is unbounded}{theorem.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}The Re-targeted Role: Layout Optimizer for the Gadget Instance}{8}{subsection.5.2}\protected@file@percent }
+\newlabel{sec:layoutrole}{{5.2}{8}{The Re-targeted Role: Layout Optimizer for the Gadget Instance}{subsection.5.2}{}}
+\newlabel{eq:layoutloss}{{1}{8}{The Re-targeted Role: Layout Optimizer for the Gadget Instance}{equation.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}The Seven Heuristics}{8}{subsection.5.3}\protected@file@percent }
+\newlabel{sec:seven}{{5.3}{8}{The Seven Heuristics}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{H1 --- Geometric loss minimization.}{8}{section*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{H2 --- Crossing/chain-aware weighting.}{8}{section*.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{H3 --- Clique/over-packing control.}{8}{section*.15}\protected@file@percent }
+\citation{Fiedler1973,Chung1997,Belkin2003}
+\citation{Fruchterman1991}
+\citation{Lyapunov1907}
+\citation{Miettinen2014}
+\citation{Roberts1969,Golumbic1980}
+\newlabel{prop:hwclique}{{5.6}{9}{Hardware-bounded cliques}{theorem.5.6}{}}
+\@writefile{toc}{\contentsline {paragraph}{H4 --- Laplacian eigenmap initialization.}{9}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{H5 --- Local repair with a monotone potential.}{9}{section*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{H6 --- Radius sweep and Pareto selection.}{9}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{H7 --- Inflation/quality as evaluation, not objective.}{9}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Corrected Exactly-Realizable Families}{9}{subsection.5.4}\protected@file@percent }
+\newlabel{sec:families}{{5.4}{9}{Corrected Exactly-Realizable Families}{subsection.5.4}{}}
+\newlabel{prop:caterpillar}{{5.7}{9}{Caterpillars, not all trees}{theorem.5.7}{}}
+\newlabel{prop:unitinterval}{{5.8}{9}{Unit-interval, not all interval graphs}{theorem.5.8}{}}
+\citation{Breu1998}
+\citation{BodeiDeganoFerrari1998,BartolettiDeganoFerrariZunino2009,DeganoFerrariGalletta2016}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Per-stage complexity. The NP-hardness of UDG \emph  {recognition} \cite  {Breu1998} is never incurred: we never decide whether $G$ is a UDG, only realize a prescribed gadget adjacency.}}{10}{table.1}\protected@file@percent }
+\newlabel{tab:complexity}{{1}{10}{Per-stage complexity. The NP-hardness of UDG \emph {recognition} \cite {Breu1998} is never incurred: we never decide whether $G$ is a UDG, only realize a prescribed gadget adjacency}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Integrated Pipeline}{10}{section.6}\protected@file@percent }
+\newlabel{sec:pipeline}{{6}{10}{Integrated Pipeline}{section.6}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Certified coloring-to-neutral-atom compiler}}{10}{algorithm.1}\protected@file@percent }
+\newlabel{alg:pipeline}{{1}{10}{Integrated Pipeline}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Complexity Analysis}{10}{section.7}\protected@file@percent }
+\newlabel{sec:complexity}{{7}{10}{Complexity Analysis}{section.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Data flow of Algorithm\nobreakspace  {}\ref  {alg:pipeline}. Blue = exact, green = heuristic layout, orange = analog hardware. Only feasibility, never correctness, flows back.}}{11}{figure.2}\protected@file@percent }
+\newlabel{fig:flow}{{2}{11}{Data flow of Algorithm~\ref {alg:pipeline}. Blue = exact, green = heuristic layout, orange = analog hardware. Only feasibility, never correctness, flows back}{figure.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}The Coloring Language and Its Certified-Reduction Type System}{11}{section.8}\protected@file@percent }
+\newlabel{sec:lang}{{8}{11}{The Coloring Language and Its Certified-Reduction Type System}{section.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}The Surface Language}{11}{subsection.8.1}\protected@file@percent }
+\newlabel{sec:surface}{{8.1}{11}{The Surface Language}{subsection.8.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Core grammar of the coloring-specification language (elided: \texttt  {GraphExpr}/\texttt  {PaletteExpr} literals and lexical classes). The full BNF, AST, and transform options appear in the companion grammar document.}}{12}{figure.3}\protected@file@percent }
+\newlabel{fig:grammar}{{3}{12}{Core grammar of the coloring-specification language (elided: \texttt {GraphExpr}/\texttt {PaletteExpr} literals and lexical classes). The full BNF, AST, and transform options appear in the companion grammar document}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces A well-typed program. \texttt  {inst1} colors \texttt  {gInput} with a $3$-palette under \texttt  {rMain}, compiled through the property-preserving transform; \texttt  {chiInput} queries the chromatic number. This program is among those the implementation type-checks (Section\nobreakspace  {}\ref  {sec:haskell}).}}{12}{figure.4}\protected@file@percent }
+\newlabel{fig:program}{{4}{12}{A well-typed program. \texttt {inst1} colors \texttt {gInput} with a $3$-palette under \texttt {rMain}, compiled through the property-preserving transform; \texttt {chiInput} queries the chromatic number. This program is among those the implementation type-checks (Section~\ref {sec:haskell})}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Problem-Types and the Certified-Reduction Judgment}{12}{subsection.8.2}\protected@file@percent }
+\newlabel{sec:sorts}{{8.2}{12}{Problem-Types and the Certified-Reduction Judgment}{subsection.8.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Per-Stage Typing Rules and Soundness}{13}{subsection.8.3}\protected@file@percent }
+\newlabel{sec:typing}{{8.3}{13}{Per-Stage Typing Rules and Soundness}{subsection.8.3}{}}
+\newlabel{thm:typesound}{{8.3}{13}{Pipeline soundness}{theorem.8.3}{}}
+\newlabel{cor:order}{{8.4}{13}{Ill-ordered pipelines do not type}{theorem.8.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}Three Refinements}{14}{subsection.8.4}\protected@file@percent }
+\newlabel{sec:refine}{{8.4}{14}{Three Refinements}{subsection.8.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Refinement A: certificate grade.}{14}{section*.20}\protected@file@percent }
+\newlabel{sec:safetyeff}{{8.4}{14}{Refinement B: the safety effect}{section*.21}{}}
+\@writefile{toc}{\contentsline {paragraph}{Refinement B: the safety effect.}{14}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Refinement C: decomposition (split/stitch).}{14}{section*.22}\protected@file@percent }
+\newlabel{thm:decsound}{{8.5}{14}{Decomposed soundness}{theorem.8.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Implementation, Mechanized Proofs, and Empirical Validation}{14}{section.9}\protected@file@percent }
+\newlabel{sec:eval}{{9}{14}{Implementation, Mechanized Proofs, and Empirical Validation}{section.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Mechanized Correctness in Coq}{14}{subsection.9.1}\protected@file@percent }
+\newlabel{sec:coq}{{9.1}{14}{Mechanized Correctness in Coq}{subsection.9.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Machine-checked head theorems (Rocq\nobreakspace  {}9.0.0, axiom-free). The three ill-ordered pipelines---gadgetizing before the choice graph, emitting before layout, exiting the lossy false-edged layout---have \emph  {no} derivation in the step relation (lemmas \texttt  {no\_gadget\_before\_choice}, \texttt  {no\_emit\_before\_layout}, \texttt  {no\_exit\_from\_udga}), making the legal stage order a corollary of typing rather than a convention. The effect algebra $\{\textsf  {safe},\textsf  {asafe}\,c\}$ is proved a commutative monoid under $\oplus $.}}{15}{table.2}\protected@file@percent }
+\newlabel{tab:coq}{{2}{15}{Machine-checked head theorems (Rocq~9.0.0, axiom-free). The three ill-ordered pipelines---gadgetizing before the choice graph, emitting before layout, exiting the lossy false-edged layout---have \emph {no} derivation in the step relation (lemmas \texttt {no\_gadget\_before\_choice}, \texttt {no\_emit\_before\_layout}, \texttt {no\_exit\_from\_udga}), making the legal stage order a corollary of typing rather than a convention. The effect algebra $\{\textsf {safe},\textsf {asafe}\,c\}$ is proved a commutative monoid under $\oplus $}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}The Typed Front End}{15}{subsection.9.2}\protected@file@percent }
+\newlabel{sec:haskell}{{9.2}{15}{The Typed Front End}{subsection.9.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}Validating the Reduction by Rydberg Simulation}{15}{subsection.9.3}\protected@file@percent }
+\newlabel{sec:simval}{{9.3}{15}{Validating the Reduction by Rydberg Simulation}{subsection.9.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.4}Defeating the Simulation Wall by Certified Decomposition}{15}{subsection.9.4}\protected@file@percent }
+\newlabel{sec:decomp}{{9.4}{15}{Defeating the Simulation Wall by Certified Decomposition}{subsection.9.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces The ill-typed catalogue the checker rejects. Errors\nobreakspace  {}6 and\nobreakspace  {}10 are the provenance and guarantee-grade violations; the stage-ordering errors of Corollary\nobreakspace  {}\ref  {cor:order} (gadgetize-before-choice, emit-before-layout, decode-from- $\setbox \z@ \hbox {\mathsurround \z@ $\textstyle \mathsf  {UDG}$}\mathaccent "0365{\mathsf  {UDG}}$) are rejected structurally by the absence of an applicable rule. The language test suite exercises a representative subset and confirms each is raised.}}{16}{table.3}\protected@file@percent }
+\newlabel{tab:errors}{{3}{16}{The ill-typed catalogue the checker rejects. Errors~6 and~10 are the provenance and guarantee-grade violations; the stage-ordering errors of Corollary~\ref {cor:order} (gadgetize-before-choice, emit-before-layout, decode-from- $\tUDGa $) are rejected structurally by the absence of an applicable rule. The language test suite exercises a representative subset and confirms each is raised}{table.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Reduction validated by simulation. Each graph is run at $k=\chi $ and $k=\chi {-}1$; all $18$ simulated instances reproduce the brute-force oracle's $\alpha (G')$ exactly, and every $k=\chi $ case decodes to a proper coloring. The $k=\chi {-}1$ rows (omitted for space) likewise match, correctly reporting non-colorability. Petersen exceeds the $16$-slot classical-simulation wall.}}{16}{table.4}\protected@file@percent }
+\newlabel{tab:sim}{{4}{16}{Reduction validated by simulation. Each graph is run at $k=\chi $ and $k=\chi {-}1$; all $18$ simulated instances reproduce the brute-force oracle's $\indep (G')$ exactly, and every $k=\chi $ case decodes to a proper coloring. The $k=\chi {-}1$ rows (omitted for space) likewise match, correctly reporting non-colorability. Petersen exceeds the $16$-slot classical-simulation wall}{table.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.5}The DIMACS Mycielski Benchmark}{16}{subsection.9.5}\protected@file@percent }
+\newlabel{sec:dimacs}{{9.5}{16}{The DIMACS Mycielski Benchmark}{subsection.9.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Classical-simulation cost is exponential in the number of slots $nk$ (semilog axis): sub-second to $\approx 12$ slots, $\approx 55$\,s at the $2^{16}$ wall. The next subsection removes this wall without enlarging any single solve.}}{17}{figure.5}\protected@file@percent }
+\newlabel{fig:wall}{{5}{17}{Classical-simulation cost is exponential in the number of slots $nk$ (semilog axis): sub-second to $\approx 12$ slots, $\approx 55$\,s at the $2^{16}$ wall. The next subsection removes this wall without enlarging any single solve}{figure.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Certified decomposition. The whole color-choice instance ($nk$ slots) is classically unsimulable, yet the largest device piece is always $\le 13$ atoms. All verdicts are correct: proper colorings where colorable, a sound non-colorability proof for the odd cycle.}}{17}{table.5}\protected@file@percent }
+\newlabel{tab:decomp}{{5}{17}{Certified decomposition. The whole color-choice instance ($nk$ slots) is classically unsimulable, yet the largest device piece is always $\le 13$ atoms. All verdicts are correct: proper colorings where colorable, a sound non-colorability proof for the odd cycle}{table.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Whole-instance $nk$ (orange, would require a $2^{nk}$ vector) versus the largest piece actually simulated (green) under decomposition. The dashed line is the $16$-slot monolithic wall; every device solve stays comfortably below it while $nk$ reaches $192$.}}{17}{figure.6}\protected@file@percent }
+\newlabel{fig:decomp}{{6}{17}{Whole-instance $nk$ (orange, would require a $2^{nk}$ vector) versus the largest piece actually simulated (green) under decomposition. The dashed line is the $16$-slot monolithic wall; every device solve stays comfortably below it while $nk$ reaches $192$}{figure.6}{}}
+\citation{Wurtz2023}
+\citation{Nguyen2023}
+\citation{Wurtz2023}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces DIMACS Mycielski benchmark, run through the full decomposition${}+{}$Rydberg pipeline. Both directions on \texttt  {myciel3} certify $\chi =4$ exactly; the infeasible row is a sound, exhaustive non-colorability proof ($158$ device calls, $82$\,s). All verdicts agree with the known chromatic numbers, and no single device solve exceeds $11$ atoms.}}{18}{table.6}\protected@file@percent }
+\newlabel{tab:dimacs}{{6}{18}{DIMACS Mycielski benchmark, run through the full decomposition${}+{}$Rydberg pipeline. Both directions on \texttt {myciel3} certify $\chi =4$ exactly; the infeasible row is a sound, exhaustive non-colorability proof ($158$ device calls, $82$\,s). All verdicts agree with the known chromatic numbers, and no single device solve exceeds $11$ atoms}{table.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.6}The Genuine Analog Emulator}{18}{subsection.9.6}\protected@file@percent }
+\newlabel{sec:bloqade}{{9.6}{18}{The Genuine Analog Emulator}{subsection.9.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {10}Discussion and Limitations}{18}{section.10}\protected@file@percent }
+\newlabel{sec:discussion}{{10}{18}{Discussion and Limitations}{section.10}{}}
+\@writefile{toc}{\contentsline {paragraph}{What is and isn't guaranteed.}{18}{section*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{The size wall.}{18}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Status of the secondary path.}{18}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {11}Future Work}{18}{section.11}\protected@file@percent }
+\newlabel{sec:future}{{11}{18}{Future Work}{section.11}{}}
+\bibstyle{cas-model2-names}
+\bibdata{references}
+\bibcite{ArnborgProskurowski1989}{{1}{1989}{{Arnborg and Proskurowski}}{{}}}
+\bibcite{BartolettiDeganoFerrariZunino2009}{{2}{2009}{{Bartoletti et~al.}}{{Bartoletti, Degano, Ferrari and Zunino}}}
+\bibcite{Belkin2003}{{3}{2003}{{Belkin and Niyogi}}{{}}}
+\bibcite{BodeiDeganoFerrari1998}{{4}{1998}{{Bodei et~al.}}{{Bodei, Degano, Ferrari and Priami}}}
+\bibcite{Bodlaender1996}{{5}{1996}{{Bodlaender}}{{}}}
+\bibcite{Bomze1999}{{6}{1999}{{Bomze et~al.}}{{}}}
+\bibcite{Boyd2004}{{7}{2004}{{Boyd and Vandenberghe}}{{}}}
+\bibcite{Brelaz1979}{{8}{1979}{{Brelaz}}{{}}}
+\bibcite{Breu1998}{{9}{1998}{{Breu and Kirkpatrick}}{{}}}
+\bibcite{Cerezo2021}{{10}{2021}{{Cerezo et~al.}}{{}}}
+\bibcite{Chung1997}{{11}{1997}{{Chung}}{{}}}
+\bibcite{Clark1990UDG}{{12}{1990}{{Clark et~al.}}{{Clark, Colbourn and Johnson}}}
+\bibcite{Clark1990}{{13}{1990}{{Clark}}{{}}}
+\bibcite{Cormen2009}{{14}{2009}{{Cormen et~al.}}{{Cormen, Leiserson, Rivest and Stein}}}
+\bibcite{DeganoFerrariGalletta2016}{{15}{2016}{{Degano et~al.}}{{Degano, Ferrari and Galletta}}}
+\bibcite{Dirac1961}{{16}{1961}{{Dirac}}{{}}}
+\bibcite{Ebadi2022}{{17}{2022}{{Ebadi et~al.}}{{Ebadi, Keesling, Cain, Wang, Levine, Bluvstein, Semeghini, Omran, Liu, Samajdar et~al.}}}
+\bibcite{Ebadi2021}{{18}{2021}{{Ebadi et~al.}}{{}}}
+\bibcite{Fiedler1973}{{19}{1973}{{Fiedler}}{{}}}
+\bibcite{Fruchterman1991}{{20}{1991}{{Fruchterman and Reingold}}{{}}}
+\@writefile{toc}{\contentsline {section}{\numberline {12}Conclusion}{19}{section.12}\protected@file@percent }
+\newlabel{sec:conclusion}{{12}{19}{Conclusion}{section.12}{}}
+\bibcite{GareyJohnson1979}{{21}{1979}{{Garey and Johnson}}{{}}}
+\bibcite{Glover1997}{{22}{1997}{{Glover and Laguna}}{{}}}
+\bibcite{Golumbic1980}{{23}{1980}{{Golumbic}}{{}}}
+\bibcite{Graham2022}{{24}{2022}{{Graham et~al.}}{{}}}
+\bibcite{Henriet2021}{{25}{2021}{{Henriet et~al.}}{{}}}
+\bibcite{Heppes2003}{{26}{2003}{{Heppes}}{{}}}
+\bibcite{Jungck2021}{{27}{2021}{{Jungck et~al.}}{{}}}
+\bibcite{Karp1972}{{28}{1972}{{Karp}}{{}}}
+\bibcite{Kirkpatrick1983}{{29}{1983}{{Kirkpatrick et~al.}}{{Kirkpatrick, Gelatt and Vecchi}}}
+\bibcite{Kruskal1964}{{30}{1964}{{Kruskal}}{{}}}
+\bibcite{Lovasz1983}{{31}{1983}{{Lovasz}}{{}}}
+\bibcite{LucassenGifford1988}{{32}{1988}{{Lucassen and Gifford}}{{}}}
+\bibcite{Lyapunov1907}{{33}{1907}{{Lyapunov}}{{}}}
+\bibcite{Madsen2023}{{34}{2023}{{Madsen et~al.}}{{}}}
+\bibcite{Miettinen2014}{{35}{1999}{{Miettinen}}{{}}}
+\bibcite{Nesterov2004}{{36}{2004}{{Nesterov}}{{}}}
+\bibcite{Nguyen2023}{{37}{2023}{{Nguyen et~al.}}{{Nguyen, Liu, Wurtz, Lukin, Wang and Pichler}}}
+\bibcite{Pichler2018}{{38}{2018}{{Pichler et~al.}}{{Pichler, Wang, Zhou, Choi and Lukin}}}
+\bibcite{Preskill2018}{{39}{2018}{{Preskill}}{{}}}
+\bibcite{Roberts1969}{{40}{1969}{{Roberts}}{{}}}
+\bibcite{RobertsonSeymour1986}{{41}{1986}{{Robertson and Seymour}}{{}}}
+\bibcite{Saffman2010}{{42}{2010}{{Saffman et~al.}}{{Saffman, Walker and Molmer}}}
+\bibcite{Scholl2022}{{43}{2022}{{Scholl et~al.}}{{}}}
+\bibcite{Tarjan1985}{{44}{1985}{{Tarjan}}{{}}}
+\bibcite{Tutte1954}{{45}{1954}{{Tutte}}{{}}}
+\bibcite{Welsh1967}{{46}{1967}{{Welsh and Powell}}{{}}}
+\bibcite{West2001}{{47}{2001}{{West}}{{}}}
+\bibcite{Wurtz2023}{{48}{2023}{{Wurtz et~al.}}{{Wurtz, Bylinskii, Braverman, Amato-Grill, Cantu et~al.}}}
+\csxdef{lastpage}{20}
+\gdef \@abspage@last{21}

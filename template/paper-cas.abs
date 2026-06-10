@@ -1,0 +1,19 @@
+Neutral-atom quantum processors solve a single native problem---maximum-weight
+independent set (MWIS) on a unit-disk graph (UDG)---and do not color graphs, so any
+coloring pipeline must \emph{reduce} coloring to UDG--MWIS rather than embed the
+input geometrically. We present such a pipeline: an exact, polynomial-time two-stage
+reduction (colorability to independent set on an auxiliary graph of size $nk$, then
+a Nguyen-style gadgetization into a weighted UDG) whose correctness is a once-proved,
+inflation-free meta-theorem with an exact decoder, leaving only geometry---atom
+count, area, crossings, analog-solve quality---as engineering risk; a provable
+impossibility result demotes the natural geometric-supergraph alternative to a
+correctness-neutral layout optimizer. We cast the whole pipeline as a
+\emph{coloring-specification language} with a \emph{certified-reduction type system}
+whose types are problem reductions carrying executable decoders, so end-to-end
+soundness and the legal stage order follow from typing, and we back this with an
+axiom-free Coq mechanization, a Haskell type checker, and a faithful Rydberg
+simulator. Empirically the reduction matches a brute-force oracle on $18/18$ named
+instances, a certified separator decomposition breaks the $2^{nk}$ simulation wall
+(every device solve $\le 13$ atoms while the whole-instance $nk$ reaches $192$), and
+the pipeline certifies the chromatic number exactly on the DIMACS Mycielski
+benchmark in both directions.
