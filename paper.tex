@@ -1,42 +1,34 @@
-\documentclass[11pt]{article}
+%% Certified Compilation of Graph Coloring to Neutral-Atom Hardware
+%% Elsevier CAS single-column class (cas-sc). Body transplanted from paper.tex.
+\documentclass[a4paper,fleqn]{cas-sc}
 
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-\usepackage[a4paper,margin=1in]{geometry}
-\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[authoryear,longnamesfirst]{natbib}
+
+% ── extra packages the body uses (not pulled in by cas-sc) ─────────────────────
+\usepackage{mathtools}
 \usepackage{float}
 \usepackage{enumitem}
-\usepackage{booktabs}
-\usepackage{xcolor}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.16}
-\usepackage{hyperref}
-\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric}
 \usepackage{listings}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric}
 \lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,
         keepspaces=true,frame=single,framesep=4pt,xleftmargin=2pt}
 
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue!70!black,
-    citecolor=blue!70!black,
-    urlcolor=blue!70!black
-}
-
-% ── Theorem environments ──────────────────────────────────────────────────────
+% ── theorem-like environments via the cas-sc facilities ────────────────────────
+% \newtheorem (kernel) for the proposition-style items; \newdefinition / \newproof
+% are provided by cas-common.sty.
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}[theorem]{Example}
-\theoremstyle{remark}
-\newtheorem{remark}[theorem]{Remark}
+\newdefinition{definition}[theorem]{Definition}
+\newdefinition{example}[theorem]{Example}
+\newdefinition{remark}[theorem]{Remark}
+\newproof{proof}{Proof}
 
-% ── Macros ────────────────────────────────────────────────────────────────────
+% ── Macros (transplanted from paper.tex) ───────────────────────────────────────
 \newcommand{\dist}{\operatorname{dist}}
 \newcommand{\UDG}{\operatorname{UDG}}
 \newcommand{\MWIS}{\mathrm{MWIS}}
@@ -48,8 +40,6 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\indep}{\alpha}
 \newcommand{\Gen}{\mathsf{Gen}}
-
-% ── certified-reduction calculus: sorts, decoder arrow, inference-rule kit ──────
 \newcommand{\tCol}{\mathsf{Col}}
 \newcommand{\tIS}{\mathsf{IS}}
 \newcommand{\tWIS}{\mathsf{WIS}}
@@ -68,21 +58,42 @@
 \newcommand{\irule}[2]{\ensuremath{\dfrac{\;#1\;}{\;#2\;}}}
 \newcommand{\redto}[1]{\mathrel{\overset{\textstyle #1}{\rightsquigarrow}}}
 \newcommand{\redtos}[2]{\mathrel{\overset{\textstyle #1}{\underset{#2}{\rightsquigarrow}}}}
-
-% ── Lightweight algorithm float (no algorithmicx dependency) ───────────────────
 \newfloat{algorithm}{htbp}{loa}
 \floatname{algorithm}{Algorithm}
 \newcommand{\Comment}[1]{\hfill\textit{\footnotesize\textcolor{gray}{// #1}}}
 
-% ─────────────────────────────────────────────────────────────────────────────
-\title{%
-  \textbf{Certified Compilation of Graph Coloring to Neutral-Atom Hardware}\\[0.45em]
-  \large An Exact Gadgetized Reduction with a Heuristic Layout Optimizer}
-\author{Research Draft}
-\date{\today}
-
 \begin{document}
-\maketitle
+\let\WriteBookmarks\relax
+\def\floatpagepagefraction{1}
+\def\textpagefraction{.001}
+
+\shorttitle{Certified Compilation of Graph Coloring to Neutral-Atom Hardware}
+\shortauthors{M. Naderi et~al.}
+
+\title[mode=title]{Certified Compilation of Graph Coloring to Neutral-Atom
+Hardware: An Exact Gadgetized Reduction with a Heuristic Layout Optimizer}
+
+% ── Authors and affiliations ───────────────────────────────────────────────────
+\author[1]{Mahmoud Naderi}
+\cormark[1]
+\ead{m.naderi@innopolis.university}
+\affiliation[1]{organization={System and Software Engineering Lab, Innopolis University},
+                city={Innopolis},
+                country={Russia}}
+
+\author[2]{Manuel Mazzara}
+\ead{m.mazzara@innopolis.ru}
+\affiliation[2]{organization={Faculty of Computer Science and Engineering, Innopolis University},
+                city={Innopolis},
+                country={Russia}}
+
+\author[3]{Paolo Ciancarini}
+\ead{paolo.ciancarini@unibo.it}
+\affiliation[3]{organization={Department of Computer Science and Engineering, University of Bologna},
+                city={Bologna},
+                country={Italy}}
+
+\cortext[1]{Corresponding author}
 
 \begin{abstract}
 Neutral-atom quantum processors solve a single native problem---maximum-weight
@@ -106,11 +117,30 @@ the pipeline certifies the chromatic number exactly on the DIMACS Mycielski
 benchmark in both directions.
 \end{abstract}
 
-\paragraph{Keywords.} graph coloring, unit-disk graphs, maximum independent set,
-Rydberg blockade, neutral-atom computing, gadget reductions, certified
-compilation, QuEra, Bloqade.
+\begin{highlights}
+\item An exact, polynomial-time reduction compiling $k$-colorability to unit-disk
+      MWIS via a color-choice graph and Nguyen-style copy/crossing gadgets, with a
+      once-proved, inflation-free correctness meta-theorem and an exact decoder.
+\item An impossibility result that disqualifies the geometric-supergraph approach
+      as a coloring mechanism and re-targets seven geometric heuristics as a
+      correctness-neutral layout optimizer.
+\item A certified-reduction type system whose types are problem reductions: stage
+      typing composes to end-to-end soundness and forces the legal stage order.
+\item An axiom-free Coq mechanization and a Haskell type checker realizing the
+      calculus, with test suites passing $12{,}230$ checks.
+\item Empirical validation: $18/18$ oracle-matched instances, a separator
+      decomposition breaking the $2^{nk}$ simulation wall, and exact chromatic-number
+      certification on the DIMACS Mycielski benchmark.
+\end{highlights}
 
-% =============================================================================
+\begin{keywords}
+graph coloring \sep unit-disk graphs \sep maximum independent set \sep
+Rydberg blockade \sep neutral-atom computing \sep gadget reductions \sep
+certified compilation \sep type-and-effect systems \sep QuEra \sep Bloqade
+\end{keywords}
+
+\maketitle
+
 \section{Introduction}
 \label{sec:intro}
 % =============================================================================
@@ -1613,8 +1643,9 @@ clarity. The tool was not used to generate research results, analyses, or
 conclusions. After using this tool, the authors reviewed and edited the content as
 needed and take full responsibility for the content of the published article.
 
+
 % =============================================================================
-\bibliographystyle{plain}
+\bibliographystyle{cas-model2-names}
 \bibliography{references}
 % =============================================================================
 
