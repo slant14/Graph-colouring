@@ -42,7 +42,7 @@ Requires `coqc` (tested on The Rocq Prover 9.0.0). No external libraries.
 
 - `IsOpt (Pis k g)` is "a *maximum-size* (`= n`) independent selection", i.e. the
   α = n witness; its existence is `colorable`, matching
-  `code/src/UDGColor/Stage1.hs` and the brute-force oracle.
+  `src/lib/UDGColor/Stage1.hs` and the brute-force oracle.
 - Stage 2's ancilla atoms are abstracted to a logical-vs-ancilla product so
   `decodeLogical = fst`; the offset `C` is carried as a value index
   (`gWeight`), per the note's "subtract C is type-directed".

@@ -73,7 +73,7 @@ realizability, device budget), and a single composition rule yields the end-to-e
 soundness theorem. The geometry stage is given a deliberately \emph{weaker} type
 when it leaves false edges, which is exactly the honest separation ``heuristics
 affect feasibility, never the answer.'' The whole discipline is the \emph{static
-shadow} of the runtime oracle already in \texttt{code/}.
+shadow} of the runtime oracle already in \texttt{src/}.
 \end{abstract}
 
 \tableofcontents
@@ -176,7 +176,7 @@ arrow for one stage (Sec.~\ref{sec:stages}), \emph{composes} arrows
 
 In each rule the premises above the line are the \emph{proof obligations}; in the
 implementation they are discharged either by a once-and-for-all proof or by the
-brute-force oracle in \texttt{code/} (Sec.~\ref{sec:code}).
+brute-force oracle in \texttt{src/} (Sec.~\ref{sec:code}).
 
 \paragraph{Stage 1 --- colour-choice.} The standard colouring$\to$IS reduction,
 indices recording $N=nk$ and the exactness refinement.
@@ -430,7 +430,7 @@ $G$, using peak device size $O((wk)^2)\le\Nmax$.
 \label{sec:code}
 % =============================================================================
 
-Every rule corresponds to a function already in (or planned for) \texttt{code/},
+Every rule corresponds to a function already in (or planned for) \texttt{src/},
 and every premise to a property the brute-force oracle checks. The type system is
 what you get by promoting those runtime checks to static obligations.
 

@@ -22,7 +22,7 @@ Algorithm (exact, nested precolouring dissection):
       return None  (no betaS extends)  ==> G not k-colourable
 
 The device is the genuine adiabatic Rydberg engine
-(`code/sim/rydberg_sim.mwis_graph`); only the boundary table and the stitch are
+(`src/sim/rydberg_sim.mwis_graph`); only the boundary table and the stitch are
 classical, exactly as the note prescribes ("bounded search over the boundary
 table, at most k^|S| candidate beta").
 """
@@ -36,7 +36,7 @@ from typing import Dict, List, Optional, Set
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-sys.path.insert(0, os.path.join(ROOT, "code", "sim"))
+sys.path.insert(0, os.path.join(ROOT, "src", "sim"))
 from rydberg_sim import mwis_graph  # noqa: E402
 
 Adj = Dict[int, Set[int]]

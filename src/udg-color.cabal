@@ -14,7 +14,7 @@ common warnings
 
 library
     import:           warnings
-    hs-source-dirs:   src
+    hs-source-dirs:   lib
     exposed-modules:  UDGColor.Graph
                       UDGColor.Oracle
                       UDGColor.Stage1

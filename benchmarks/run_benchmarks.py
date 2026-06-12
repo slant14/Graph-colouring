@@ -4,7 +4,7 @@ pipeline and compare the *expected* optimum (brute-force oracle) against the
 
 For a graph G and palette size k we build the Stage-1 colour-choice graph G'
 (the `option`-encoded MWIS instance the Coq proofs and the Haskell harness use),
-solve it on the abstract Rydberg engine (`code/sim/rydberg_sim.mwis_graph`), and
+solve it on the abstract Rydberg engine (`src/sim/rydberg_sim.mwis_graph`), and
 decode a colouring.  The figure of merit is
 
     expected = alpha(G')   (max-size partial proper k-colouring, brute force)
@@ -30,7 +30,7 @@ from typing import Dict, List, Tuple
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-sys.path.insert(0, os.path.join(ROOT, "code", "sim"))
+sys.path.insert(0, os.path.join(ROOT, "src", "sim"))
 from rydberg_sim import mwis_graph  # noqa: E402
 
 # largest colour-choice instance (n*k slots) we are willing to simulate: the

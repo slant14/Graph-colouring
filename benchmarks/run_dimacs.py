@@ -24,10 +24,10 @@ Monolithically each instance is a 2^(n*chi) state vector (myciel3 alone is
 slots.  Whole n*chi vs max simulated piece is reported and plotted.
 
 Run:
-    code/.venv/bin/python benchmarks/run_dimacs.py            # default suite
-    code/.venv/bin/python benchmarks/run_dimacs.py --feasible-only   # skip the
+    src/.venv/bin/python benchmarks/run_dimacs.py            # default suite
+    src/.venv/bin/python benchmarks/run_dimacs.py --feasible-only   # skip the
                                                    # slow infeasible proofs
-    code/.venv/bin/python benchmarks/run_dimacs.py --full     # add myciel4 k=4
+    src/.venv/bin/python benchmarks/run_dimacs.py --full     # add myciel4 k=4
                                                    # (very slow infeasible proof)
 """
 

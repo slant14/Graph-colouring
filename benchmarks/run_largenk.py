@@ -11,7 +11,7 @@ Graphs are chosen with small separators (bounded treewidth: cycles, paths,
 ladders tw≤2; the cubic graphs need width-3 separators) so the boundary table
 k^|S| stays small and the first feasible boundary colouring extends.
 
-Run:  code/.venv/bin/python benchmarks/run_largenk.py
+Run:  src/.venv/bin/python benchmarks/run_largenk.py
 """
 
 from __future__ import annotations

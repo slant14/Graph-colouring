@@ -4,7 +4,7 @@ Well-known small graphs run end-to-end through the neutral-atom pipeline. For
 each graph `G` and palette size `k` we build the Stage-1 colour-choice graph
 `G'` (the `option`-encoded MWIS instance the [Coq proofs](../proof) and the
 [Haskell harness](../code) use), solve it on the abstract adiabatic Rydberg
-engine (`code/sim/rydberg_sim.mwis_graph`), and decode a colouring.
+engine (`src/sim/rydberg_sim.mwis_graph`), and decode a colouring.
 
 - **expected** = `α(G')`, the maximum-size partial proper `k`-colouring, by
   brute-force oracle. By Stage-1 exactness `α(G') = n` **iff** `G` is
@@ -21,7 +21,7 @@ python benchmarks/run_benchmarks.py        # solve + write results + plots
 python benchmarks/plot.py                  # re-plot from results/results.json only
 ```
 
-Uses the project venv (`code/.venv`): `code/.venv/bin/python benchmarks/run_benchmarks.py`.
+Uses the project venv (`src/.venv`): `src/.venv/bin/python benchmarks/run_benchmarks.py`.
 Needs numpy/scipy (already installed); plotting needs nothing (hand-rolled SVG)
 plus optional `plotext` for the terminal chart.
 
@@ -71,7 +71,7 @@ boundary-table enumeration → per-piece `mwis_graph` solve → stitch);
 `run_decomp.py` drives it. Run:
 
 ```sh
-code/.venv/bin/python benchmarks/run_decomp.py
+src/.venv/bin/python benchmarks/run_decomp.py
 ```
 
 Result — whole-graph `n·k` from 28 to **90**, every actual device solve ≤ 12 slots:
@@ -96,7 +96,7 @@ the theory predicts.
 
 - This benchmarks the **logical** MWIS the gadget array realizes (the abstract
   Rydberg engine), not the geometric `bloqade-analog` layout — same split as
-  `code/sim/run_sim.py`. The genuine emulator is validated separately there.
+  `src/sim/run_sim.py`. The genuine emulator is validated separately there.
 - The `α(G')` oracle enumerates `(k+1)^n` partial colourings (one colour-or-none
   per vertex = the choice-clique `option` encoding), so it is exact, not a
   heuristic colouring.

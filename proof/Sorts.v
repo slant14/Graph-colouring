@@ -16,7 +16,7 @@
     chosen, [None] means [v] is unslotted.  The choice clique — "at most one
     slot per vertex" — is then *exactly* the well-typedness of [option], so no
     pigeonhole counting is ever needed.  Independence reduces to the conflict
-    edges only.  This is faithful to [code/src/UDGColor/Stage1.hs]. *)
+    edges only.  This is faithful to [src/lib/UDGColor/Stage1.hs]. *)
 
 From Stdlib Require Import PeanoNat Lia.
 From CertCol Require Import Problem.

@@ -5,7 +5,7 @@ every actual Rydberg solve stays small.
 For each graph we report the would-be monolithic size (n*k) versus the *max
 piece slots* actually simulated, the number of device calls, and verify the
 stitched colouring is proper (or, for the negative case, that no colouring
-exists).  Run:  code/.venv/bin/python benchmarks/run_decomp.py
+exists).  Run:  src/.venv/bin/python benchmarks/run_decomp.py
 """
 
 from __future__ import annotations
