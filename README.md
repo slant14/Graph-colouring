@@ -55,7 +55,7 @@ Two lowering paths are distinguished throughout:
 │
 ├── proof/               Rocq/Coq mechanization of pipeline soundness
 ├── benchmarks/          Expected (oracle) vs. actual (simulation) experiments
-└── docs/                Drafts, companion write-ups, and the upstream template
+└── docs/                Drafts and companion write-ups
 ```
 
 ## The `udg-color` language

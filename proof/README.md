@@ -1,7 +1,7 @@
 # Coq proofs for the certified-reduction type system
 
 A mechanisation (Rocq / Coq 9.0) of the type discipline in
-[`../type-system/type-system.tex`]: the *certified-reduction calculus* that makes
+[`../docs/type-system/type-system.tex`]: the *certified-reduction calculus* that makes
 the correctness of the compilation **stages** static. Each compiler stage is
 typed as an answer-preserving morphism carrying an executable decoder, and a
 single composition rule yields the end-to-end soundness theorem

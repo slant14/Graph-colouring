@@ -1,0 +1,9 @@
+*.tex   linguist-documentation
+*.bib   linguist-documentation
+*.cls   linguist-vendored
+*.sty   linguist-vendored
+*.bst   linguist-vendored
+
+docs/**             linguist-documentation
+benchmarks/results/** linguist-generated
+*.svg               linguist-generated
