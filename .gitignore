@@ -22,6 +22,8 @@
 *.abs
 # Compiled documents (regenerate from source)
 *.pdf
+# ...except the built paper, kept in the repo for readers
+!paper.pdf
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Haskell (src/)
