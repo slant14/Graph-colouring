@@ -38,7 +38,7 @@ Requires `coqc` (tested on The Rocq Prover 9.0.0). No external libraries.
   whole chain to a `proper k g` colouring.
 - `Pipeline.pipeline_decision` — `(∃ device optimum) ↔ colorable k g`.
 
-## Modelling notes (faithfulness vs. the Haskell harness in `../code`)
+## Modelling notes (faithfulness vs. the Haskell harness in `../src`)
 
 - `IsOpt (Pis k g)` is "a *maximum-size* (`= n`) independent selection", i.e. the
   α = n witness; its existence is `colorable`, matching

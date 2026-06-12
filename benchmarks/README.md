@@ -3,7 +3,7 @@
 Well-known small graphs run end-to-end through the neutral-atom pipeline. For
 each graph `G` and palette size `k` we build the Stage-1 colour-choice graph
 `G'` (the `option`-encoded MWIS instance the [Coq proofs](../proof) and the
-[Haskell harness](../code) use), solve it on the abstract adiabatic Rydberg
+[Haskell harness](../src) use), solve it on the abstract adiabatic Rydberg
 engine (`src/sim/rydberg_sim.mwis_graph`), and decode a colouring.
 
 - **expected** = `α(G')`, the maximum-size partial proper `k`-colouring, by
