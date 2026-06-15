@@ -238,9 +238,15 @@ quality. This relocation is the central design decision of the paper.
         bounded-width decomposition.
   \item A working implementation and a quantitative evaluation
         (Section~\ref{sec:eval}): (a) an \emph{axiom-free} Coq/Rocq mechanization
-        of the certified-reduction calculus, so Stage-1 exactness, the gadget
-        offset invariant, end-to-end pipeline soundness, and the legal stage
-        ordering are machine-checked theorems; (b) a prototype typed front end in
+        of the certified-reduction \emph{calculus}---total-on-optima decoders that
+        compose to end-to-end soundness, Stage-1 logical correctness (a size-$n$
+        choice selection decodes to a proper coloring and back), and the forced
+        stage ordering, all machine-checked; the gadget enters at its interface
+        (a logical/ancilla projection carrying an offset \emph{parameter}) and
+        geometry as premises, so the quantitative offset $C=2|E'|$ and the metric
+        layout are established by construction and simulation
+        (Sections~\ref{sec:gadgetval},~\ref{sec:bloqade}), not in Coq; (b) a
+        prototype typed front end in
         Haskell (parser, type-and-effect checker, elaborator, device emitter)
         passing $12{,}230$ test checks; and (c) an empirical validation against a
         brute-force oracle and a faithful Rydberg adiabatic simulator, including a
@@ -1271,12 +1277,32 @@ solution set with an optimality predicate; a \emph{certified reduction}
 $\mathsf{CRed}\,A\,B$ carries an executable decoder $B\rightharpoonup A$ together
 with a \emph{total-on-optima} certificate guaranteeing that every target optimum
 decodes to a source optimum. Reductions compose, the certificate composes, and the
-generic soundness lemma falls out once and is reused at every stage. Crucially, the
-Stage-1 ``choice clique'' (at most one color slot per vertex) is encoded
-\emph{exactly} by an \texttt{option}-valued selection, which eliminates all
-pigeonhole counting and makes the exactness theorem a clean equivalence rather than
-an inequality chase. Table~\ref{tab:coq} lists the head theorems; all are verified
-axiom-free.
+generic soundness lemma falls out once and is reused at every stage. The Stage-1
+``choice clique'' (at most one color slot per vertex) is realized by the
+\texttt{option}-valued selection type itself, so that constraint holds by
+construction; the content Stage~1 then proves is the genuine combinatorial
+equivalence---a fully-defined selection avoiding conflict edges is exactly a proper
+coloring, in both directions. Table~\ref{tab:coq} lists the head theorems; all are
+verified axiom-free.
+
+\paragraph{What the mechanization covers, and what it abstracts.} We are explicit
+about the boundary of the mechanized claim, because the calculus is general and the
+graph-specific content is deliberately thin. Stage~2 is mechanized at its
+\emph{interface}: a solution is a logical selection paired with a free ancilla, the
+decoder is the logical projection $\mathsf{fst}$, and the offset $C$ is a
+\emph{parameter} carried by the type---so \texttt{gadget\_mwis} states that a
+weighted-IS optimum has weight $\indep(G')+C$ for that carried $C$, not that
+$C=2|E'|$. The quantitative gadget facts---that the metric copy/crossing
+construction realizes $G'$ as a weighted UDG and that its MWIS equals
+$\indep(G')+2|E'|$---are \emph{not} reproved in Coq; they are the Nguyen
+construction~\cite{Nguyen2023}, exercised directly by the gadget-array simulation of
+Section~\ref{sec:gadgetval}. Likewise layout and emit carry identity decoders, so
+their soundness is bookkeeping and the geometric/budget premises gate only
+\emph{derivability} ($\tUDG$ and $\tDev$ share $\tWIS$'s optima). The mechanization
+therefore certifies two things precisely: that the reduction skeleton composes
+soundly (any device optimum decodes, through the chain, to a proper coloring) and
+that Stage~1 is exact; it does not, by itself, certify the gadget's geometry or the
+value of its offset.
 
 \begin{table}[h]
 \centering
@@ -1287,7 +1313,7 @@ Theorem (module) & Statement & Role \\
 \midrule
 \texttt{cred\_sound} (Problem) & target optimum $\Rightarrow$ decoded source optimum & soundness engine \\
 \texttt{stage1\_exact} (Stages) & $\indep(G')=n \iff k\text{-colorable}$ & Thm.~\ref{thm:col2is} \\
-\texttt{gadget\_mwis} (Stages) & $\MWIS = \indep + C$ & offset invariant \\
+\texttt{gadget\_mwis} (Stages) & WIS-optimum weight $=\indep+C$ ($C$ a parameter) & interface invariant \\
 \texttt{pipeline\_sound} (Pipeline) & optimal device readout $\Rightarrow$ proper $k$-coloring & Thm.~\ref{thm:endtoend} \\
 \texttt{pipeline\_decision} (Pipeline) & device optimum exists $\iff$ colorable & decision form \\
 \texttt{dev\_only\_via\_udg} (Pipeline) & device reachable only through exact UDG sort & ordering \\
@@ -1301,7 +1327,10 @@ step relation (lemmas \texttt{no\_gadget\_before\_choice},
 \texttt{no\_emit\_before\_layout}, \texttt{no\_exit\_from\_udga}), making the legal
 stage order a corollary of typing rather than a convention. The effect algebra
 $\{\textsf{safe},\textsf{asafe}\,c\}$ is proved a commutative monoid under
-$\oplus$.}
+$\oplus$. Stage~2 is mechanized at its interface (a logical/ancilla projection with
+the offset $C$ a carried parameter), and layout/emit carry identity decoders; the
+value $C=2|E'|$ and the metric UDG layout are established by construction and
+simulation, not in Coq (Section~\ref{sec:coq}).}
 \label{tab:coq}
 \end{table}
 
@@ -1635,7 +1664,12 @@ produces.
 a decoded set of size $n$ is a certified coloring. What is \emph{not} guaranteed is
 that the analog device reaches the MWIS ground state, or that a large instance fits
 the array. These are physics and capacity questions, cleanly separated from
-correctness by Theorem~\ref{thm:endtoend}.
+correctness by Theorem~\ref{thm:endtoend}. The mechanization (Section~\ref{sec:coq})
+is likewise scoped: it certifies the reduction calculus and Stage-1 exactness, but
+abstracts Stage~2 to its logical/ancilla interface and treats the offset value
+$C=2|E'|$ and the metric layout as construction-and-simulation facts rather than
+Coq theorems---mechanizing the gadget graph and its weighted-MWIS identity is
+deferred work (Section~\ref{sec:future}).
 
 \paragraph{The size wall.} The $O((nk)^2)$ atom budget is the binding constraint
 against present devices of a few hundred atoms~\cite{Wurtz2023}, and our evaluation
@@ -1673,8 +1707,14 @@ calculus (Section~\ref{sec:coq}) and a working Haskell checker
 language with a complete metatheory: type preservation and progress for the surface
 elaboration itself---not only the reductions it emits---and a mechanized account of
 the grade lattice, the safety-effect monoid, and the split/stitch rules beyond the
-fragment now in Coq. Connecting the mechanized decoders to extracted, runnable code
-would close the gap between the verified calculus and the executable pipeline. Two engineering forks remain open: \emph{which gadget
+fragment now in Coq. A second strand is to deepen the \emph{graph-specific} content
+the calculus currently abstracts: modeling the color-choice graph's choice clique
+as explicit edges (rather than by the \texttt{option} representation), and
+mechanizing the gadget graph itself---the copy/crossing construction and a proof of
+its weighted-MWIS identity $\MWIS(A)=\indep(G')+2|E'|$---so the offset value, today a
+carried parameter validated by simulation (Section~\ref{sec:gadgetval}), becomes a
+Coq theorem. Connecting the mechanized decoders to extracted, runnable code would
+close the gap between the verified calculus and the executable pipeline. Two engineering forks remain open: \emph{which gadget
 set} to adopt (the verbatim construction of~\cite{Nguyen2023} versus a custom set,
 affecting what must be re-proved), and confirming the \emph{weighted} MWIS interface
 on real hardware. While we already run the genuine \texttt{bloqade-analog} emulator
