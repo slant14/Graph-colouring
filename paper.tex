@@ -129,8 +129,9 @@ exactly on the DIMACS Mycielski benchmark in both directions.
       correctness-neutral layout optimizer.
 \item A certified-reduction type system whose types are problem reductions: stage
       typing composes to end-to-end soundness and forces the legal stage order.
-\item An axiom-free Coq mechanization and a Haskell type checker realizing the
-      calculus, with test suites passing $12{,}230$ checks.
+\item An axiom-free Coq mechanization of the certified-reduction calculus and a
+      prototype Haskell checker for a fragment of it, with test suites passing
+      $12{,}230$ checks.
 \item Empirical validation: $18/18$ oracle-matched Stage-1 instances, a direct
       simulation of the gadget array confirming its offset invariant, a separator
       decomposition breaking the $2^{nk}$ simulation wall, and exact chromatic-number
@@ -1204,11 +1205,20 @@ $\safe\oplus\safe=\safe$, $\safe\oplus\asafe{c}=\asafe{c}$,
 $\asafe{c}\oplus\asafe{c'}=\asafe{c{+}c'}$, and composition combines decoders and
 effects together. Crucially, a $\safe$/$\asafe{c}$ introduction is derivable
 \emph{only} under the neighborhood bound
-$\sigma(G)=\max_v\indep(G[N(v)])\le 5$; otherwise the sole available type is
-\textsf{unsafe} (no $\chi$ certificate). This side-condition is precisely the
-impossibility obstruction of Theorem~\ref{thm:impossibility}
-($\chi(K_{1,n})=2$ versus $\chi(H)\ge\lceil n/5\rceil$), refusing to type
-\emph{as the type system}. Because $\oplus$ sums the bumps while the carrier graph
+$\sigma(G)=\max_v\indep(G[N(v)])\le 5$; when it is violated the sole available type
+is \textsf{unsafe} (no $\chi$ certificate). This side-condition is the
+impossibility obstruction of Theorem~\ref{thm:impossibility}: the packing argument
+gives $\chi(H)\ge\lceil\sigma(G)/5\rceil$ for every safe UDG supergraph
+($\chi(K_{1,n})=2$ versus $\chi(H)\ge\lceil n/5\rceil$ is the $\sigma=n$ instance),
+so $\sigma(G)>5$ \emph{forces} inflation and rejecting it is sound. We are careful
+about the converse: $\sigma(G)\le 5$ is a \emph{necessary}, not sufficient,
+condition---it removes this obstruction but does not by itself certify that a UDG
+supergraph preserving $\chi$ exists, so the gate is a sound \emph{screen} rather
+than a safety proof. Nothing in the pipeline relies on it for correctness: the
+supergraph route is correctness-neutral (Sections~\ref{sec:impossibility},
+\ref{sec:discussion}) and the $\chi$ guarantee is carried entirely by the exact
+gadget path; the safety effect is a conservative annotation, not a discharged
+theorem. Because $\oplus$ sums the bumps while the carrier graph
 differs between orders, two orderings of the same transforms are type-equal only if
 their accumulated bounds and side-conditions both match---so the type \emph{records}
 transform-order sensitivity as a checkable property rather than a conjecture.
@@ -1339,22 +1349,34 @@ simulation, not in Coq (Section~\ref{sec:coq}).}
 
 A companion Haskell package (\texttt{udg-color}, GHC~9.12) implements the surface
 pipeline end to end: a \texttt{parser} and AST for the coloring-specification
-language; a \texttt{type-and-effect checker} that enforces provenance, stage
-ordering, and the feasibility refinement $|V(A)|\le N_{\max}$; an
+language; a \texttt{checker} that tracks each transform's reduction \emph{sorts}
+and safety \emph{effect}, enforces stage ordering by sort adjacency, screens device
+feasibility, and applies the supergraph $\sigma(G)\le 5$ gate; an
 \texttt{elaborator} that lowers a well-typed program through Stage~1 and
-gadgetization; and an \texttt{emitter} that writes the device instance consumed by
-the simulator. The checker realizes the static discipline of
-Section~\ref{sec:lang} (mechanized in Section~\ref{sec:coq}): it accepts the worked
-program of Figure~\ref{fig:program}, rejects a stand-alone supergraph transform
-whose neighborhood bound $\sigma(G)>5$ would void the safety effect of
-Section~\ref{sec:safetyeff}, and raises the catalogued ill-typing errors. That
-catalogue (Table~\ref{tab:errors}) is the negative space of the type system---each
-entry is a program the checker must \emph{reject}, and the test suite confirms it
-does. Two test suites pass: a language suite ($4/4$ acceptance/rejection checks,
-including the $\sigma>5$ rejection and the error codes of Table~\ref{tab:errors})
-and a property suite that runs $12{,}226$ checks against the brute-force oracle
-(Stage-1 sizes, decoder round-trips, gadget offsets) and renders ten visualized
-examples---$12{,}230$ checks in total.
+gadgetization (these are the executable decoders, whose total-on-optima property is
+the Coq content of Section~\ref{sec:coq}); and an \texttt{emitter} that writes the
+device instance consumed by the simulator. It accepts the worked program of
+Figure~\ref{fig:program} and rejects the stand-alone $\sigma(G)>5$ supergraph.
+
+We are precise about what this \emph{prototype} covers relative to the calculus of
+Section~\ref{sec:lang}, since the gap is real. It tracks sorts and the
+$\{\safe,\asafe{c}\}$ effect, but does \emph{not} carry a decoder term inside the
+transform type (the decoders live in the elaborator and are certified in Coq, not
+re-tracked by the checker), does \emph{not} yet implement the certificate-grade
+lattice of Refinement~A, and treats the problem-type indices as documentary (the
+$\tDev$ size $N$, for instance, is dropped during checking). Its feasibility screen
+uses the \emph{combinatorial} gadget size $nk+2|E'|$ that the elaborator actually
+builds, which omits the crossing/routing atoms that dominate the metric
+$O((nk)^2)$ budget of Proposition~\ref{prop:atombudget}---so it screens the logical
+instance, not the full metric atom count. Of the twelve catalogue entries
+(Table~\ref{tab:errors}), the prototype raises codes $\{1,2,3,4,5,8,9\}$ together
+with the structural stage-ordering and $\sigma>5$ rejections; entries~6, 7, 10, 11,
+and~12 are specified but not yet checked. Two test suites pass: a language suite
+($4/4$ acceptance/rejection checks, including the $\sigma>5$ rejection and codes
+$\{2,3,4,5,8,9\}$ with a stage-ordering error) and a property suite that runs
+$12{,}226$ checks against the brute-force oracle (Stage-1 sizes, decoder
+round-trips, gadget offsets) and renders ten visualized examples---$12{,}230$
+checks in total.
 
 \begin{table}[h]
 \centering
@@ -1377,11 +1399,14 @@ examples---$12{,}230$ checks in total.
 12 & UDG literal whose points/edges disagree & $\tUDG$ realizability     & literal check \\
 \bottomrule
 \end{tabular}
-\caption{The ill-typed catalogue the checker rejects. Errors~6 and~10 are the
+\caption{The ill-typed catalogue the type system specifies. Errors~6 and~10 are the
 provenance and guarantee-grade violations; the stage-ordering errors of
 Corollary~\ref{cor:order} (gadgetize-before-choice, emit-before-layout, decode-from-
 $\tUDGa$) are rejected structurally by the absence of an applicable rule. The
-language test suite exercises a representative subset and confirms each is raised.}
+prototype checker (Section~\ref{sec:haskell}) implements entries
+$\{1,2,3,4,5,8,9\}$ plus the structural stage-ordering and $\sigma>5$ rejections;
+entries~6, 7, 10, 11, 12 are specified but not yet checked, and the language suite
+exercises codes $\{2,3,4,5,8,9\}$.}
 \label{tab:errors}
 \end{table}
 
