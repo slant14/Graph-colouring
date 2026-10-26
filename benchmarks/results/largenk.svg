@@ -45,31 +45,81 @@
 <text x='976' y='339.7' text-anchor='end' font-size='12' fill='#d23c3c'>monolithic wall NK_MAX = 16</text>
 <line x1='60' y1='60' x2='60' y2='370' stroke='#333'/>
 <line x1='60' y1='370' x2='980' y2='370' stroke='#333'/>
-<rect x='94.8' y='66.3' width='55.2' height='303.7' fill='#cc7a44'/>
-<rect x='154.0' y='352.6' width='55.2' height='17.4' fill='#2e9e5b'/>
-<text x='122.4' y='62.3' text-anchor='middle' font-size='10' fill='#cc7a44'>192</text>
-<text x='181.6' y='348.6' text-anchor='middle' font-size='10' fill='#2e9e5b'>11</text>
-<text x='152.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 152.0 384.0)'>C24 (cycle) k=8</text>
-<rect x='278.8' y='116.9' width='55.2' height='253.1' fill='#cc7a44'/>
-<rect x='338.0' y='352.6' width='55.2' height='17.4' fill='#2e9e5b'/>
-<text x='306.4' y='112.9' text-anchor='middle' font-size='10' fill='#cc7a44'>160</text>
-<text x='365.6' y='348.6' text-anchor='middle' font-size='10' fill='#2e9e5b'>11</text>
-<text x='336.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 336.0 384.0)'>Ladder 2x10 k=8</text>
-<rect x='462.8' y='243.5' width='55.2' height='126.5' fill='#cc7a44'/>
-<rect x='522.0' y='349.4' width='55.2' height='20.6' fill='#2e9e5b'/>
-<text x='490.4' y='239.5' text-anchor='middle' font-size='10' fill='#cc7a44'>80</text>
-<text x='549.6' y='345.4' text-anchor='middle' font-size='10' fill='#2e9e5b'>13</text>
-<text x='520.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 520.0 384.0)'>Petersen k=8</text>
-<rect x='646.8' y='116.9' width='55.2' height='253.1' fill='#cc7a44'/>
-<rect x='706.0' y='349.4' width='55.2' height='20.6' fill='#2e9e5b'/>
-<text x='674.4' y='112.9' text-anchor='middle' font-size='10' fill='#cc7a44'>160</text>
-<text x='733.6' y='345.4' text-anchor='middle' font-size='10' fill='#2e9e5b'>13</text>
-<text x='704.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 704.0 384.0)'>Dodecahedral k=8</text>
-<rect x='830.8' y='164.4' width='55.2' height='205.6' fill='#cc7a44'/>
-<rect x='890.0' y='352.6' width='55.2' height='17.4' fill='#2e9e5b'/>
-<text x='858.4' y='160.4' text-anchor='middle' font-size='10' fill='#cc7a44'>130</text>
-<text x='917.6' y='348.6' text-anchor='middle' font-size='10' fill='#2e9e5b'>11</text>
-<text x='888.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 888.0 384.0)'>Star K1,12 k=10</text>
+<rect x='70.3' y='66.3' width='18.4' height='303.7' fill='#cc7a44'/>
+<rect x='92.7' y='352.6' width='18.4' height='17.4' fill='#2e9e5b'/>
+<text x='79.5' y='62.3' text-anchor='middle' font-size='10' fill='#cc7a44'>192</text>
+<text x='101.9' y='348.6' text-anchor='middle' font-size='10' fill='#2e9e5b'>11</text>
+<text x='90.7' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 90.7 384.0)'>C24 (cycle) k=8</text>
+<rect x='131.6' y='116.9' width='18.4' height='253.1' fill='#cc7a44'/>
+<rect x='154.0' y='352.6' width='18.4' height='17.4' fill='#2e9e5b'/>
+<text x='140.8' y='112.9' text-anchor='middle' font-size='10' fill='#cc7a44'>160</text>
+<text x='163.2' y='348.6' text-anchor='middle' font-size='10' fill='#2e9e5b'>11</text>
+<text x='152.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 152.0 384.0)'>Ladder 2x10 k=8</text>
+<rect x='192.9' y='243.5' width='18.4' height='126.5' fill='#cc7a44'/>
+<rect x='215.3' y='349.4' width='18.4' height='20.6' fill='#2e9e5b'/>
+<text x='202.1' y='239.5' text-anchor='middle' font-size='10' fill='#cc7a44'>80</text>
+<text x='224.5' y='345.4' text-anchor='middle' font-size='10' fill='#2e9e5b'>13</text>
+<text x='213.3' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 213.3 384.0)'>Petersen k=8</text>
+<rect x='254.3' y='116.9' width='18.4' height='253.1' fill='#cc7a44'/>
+<rect x='276.7' y='349.4' width='18.4' height='20.6' fill='#2e9e5b'/>
+<text x='263.5' y='112.9' text-anchor='middle' font-size='10' fill='#cc7a44'>160</text>
+<text x='285.9' y='345.4' text-anchor='middle' font-size='10' fill='#2e9e5b'>13</text>
+<text x='274.7' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 274.7 384.0)'>Dodecahedral k=8</text>
+<rect x='315.6' y='164.4' width='18.4' height='205.6' fill='#cc7a44'/>
+<rect x='338.0' y='352.6' width='18.4' height='17.4' fill='#2e9e5b'/>
+<text x='324.8' y='160.4' text-anchor='middle' font-size='10' fill='#cc7a44'>130</text>
+<text x='347.2' y='348.6' text-anchor='middle' font-size='10' fill='#2e9e5b'>11</text>
+<text x='336.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 336.0 384.0)'>Star K1,12 k=10</text>
+<rect x='376.9' y='294.1' width='18.4' height='75.9' fill='#cc7a44'/>
+<rect x='399.3' y='351.0' width='18.4' height='19.0' fill='#2e9e5b'/>
+<text x='386.1' y='290.1' text-anchor='middle' font-size='10' fill='#cc7a44'>48</text>
+<text x='408.5' y='347.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>12</text>
+<text x='397.3' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 397.3 384.0)'>C24 (cycle) k=2</text>
+<rect x='438.3' y='332.0' width='18.4' height='38.0' fill='#cc7a44'/>
+<rect x='460.7' y='358.9' width='18.4' height='11.1' fill='#2e9e5b'/>
+<text x='447.5' y='328.0' text-anchor='middle' font-size='10' fill='#cc7a44'>24</text>
+<text x='469.9' y='354.9' text-anchor='middle' font-size='10' fill='#2e9e5b'>7</text>
+<text x='458.7' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 458.7 384.0)'>C24 (cycle) k=1</text>
+<rect x='499.6' y='306.7' width='18.4' height='63.3' fill='#cc7a44'/>
+<rect x='522.0' y='351.0' width='18.4' height='19.0' fill='#2e9e5b'/>
+<text x='508.8' y='302.7' text-anchor='middle' font-size='10' fill='#cc7a44'>40</text>
+<text x='531.2' y='347.0' text-anchor='middle' font-size='10' fill='#2e9e5b'>12</text>
+<text x='520.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 520.0 384.0)'>Ladder 2x10 k=2</text>
+<rect x='560.9' y='338.4' width='18.4' height='31.6' fill='#cc7a44'/>
+<rect x='583.3' y='352.6' width='18.4' height='17.4' fill='#2e9e5b'/>
+<text x='570.1' y='334.4' text-anchor='middle' font-size='10' fill='#cc7a44'>20</text>
+<text x='592.5' y='348.6' text-anchor='middle' font-size='10' fill='#2e9e5b'>11</text>
+<text x='581.3' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 581.3 384.0)'>Ladder 2x10 k=1</text>
+<rect x='622.3' y='322.6' width='18.4' height='47.4' fill='#cc7a44'/>
+<rect x='644.7' y='354.2' width='18.4' height='15.8' fill='#2e9e5b'/>
+<text x='631.5' y='318.6' text-anchor='middle' font-size='10' fill='#cc7a44'>30</text>
+<text x='653.9' y='350.2' text-anchor='middle' font-size='10' fill='#2e9e5b'>10</text>
+<text x='642.7' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 642.7 384.0)'>Petersen k=3</text>
+<rect x='683.6' y='338.4' width='18.4' height='31.6' fill='#cc7a44'/>
+<rect x='706.0' y='357.3' width='18.4' height='12.7' fill='#2e9e5b'/>
+<text x='692.8' y='334.4' text-anchor='middle' font-size='10' fill='#cc7a44'>20</text>
+<text x='715.2' y='353.3' text-anchor='middle' font-size='10' fill='#2e9e5b'>8</text>
+<text x='704.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 704.0 384.0)'>Petersen k=2</text>
+<rect x='744.9' y='275.1' width='18.4' height='94.9' fill='#cc7a44'/>
+<rect x='767.3' y='354.2' width='18.4' height='15.8' fill='#2e9e5b'/>
+<text x='754.1' y='271.1' text-anchor='middle' font-size='10' fill='#cc7a44'>60</text>
+<text x='776.5' y='350.2' text-anchor='middle' font-size='10' fill='#2e9e5b'>10</text>
+<text x='765.3' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 765.3 384.0)'>Dodecahedral k=3</text>
+<rect x='806.3' y='306.7' width='18.4' height='63.3' fill='#cc7a44'/>
+<rect x='828.7' y='357.3' width='18.4' height='12.7' fill='#2e9e5b'/>
+<text x='815.5' y='302.7' text-anchor='middle' font-size='10' fill='#cc7a44'>40</text>
+<text x='837.9' y='353.3' text-anchor='middle' font-size='10' fill='#2e9e5b'>8</text>
+<text x='826.7' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 826.7 384.0)'>Dodecahedral k=2</text>
+<rect x='867.6' y='328.9' width='18.4' height='41.1' fill='#cc7a44'/>
+<rect x='890.0' y='365.3' width='18.4' height='4.7' fill='#2e9e5b'/>
+<text x='876.8' y='324.9' text-anchor='middle' font-size='10' fill='#cc7a44'>26</text>
+<text x='899.2' y='361.3' text-anchor='middle' font-size='10' fill='#2e9e5b'>3</text>
+<text x='888.0' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 888.0 384.0)'>Star K1,12 k=2</text>
+<rect x='928.9' y='349.4' width='18.4' height='20.6' fill='#cc7a44'/>
+<rect x='951.3' y='366.8' width='18.4' height='3.2' fill='#2e9e5b'/>
+<text x='938.1' y='345.4' text-anchor='middle' font-size='10' fill='#cc7a44'>13</text>
+<text x='960.5' y='362.8' text-anchor='middle' font-size='10' fill='#2e9e5b'>2</text>
+<text x='949.3' y='384.0' text-anchor='end' font-size='10' fill='#333' transform='rotate(-30 949.3 384.0)'>Star K1,12 k=1</text>
 <rect x='70' y='66' width='12' height='12' fill='#cc7a44'/>
 <text x='88' y='77' font-size='12'>whole-graph n·k (monolithic — would skip)</text>
 <rect x='70' y='84' width='12' height='12' fill='#2e9e5b'/>

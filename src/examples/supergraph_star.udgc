@@ -11,7 +11,7 @@ gStar = graph { vertices = [c, 1, 2, 3, 4, 5, 6]
 p2 :: Palette
 p2 = size 2
 
-tSuper :: Coloring 7 2 ~> Coloring 7 2 ! asafe 1
+tSuper :: Coloring 7 2 ~> Coloring 7 2 ! mono
 tSuper = superUDG
 
 -- ill-typed: sigma(gStar) = 6 > 5

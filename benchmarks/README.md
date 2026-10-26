@@ -45,8 +45,8 @@ plus optional `plotext` for the terminal chart.
 All 18 simulated instances recover the optimum exactly (`actual = expected`),
 and every colourable case decodes to a verified-proper colouring — see
 `results/results.csv`. Petersen is skipped because the engine evolves a
-`2^(n·k)` state vector and `n·k = 30` exceeds the `NK_MAX = 16` wall; this is
-the same finite-size limitation noted in the thesis framing, made concrete.
+`2^(n·k)` state vector and `n·k = 30` exceeds the `NK_MAX = 16` wall of the
+classical simulator.
 
 Outputs in `results/`:
 
@@ -87,10 +87,77 @@ Result — whole-graph `n·k` from 28 to **90**, every actual device solve ≤ 1
 | C30 (cycle) | 3 | 90 | 11 | 8 | proper ✓ |
 | C21 (odd) | 2 | 42 | 12 | 17 | not 2-colourable ✓ |
 
+**Certificates.** A colouring returned by the device is a witness and is checked
+classically. A device solve that returns no colouring is *not* a proof that the
+piece is infeasible, so every such leaf is decided by an exact classical search
+(`decompose.exact_extension`; leaves are ≤ 13 slots). A "not colourable" verdict
+is therefore a classical certificate (exhaustive boundary enumeration + exact
+leaf checks); the CSVs record `device_witnesses`, `classical_checks` and
+`device_misses` (colourable leaves the device missed — 0 in every run).
+`run_largenk.py` also runs each graph at `k = χ` and `k = χ-1`.
+
 Output: `results/decomp.svg` (whole `n·k` vs max simulated piece, with the wall
 line at 16), `results/decomp.{json,csv}`. Cliques have no separator, so `K_m`
 stays irreducible — decomposition helps sparse / bounded-width graphs, exactly as
 the theory predicts.
+
+## Random G(n,p) instances
+
+`run_random.py` repeats the oracle comparison on Erdős–Rényi graphs drawn from a
+fixed seed (20 per cell, none discarded), running each instance at `k = χ` and
+`k = χ-1` wherever `n·k ≤ 16`. Result: **286/286 runs match the oracle, 130/130
+colourable runs decode to proper colourings** (160 instances).
+
+```sh
+src/.venv/bin/python benchmarks/run_random.py --workers 5   # ~17 min on 5 cores
+```
+
+Output: `results/random.{json,csv}`.
+
+## Metric gadget layouts (Julia)
+
+`run_layout.jl` maps each colour-choice graph `G'_k` to the weighted unit-disk
+instance of Nguyen et al. (PRX Quantum 4, 010316) with
+[UnitDiskMapping.jl](https://github.com/QuEraComputing/UnitDiskMapping.jl) 0.5.1
+under three copy-line orders — naive input order, our optimized order (Fiedler
+vector + monotone adjacent-swap repair on the atom count), and the library's own
+path-decomposition order — and records atoms, crossing gadgets and bounding box.
+`verify_layout.jl` solves MWIS on the small mapped instances exactly and checks
+`MWIS(A) = MWIS(G'_k, w) + overhead` for uniform and random weights (24/24 pass).
+`export_c4_layout.jl` writes the atom coordinates used in the paper's C4 figure.
+Shared definitions are in `layout_common.jl`.
+
+```sh
+julia -e 'using Pkg; Pkg.add(["UnitDiskMapping", "Graphs"])'
+julia benchmarks/run_layout.jl        # ~15 min, dominated by myciel3
+julia benchmarks/verify_layout.jl
+```
+
+Output: `results/layout.{csv,json}`, `results/verify_layout.txt`,
+`results/c4_layout.tex`. Only the two smallest instances (n·k ≤ 8) fit a
+256-atom device.
+
+## Verified certificates
+
+Every run of `run_decomp.py`, `run_largenk.py` and `run_dimacs.py` writes a
+certificate to `results/certs/` — the colouring, or a refutation tree (see
+`proof/Certificate.v`) — and checks it with the verified checker
+`proof/checker/certcheck` (build it with `cd proof && make && cd checker && make`).
+All 26 certificates are accepted; the largest refutation (myciel3, k=3) has 794
+nodes. A run only PASSes if its certificate is accepted. The directory holds 24
+files for the 26 runs: Petersen and Dodecahedral at k=3 are run by both
+`run_decomp.py` and `run_largenk.py` and share a file name.
+
+## Imperfect solves and pathwidth scaling
+
+`run_robust.py` shortens the adiabatic sweep (T = 1.2) so shots often miss the
+optimum, and decodes every shot with the robust decoders (fresh colour per
+unselected vertex; on `A_4`, drop one end of each internal edge first): all
+14,835 decoded shots are proper and within `k + d + ε` colours.
+`run_scaling.jl` (Julia, UnitDiskMapping.jl) maps paths, cycles, ladders and
+3×m grids up to n = 40 at k = 3 under the lifted slot order: atom counts grow
+linearly in n (paths 54.75 n − 34, cycles 90.75 n − 49), complete graphs
+quadratically. Outputs: `results/robust.{json,csv}`, `results/scaling.csv`.
 
 ## Notes
 

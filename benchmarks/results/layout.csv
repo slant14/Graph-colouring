@@ -1,0 +1,8 @@
+name,n,m,k,nk,edges_gp,screen,naive_atoms,naive_cross,naive_cross_edge,naive_cross_plain,naive_rows,naive_cols,naive_overhead,ours_atoms,ours_cross,ours_cross_edge,ours_cross_plain,ours_rows,ours_cols,ours_overhead,ref_atoms,ref_cross,ref_cross_edge,ref_cross_plain,ref_rows,ref_cols,ref_overhead,within_nmax_naive,within_nmax_ours,within_nmax_ref,seconds
+K2,2,1,2,4,4,12,29,1,0,1,10,11,22,19,1,1,0,7,7,14,29,1,0,1,10,11,22,true,true,true,6.9
+P4,4,3,2,8,10,28,74,2,1,1,11,26,62,65,3,3,0,11,23,54,74,2,1,1,11,26,62,true,true,true,2.7
+C4,4,4,3,12,24,60,314,16,4,12,27,43,262,285,15,9,6,27,39,246,314,16,4,12,27,43,262,false,false,false,11.7
+C5,5,5,3,15,30,75,398,19,7,12,27,55,340,371,20,11,9,26,55,318,398,19,7,12,27,55,340,false,false,false,28.8
+K4,4,6,4,16,48,112,793,61,19,42,51,59,632,688,50,20,30,43,59,562,666,48,18,30,39,59,542,false,false,false,30.1
+Petersen,10,15,3,30,75,180,2074,140,23,117,63,115,1670,1867,131,25,106,63,115,1494,1882,124,18,106,55,113,1516,false,false,false,146.7
+myciel3,11,20,4,44,146,336,5506,444,66,378,115,171,4262,4019,279,64,215,83,171,3266,4051,321,57,264,79,169,3158,false,false,false,685.4

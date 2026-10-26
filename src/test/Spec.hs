@@ -9,6 +9,7 @@ import qualified Data.Set         as Set
 import           System.Directory (createDirectoryIfMissing)
 import           System.Exit      (exitFailure)
 
+import           UDGColor.Elaborate (isKColorableUnder)
 import           UDGColor.Gadget
 import           UDGColor.Graph
 import           UDGColor.Layout
@@ -135,6 +136,44 @@ precolorChecks =
      , ("bowtie precolored(0=1) k=2: infeasible",
         independenceNumber (colorChoiceGraphPrecolored 2 g beta) < order g)
      ]
+
+-- | Proposition (restrictions): under the pairwise restrictions of the language
+-- (allowed colors from precolor/allow/forbid, differentColor/distinctOn,
+-- sameColor), alpha(G'_k) = n iff G has a proper k-coloring satisfying them,
+-- and a maximum independent set then decodes to such a coloring. The oracle
+-- checks the restrictions on colorings directly, not through the encoding.
+restrictedChecks :: Int -> [Check]
+restrictedChecks n = concat
+  [ [exact gi g k ri sr, decodes gi g k ri sr]
+  | (gi, g) <- zip [0 :: Int ..] (allGraphs n), k <- [1 .. 3]
+  , (ri, sr) <- zip [0 :: Int ..] (restrSets n) ]
+  where
+    tag gi k ri s = "restr n=" ++ show n ++ " g#" ++ show gi ++ " k=" ++ show k
+                      ++ " r#" ++ show ri ++ ": " ++ s
+    exact gi g k ri sr =
+      let a = independenceNumber (colorChoiceGraphRestricted k g sr)
+      in ( tag gi k ri "alpha(G'_k)=n <=> colorable under restrictions"
+         , (a == order g) == isKColorableUnder k g sr && a <= order g )
+    decodes gi g k ri sr
+      | isKColorableUnder k g sr =
+          case decodeColoring g (maxIndependentSet (colorChoiceGraphRestricted k g sr)) of
+            Just c  -> ( tag gi k ri "decoded coloring proper and satisfies restrictions"
+                       , isProperColoring g c && satisfiesRestr sr c )
+            Nothing -> (tag gi k ri "decode full", False)
+      | otherwise = (tag gi k ri "n/a", True)
+
+-- | Restriction sets on vertices 0..n-1 (n >= 2), one family per construct.
+restrSets :: Int -> [SlotRestr Int]
+restrSets n =
+  [ noRestr
+  , noRestr { srAllowed = Map.fromList [(0, [1])] }                     -- precolor
+  , noRestr { srAllowed = Map.fromList [(0, [2, 3]), (1, [2])] }        -- allow / forbid
+  , noRestr { srDiffer = [(0, n - 1)] }                                 -- differentColor
+  , noRestr { srSame = [(0, n - 1)] }                                   -- sameColor
+  , noRestr { srSame = [(0, 1)], srAllowed = Map.fromList [(1, [1])] }  -- sameColor + pin
+  , noRestr { srDiffer = [ (u, v) | u <- [0 .. m], v <- [u + 1 .. m] ] } -- distinctOn
+  ]
+  where m = min 2 (n - 1)
 
 -- ── Per-example stage dump ──────────────────────────────────────────────────────
 --
@@ -278,6 +317,7 @@ main = do
                       ++ " examples (one folder per case) to " ++ vizRoot ++ "/test_N/"
   let checks = namedChecks
             ++ precolorChecks
+            ++ concatMap restrictedChecks [2, 3, 4]
             ++ concatMap stage1Checks [0, 1, 2, 3, 4, 5]
             ++ concatMap gadgetChecks [0, 1, 2, 3, 4]
             ++ concatMap layoutChecks [0, 1, 2, 3, 4]

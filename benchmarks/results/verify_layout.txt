@@ -1,0 +1,25 @@
+K2 k=2 naive          w=1/2    atoms=  29  MWIS(A)=23.0  MWIS(G')+overhead=23.0  OK
+K2 k=2 naive          random   atoms=  29  MWIS(A)=23.671245  MWIS(G')+overhead=23.671245  OK
+K2 k=2 naive          random   atoms=  29  MWIS(A)=22.369843  MWIS(G')+overhead=22.369843  OK
+K2 k=2 ours           w=1/2    atoms=  19  MWIS(A)=15.0  MWIS(G')+overhead=15.0  OK
+K2 k=2 ours           random   atoms=  19  MWIS(A)=15.334494  MWIS(G')+overhead=15.334494  OK
+K2 k=2 ours           random   atoms=  19  MWIS(A)=15.41783  MWIS(G')+overhead=15.41783  OK
+P4 k=2 naive          w=1/2    atoms=  74  MWIS(A)=64.0  MWIS(G')+overhead=64.0  OK
+P4 k=2 naive          random   atoms=  74  MWIS(A)=63.935124  MWIS(G')+overhead=63.935124  OK
+P4 k=2 naive          random   atoms=  74  MWIS(A)=64.005465  MWIS(G')+overhead=64.005465  OK
+P4 k=2 ours           w=1/2    atoms=  65  MWIS(A)=56.0  MWIS(G')+overhead=56.0  OK
+P4 k=2 ours           random   atoms=  65  MWIS(A)=56.815  MWIS(G')+overhead=56.815  OK
+P4 k=2 ours           random   atoms=  65  MWIS(A)=56.881636  MWIS(G')+overhead=56.881636  OK
+C4 k=3 naive          w=1/2    atoms= 314  MWIS(A)=264.0  MWIS(G')+overhead=264.0  OK
+C4 k=3 naive          random   atoms= 314  MWIS(A)=265.061188  MWIS(G')+overhead=265.061188  OK
+C4 k=3 naive          random   atoms= 314  MWIS(A)=265.070978  MWIS(G')+overhead=265.070978  OK
+C4 k=3 ours           w=1/2    atoms= 285  MWIS(A)=248.0  MWIS(G')+overhead=248.0  OK
+C4 k=3 ours           random   atoms= 285  MWIS(A)=248.729229  MWIS(G')+overhead=248.729229  OK
+C4 k=3 ours           random   atoms= 285  MWIS(A)=249.268726  MWIS(G')+overhead=249.268726  OK
+C5 k=3 naive          w=1/2    atoms= 398  MWIS(A)=342.5  MWIS(G')+overhead=342.5  OK
+C5 k=3 naive          random   atoms= 398  MWIS(A)=343.684509  MWIS(G')+overhead=343.684509  OK
+C5 k=3 naive          random   atoms= 398  MWIS(A)=343.167518  MWIS(G')+overhead=343.167518  OK
+C5 k=3 ours           w=1/2    atoms= 371  MWIS(A)=320.5  MWIS(G')+overhead=320.5  OK
+C5 k=3 ours           random   atoms= 371  MWIS(A)=320.592834  MWIS(G')+overhead=320.592834  OK
+C5 k=3 ours           random   atoms= 371  MWIS(A)=321.632339  MWIS(G')+overhead=321.632339  OK
+all checks passed

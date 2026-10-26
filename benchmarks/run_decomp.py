@@ -13,6 +13,7 @@ from __future__ import annotations
 import csv
 import json
 import os
+import re
 import sys
 import time
 from typing import List
@@ -55,23 +56,33 @@ def run() -> List[dict]:
         adj = D.adjacency(n, edges)
         st = D.Stats()
         t0 = time.time()
-        col = D.solve(set(range(n)), k, {}, adj, st)
+        col, ref = D.solve_cert(set(range(n)), k, {}, adj, st)
+        slug = re.sub(r"[^A-Za-z0-9]+", "_", name).strip("_")
+        cert_path = os.path.join(HERE, "results", "certs", f"{slug}_k{k}.cert")
+        D.write_certificate(cert_path, n, edges, k, coloring=col, refutation=ref)
+        cert_ok, cert_msg, cert_s = D.check_certificate(cert_path)
+        cert_n = D.cert_nodes(ref) if ref is not None else n
         dt = time.time() - t0
         colorable = col is not None
         proper = D.is_proper_full(n, edges, col, k) if col else None
-        ok = (colorable == exp_col) and (not exp_col or proper)
+        ok = (colorable == exp_col) and (not exp_col or proper) and bool(cert_ok)
         whole = n * k
         rows.append({
             "name": name, "n": n, "m": len(edges), "chi": chi, "k": k,
             "whole_slots": whole, "max_piece_slots": st.max_piece_slots,
-            "device_calls": st.device_calls, "colorable": colorable,
+            "device_calls": st.device_calls,
+            "device_witnesses": st.device_witnesses,
+            "classical_checks": st.classical_checks,
+            "device_misses": st.device_misses,
+            "cert": "coloring" if col is not None else "refutation",
+            "cert_nodes": cert_n, "cert_valid": cert_ok, "cert_check_s": cert_s, "colorable": colorable,
             "expected_colorable": exp_col, "proper": proper,
             "seconds": round(dt, 1), "ok": ok, "note": note,
         })
         verdict = "PASS" if ok else "FAIL"
         shrink = f"{whole}→{st.max_piece_slots}" if st.max_piece_slots else f"{whole}"
         print(f"  {name:14} k={k}  n·k={whole:3}  "
-              f"max piece={st.max_piece_slots:2}  calls={st.device_calls:3}  "
+              f"max piece={st.max_piece_slots:2}  calls={st.device_calls:3} (witn={st.device_witnesses}, exact={st.classical_checks}, miss={st.device_misses})  cert={'OK' if cert_ok else 'FAIL'}:{cert_n}  "
               f"colorable={colorable!s:5}  "
               f"{'proper' if proper else ('—' if proper is None else 'IMPROPER')}"
               f"  [{verdict}]  ({dt:.0f}s)")
@@ -84,7 +95,7 @@ def save(rows):
     with open(os.path.join(outdir, "decomp.json"), "w") as fh:
         json.dump(rows, fh, indent=2)
     cols = ["name", "n", "m", "chi", "k", "whole_slots", "max_piece_slots",
-            "device_calls", "colorable", "expected_colorable", "proper",
+            "device_calls", "device_witnesses", "classical_checks", "device_misses", "cert", "cert_nodes", "cert_valid", "cert_check_s", "colorable", "expected_colorable", "proper",
             "seconds", "ok", "note"]
     with open(os.path.join(outdir, "decomp.csv"), "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols)

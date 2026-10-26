@@ -1,339 +1,238 @@
 # Certified Compilation of Graph Coloring to Neutral-Atom Hardware
 
-This repository accompanies the paper *Certified Compilation of Graph Coloring to
-Neutral-Atom Hardware* (Naderi, Mazzara, Ciancarini). It contains the research
-paper, a typed surface language and its compiler (`udg-color`), a machine-checked
-soundness proof of the compilation pipeline (Rocq/Coq), a neutral-atom simulation
-backend, and an empirical benchmark suite.
+This repository is the artifact for the paper *Certified Compilation of Graph Coloring
+to Neutral-Atom Hardware: An Exact Gadgetized Reduction with a Heuristic Layout
+Optimizer* by Mahmoud Naderi, Manuel Mazzara and Paolo Ciancarini. It contains the
+paper source, the Rocq mechanization and its extracted certificate checker, the
+Haskell front end `udg-color`, a Rydberg-blockade simulator, and every benchmark
+script and recorded result that the paper reports.
 
-## Motivation
+## Overview
 
-Neutral-atom quantum processors (for example QuEra/Bloqade) do not color graphs.
-The hardware natively solves **maximum-weight independent set (MWIS) on a unit-disk
-graph (UDG)**: atoms placed in the plane interact through a Rydberg blockade whose
-adjacency is exactly the unit-disk relation. Any pipeline that targets this hardware
-for graph coloring must therefore *reduce* coloring to UDG–MWIS, not merely embed the
-input graph geometrically.
+In their analog mode, neutral-atom processors solve maximum-weight independent set
+(MWIS) on unit-disk graphs (UDGs); they do not color graphs. To decide whether a graph
+`G` with `n` vertices is `k`-colorable on such hardware, we reduce the question in two
+exact stages:
 
-The project takes the reduction seriously and makes its correctness **static**. A
-small typed language expresses a coloring problem and the chain of transformations
-that lower it to a device instance. A *certified-reduction* type-and-effect system
-accepts a pipeline only if every stage is answer-preserving and the stages compose in
-a valid order, so that the bitstring the device returns is guaranteed to decode to a
-correct coloring of the original graph. The end-to-end soundness of that discipline is
-proved once, mechanically, and then reused for every program the checker accepts.
+1. **Stage 1.** `G` becomes the *color-choice graph* `G'_k` on `nk` slots `(v, i)`
+   ("vertex `v` takes color `i`"). `G` is `k`-colorable if and only if
+   `α(G'_k) = n`, and the size-`n` independent sets of `G'_k` are in bijection with
+   the proper `k`-colorings of `G`.
+2. **Stage 2.** `G'_k` is embedded into a weighted UDG with the copy/crossing gadgets
+   of Nguyen et al. (PRX Quantum 4, 010316, 2023), so that
+   `MWIS(A) = α(G'_k) + C` for a known offset `C`.
 
-Two lowering paths are distinguished throughout:
+The device returns an independent set of the gadget instance `A`, and the decoder maps
+it back through both stages. A readout is accepted only if it selects exactly one slot
+per vertex and the resulting coloring is proper on every edge of `G`.
 
-- **Primary (exact gadget path).** Reduce `k`-colorability to independent set on an
-  auxiliary *color-choice graph* of size `nk`, then apply Nguyen-style copy/crossing
-  gadgets to obtain a weighted UDG. This path is exact.
-- **Secondary (supergraph path).** Place the original vertices in the plane and grow a
-  unit-disk supergraph. This is only conditionally safe and is disqualified as a
-  general coloring mechanism by an impossibility result (a vertex whose neighborhood
-  independence exceeds five, such as the star `K(1,6)`, admits no chromatic-bounded UDG
-  supergraph). The language encodes this as a typing side-condition.
+On top of this reduction, the paper contributes:
+
+- **A certified-reduction type system.** Each stage is typed as a reduction that
+  carries its decoder, so end-to-end soundness and the legal order of stages follow
+  from typing. Ill-ordered pipelines have no typing derivation.
+- **Robustness to imperfect solves.** For `k`-colorable `G`, a solve of the
+  combinatorial gadget instance that misses the optimum by `ε` decodes to a proper
+  coloring with at most `k + ε` colors. This end-to-end theorem is mechanized in
+  Rocq.
+- **Certificates in both directions.** The device is used only to find colorings.
+  Every non-colorability verdict of the separator decomposition comes with a
+  refutation tree, which a checker proved sound in Rocq and extracted to OCaml
+  accepts.
+- **A pathwidth size bound.** For graphs of pathwidth `p`, the gadget instance needs
+  `O(nk²(p+1))` atoms, which is linear in `n`, against `O((nk)²)` in general.
+- **An impossibility result for the geometric alternative.** Placing the vertices of
+  `G` directly as a UDG supergraph cannot preserve the chromatic number in general:
+  the star `K(1,n)` has `χ = 2`, yet every UDG supergraph of it has
+  `χ ≥ ⌈n/5⌉ + 1`. The seven geometric heuristics are therefore used only as a layout
+  optimizer for the gadget instance, where they cannot affect correctness.
+
+The main limitation is size. On a 256-atom device, only the smallest instances fit
+(Section 9.5 of the paper); the separator decomposition keeps every simulated solve at
+13 logical slots or fewer while the whole instance reaches `nk = 192`.
 
 ## Repository layout
 
 ```
 .
-├── paper.tex            Research paper (Elsevier CAS single-column class)
-├── cas-sc.cls           Class and bibliography files required to build paper.tex
-├── cas-common.sty
-├── cas-model2-names.bst
-├── references.bib
-├── thumbnails/          Front-matter icons required by the CAS class
-│
-├── src/                 The udg-color compiler (Haskell) and simulation backend
-│   ├── udg-color.cabal
-│   ├── lib/UDGColor/     Library modules (parser, type checker, elaborator, stages)
-│   ├── app/Main.hs       The udgc command-line driver
-│   ├── examples/         Example programs (*.udgc)
-│   ├── test/             Test suites (spec, langspec)
-│   └── sim/              Neutral-atom simulation backend (Python)
-│
-├── proof/               Rocq/Coq mechanization of pipeline soundness
-├── benchmarks/          Expected (oracle) vs. actual (simulation) experiments
-└── docs/                Drafts and companion write-ups
+├── paper.tex, references.bib   The paper (Elsevier CAS single-column class)
+├── paper.pdf                   The built paper
+├── cas-sc.cls, cas-common.sty, cas-model2-names.bst, thumbnails/
+│                               Class files needed to build paper.tex
+├── proof/                      Rocq mechanization (seven modules, no axioms)
+│   └── checker/                Extraction of the certificate checker to OCaml
+├── src/                        The udg-color front end (Haskell) and simulator
+│   ├── lib/UDGColor/           Parser, type checker, elaborator, stages, emitter
+│   ├── app/Main.hs             The udgc command-line driver
+│   ├── examples/               Example programs (*.udgc)
+│   ├── test/                   Test suites (spec, langspec)
+│   └── sim/                    Rydberg-blockade simulator (Python)
+├── benchmarks/                 Experiment scripts (Python, Julia)
+│   └── results/                Recorded outputs and certificates
+└── docs/                       Design notes and early drafts
 ```
 
-## The `udg-color` language
+## Requirements
 
-A program is a sequence of top-level bindings describing graphs, palettes,
-restrictions, transformation pipelines, coloring instances, and queries. The compiler
-(`udgc`) parses a program, type-checks it under the certified-reduction discipline, and
-elaborates each instance down to the device instance the simulator consumes, stopping
-before any simulation is run.
+The versions are the ones used for the paper.
 
-### Declarations
+| Component | Tools |
+|---|---|
+| Proofs | Rocq Prover 9.0.0 (`coqc`, `coq_makefile`); no external libraries |
+| Certificate checker | OCaml 5.3 with `ocamlfind` |
+| Front end | GHC 9.12.2 and cabal-install 3.12; dependencies `base`, `containers`, `parsec`, `directory` only |
+| Simulator and benchmarks | Python 3.10 with `numpy`, `scipy` and `networkx`; optionally `bloqade-analog` (emulator check) and `plotext` (terminal plots) |
+| Metric layouts | Julia 1.11 with UnitDiskMapping.jl 0.5.1 and Graphs.jl |
+| Paper | A TeX distribution with `latexmk`, `pgfplots` and `listings` |
 
-The language provides six kinds of declaration.
-
-| Keyword form        | Purpose                                                        |
-|---------------------|---------------------------------------------------------------|
-| `graph`             | A graph literal, a `udg` literal, or `apply T to G`           |
-| `palette`           | A set of colors (`colors [...]`) or a size (`size n`)         |
-| `restrictions`      | A block of coloring constraints                               |
-| `transform`         | A transformation, possibly a `>>>` pipeline                   |
-| `instance`          | `color G using P subjectTo R via T`                           |
-| `compute`           | A query, currently `chromaticNumber(G)`                       |
-
-Each declaration may be written in an **explicit keyword form**, where the keyword
-fixes the kind:
-
-```
-graph gK3 = graph { vertices = [a, b, c], edges = [(a,b), (b,c), (a,c)] }
-palette pRGB = colors [red, green, blue]
-```
-
-or in a **signature-driven form**, where the head of the right-hand side fixes the kind
-and an optional Haskell-style signature records the intended type:
-
-```
-encodeK3 :: Coloring 3 3 ~> Dev 45
-encodeK3 = colorChoice 3 >>> gadgetize >>> layout opts >>> emit
-```
-
-A graph or unit-disk literal:
-
-```
-graph gInput = graph { vertices = [1, 2, 3, 4, 5]
-                     , edges    = [(1,2), (2,3), (3,1), (1,4), (3,5)] }
-
-graph gU = udg { radius = 1.0, edges = [(1,2), (2,3), (1,3)] }
-```
-
-A restriction block (semicolon-separated):
-
-```
-restrictions rMain = { precolor 1 : red
-                     ; differentColor (1, 2)
-                     ; useAtMost 3 }
-```
-
-The available restrictions are `precolor v : c`, `allow v : [...]`, `forbid v : [...]`,
-`sameColor(u, v)`, `differentColor(u, v)`, `useAtMost n`, `useExactly n`, and
-`distinctOn [...]`.
-
-### Problem-types and the reduction arrow
-
-The type system works over *problem-types*, the sorts of the compilation. A transform
-is typed as a certified reduction `A ~> B ! e` from problem-type `A` to problem-type
-`B`, carrying a safety effect `e`.
-
-| Sort          | Surface syntax      | Meaning                                          |
-|---------------|---------------------|--------------------------------------------------|
-| `Col`         | `Coloring n k`      | `k`-coloring instance on `n` vertices            |
-| `IS`          | `IS N`              | Independent-set instance on `N` vertices         |
-| `WIS`         | `WIS N C`           | Weighted independent set with offset constant `C`|
-| `UDG`         | `UDG N`             | Independent set on a unit-disk graph             |
-| `Dev`         | `Dev N`             | A device instance of `N` atoms                   |
-
-The base types `Graph`, `Palette`, `Restrictions`, `Instance`, `Result`, and `Int`
-classify the domain declarations and queries.
-
-The safety effect `e` is either `safe` (poly-time and chromatic-number preserving) or
-`asafe k` (almost-safe: never lowers the chromatic number and increases it by at most
-the constant `k`). The effect is `safe` by default and may be written explicitly after
-`!`, as in `Coloring 5 3 ~> Coloring 5 4 ! asafe 1`.
-
-### Transform combinators
-
-A pipeline is built from stage primitives and combined with `>>>` (left-to-right
-composition). The primary path is the four-stage chain:
-
-| Combinator            | Reduction                          | Role                          |
-|-----------------------|------------------------------------|-------------------------------|
-| `colorChoice k`       | `Coloring n k ~> IS (n·k)`         | Stage 1: color-choice graph   |
-| `gadgetize`           | `IS ~> WIS`                        | Stage 2: gadget encoding      |
-| `layout [opts]`       | `WIS ~> UDG`                       | Stage 3: geometric layout     |
-| `emit`                | `UDG ~> Dev`                       | Device lowering + budget check|
-
-Additional combinators:
-
-- `encodeColoring k` — the exact gadget encoding `Col ~> WIS`, fusing Stages 1 and 2.
-- `superUDG` — the secondary same-vertex supergraph path `Coloring n k ~> Coloring n k'`,
-  which carries a safety effect and is gated by the impossibility side-condition.
-- `toUDG(exact | preserve P, opts...)` — a UDG realization, exact or property-preserving,
-  with options `radius`, `keep`, `drop`, `trackOrigin`. The preserved property `P` is one
-  of `kColorable(n)`, `chromatic`, or `bipartite`.
-- `compose [t1, t2, ...]` — composition of named transforms.
-
-### What the type checker enforces
-
-The checker runs two layers.
-
-1. **Static well-formedness** (the `errors.tex` catalogue). Scope and kind checks,
-   palette and vertex membership, restriction validity, and signature agreement. A
-   sample of the catalogue numbers reported in diagnostics: `#2` a restriction names a
-   vertex absent from the graph; `#3` an edge endpoint is not a declared vertex; `#4` a
-   color is not in the palette; `#5` `useExactly` exceeds the palette size; `#6` a
-   restriction belongs to the wrong set; `#8` `keep` and `drop` overlap; `#9` an `exact`
-   transform tries to drop vertices.
-
-2. **The certified-reduction discipline.** Composition `>>>` is checked at the sort
-   granularity: a stage producing sort `S` may only feed a stage that expects `S`, so a
-   misordered pipeline (for example `emit` after `colorChoice`) is rejected. The `emit`
-   stage enforces the device budget `N <= Nmax`, with `Nmax = 256` by default; an
-   estimate of the gadget atom count is compared against it. The supergraph path is gated
-   by the impossibility side-condition `sigma(G) <= 5`, where `sigma(G)` is the maximum
-   over vertices of the independence number of the neighborhood; when it fails, the
-   safety effect is unavailable and the checker directs the user to the exact path.
-
-## Examples
-
-The programs in `src/examples/` exercise the language end to end. Run them with `udgc`
-(see the next section).
-
-### `triangle.udgc` — smallest end-to-end pipeline
-
-A 3-coloring of the triangle `K3` through the exact gadget path. It also shows both
-binding forms.
-
-```
-graph gK3 = graph { vertices = [a, b, c]
-                  , edges    = [(a,b), (b,c), (a,c)] }
-
-palette pRGB = colors [red, green, blue]
-
-encodeK3 :: Coloring 3 3 ~> Dev 45
-encodeK3 = colorChoice 3 >>> gadgetize >>> layout opts >>> emit
-
-solveK3 :: Result
-solveK3 = color gK3 using pRGB via encodeK3
-
-chiK3 :: Int
-chiK3 = chromaticNumber (gK3)
-```
-
-### `paper_example.udgc` — primary and secondary paths together
-
-The five-vertex example from the paper. The exact pipeline `encode3` is fully typed as
-a chain of certified reductions; the `super` binding shows the supergraph path carrying
-an `asafe 1` effect.
-
-```
-encode3 :: Coloring 5 3 ~> Dev 75
-encode3 = colorChoice 3 >>> gadgetize >>> layout opts >>> emit
-
-super :: Coloring 5 3 ~> Coloring 5 4 ! asafe 1
-super = superUDG
-```
-
-### `supergraph_star.udgc` — the impossibility result as a type error
-
-The star `K(1,6)` has chromatic number 2, but `sigma(G) = 6 > 5`, so no UDG supergraph
-can bound its chromatic inflation. The `superUDG` transform therefore does **not**
-type-check on this graph: the checker rejects the supergraph path and points to the
-exact path instead.
-
-### `errors.udgc` — a catalogue of static errors
-
-A program that deliberately triggers the static-well-formedness catalogue (out-of-scope
-edge endpoints, undeclared vertices and colors, `useExactly` against a too-small palette,
-`keep`/`drop` overlap, an `exact` transform dropping vertices, and a misordered
-pipeline). Running the checker reports each with its catalogue number.
-
-## The `udgc` command-line driver
-
-```
-udgc FILE.udgc              parse, type-check, and elaborate (default)
-udgc --check FILE.udgc      parse and type-check only (no elaboration)
-udgc --emit-sim FILE.udgc [OUTDIR]
-                            type-check, then write one <instance>.sim.json per
-                            instance for the simulator (default OUTDIR: sim/instances)
-```
-
-The default mode prints the inferred type of every binding, all diagnostics (with
-`errors.tex` numbers where applicable), and, when there are no errors, the elaborated
-pre-simulation device instance for each coloring instance: the color-choice graph size,
-the gadget atom count and offset constant, the layout radius and edge-realization
-quality, and the oracle's colorability verdict. The `--emit-sim` mode refuses to write
-anything if the program has type errors.
-
-## Building and running
-
-### The compiler (Haskell)
-
-Requires GHC and Cabal (developed against GHC 9.12.2 and cabal-install 3.12).
+## Building
 
 ```sh
+# Proofs, then the verified certificate checker (the decomposition benchmarks call it)
+cd proof
+coq_makefile -f _CoqProject -o Makefile
+make
+cd checker && make          # writes proof/checker/certcheck
+cd ../..
+
+# Front end and its test suites
 cd src
 cabal build all
-cabal test                                  # spec + langspec (exhaustive oracle checks)
-cabal run udgc -- examples/triangle.udgc    # run an example
-cabal run udgc -- --check examples/errors.udgc
-```
+cabal test                  # 4 language checks and 15,334 oracle checks
+cd ..
 
-The library has no non-boot dependencies beyond `parsec` and `containers`; the parser
-uses `parsec` deliberately so the project builds in an offline environment.
+# Python environment used by all benchmark scripts
+python3 -m venv src/.venv
+src/.venv/bin/pip install numpy scipy networkx      # add bloqade-analog for the emulator check
 
-### The simulation backend (Python)
+# Julia packages for the metric layouts
+julia -e 'using Pkg; Pkg.add(name="UnitDiskMapping", version="0.5.1"); Pkg.add("Graphs")'
 
-The `src/sim/` backend runs the neutral-atom simulation on the emitted
-`*.sim.json` instances, decodes the recovered independent set into a coloring, and
-verifies that the independent-set size equals the vertex count exactly when the graph is
-colorable. It provides two engines: a faithful CPU Rydberg MWIS simulation, and the
-genuine `bloqade-analog` geometric emulator (run as an end-to-end protocol check on a
-clean unit-disk layout). It depends on `numpy`, `scipy`, and `bloqade-analog`.
-
-```sh
-cd src
-cabal run udgc -- --emit-sim examples/triangle.udgc   # writes sim/instances/solveK3.sim.json
-python sim/run_sim.py                                 # run all instances, default engine
-python sim/run_sim.py --bloqade-check                 # also run the genuine emulator
-```
-
-### The proofs (Rocq/Coq)
-
-The `proof/` directory mechanizes the certified-reduction calculus and the end-to-end
-soundness theorem (the measured device bitstring decodes to a correct coloring), with no
-axioms and no admitted lemmas. Requires `coqc` (tested on The Rocq Prover 9.0.0); no
-external libraries. See `proof/README.md`.
-
-```sh
-cd proof
-make
-```
-
-### The benchmarks
-
-The `benchmarks/` suite runs well-known small graphs end to end and compares the
-oracle-expected partial coloring against the simulation's result, in both the colorable
-and non-colorable regimes. See `benchmarks/README.md`.
-
-### The paper
-
-```sh
+# The paper
 latexmk -pdf paper.tex
 ```
 
-`paper.tex` is self-contained given the `cas-*` class and bibliography files and the
-`thumbnails/` directory in the repository root.
+Every head theorem of the Rocq development is closed under the global context: the
+development uses no axioms and contains no `Admitted`. `proof/README.md` lists the
+theorems and how each corresponds to a result in the paper (Table 1 of the paper).
 
-## Component map
+## Reproducing the results
 
-| Module (`src/lib/UDGColor/`) | Responsibility                                              |
-|------------------------------|-------------------------------------------------------------|
-| `Ast`                        | Surface syntax, problem-types, effects, sorts               |
-| `Parser`                     | `parsec` front end for `.udgc` programs                     |
-| `TypeCheck`                  | Static catalogue + certified-reduction discipline           |
-| `Elaborate`                  | Lowering of a well-typed instance to a device instance      |
-| `Emit`                       | Device-instance JSON for the simulator                      |
-| `Graph`, `Oracle`            | Graph type and brute-force chromatic/independence oracle    |
-| `Stage1`                     | Color-choice graph construction and coloring decode         |
-| `Gadget`                     | Combinatorial gadget contract and logical decode            |
-| `Layout`                     | Stage-3 geometric layout optimizer                          |
-| `Viz`                        | SVG, DOT, and ASCII visualizations of each stage            |
+Run the commands from the repository root after building. Each script writes its
+output to `benchmarks/results/`, where the recorded outputs used in the paper are
+already present.
 
-## Status and limitations
+| Paper | Command | Output |
+|---|---|---|
+| Section 9.3: ten named graphs, 18 runs | `src/.venv/bin/python benchmarks/run_benchmarks.py` | `results.{csv,json}`, `bars.svg`, `scatter.svg` |
+| Section 9.3, Table 2: random `G(n,p)`, 286 runs | `src/.venv/bin/python benchmarks/run_random.py --workers 5` (about 17 min on 5 cores) | `random.{csv,json}` |
+| Section 9.4, Table 3: imperfect solves, 14,835 shots | `src/.venv/bin/python benchmarks/run_robust.py` | `robust.{csv,json}` |
+| Section 9.5, Table 4: metric gadget instances | `julia benchmarks/run_layout.jl` (about 15 min) | `layout.{csv,json}` |
+| Section 9.5: exact MWIS check of the mapped instances, 24 checks | `julia benchmarks/verify_layout.jl` | `verify_layout.txt` |
+| Section 9.5: direct simulation of the combinatorial gadget | `src/.venv/bin/python src/sim/run_gadget.py` | printed |
+| Section 9.5: geometric emulator check | `cd src && .venv/bin/python sim/run_sim.py --bloqade-check` | printed |
+| Figure 3(c): the `C4` instance | `julia benchmarks/export_c4_layout.jl` | `c4_layout.tex` |
+| Section 9.6, Figure 6: scaling with pathwidth | `julia benchmarks/run_scaling.jl` | `scaling.csv` |
+| Section 9.7, Table 5, first two groups | `src/.venv/bin/python benchmarks/run_largenk.py` | `largenk.{csv,json,svg}` |
+| Section 9.7, Table 5, third group | `src/.venv/bin/python benchmarks/run_decomp.py` | `decomp.{csv,json,svg}` |
+| Section 9.7, Table 5, Mycielski graphs | `src/.venv/bin/python benchmarks/run_dimacs.py` | `dimacs.{csv,json,svg}` |
+| Section 9.8: certificates | written by the three decomposition scripts | `certs/*.cert` |
 
-The compiler, the simulation backend, and the mechanized soundness proof are
-implemented and pass their checks. The contribution is the **certified compilation
-discipline and its type system**, not near-term quantum advantage: the exact gadget
-reduction multiplies the instance size, so the device budget (`Nmax`) is reached on
-modest inputs. The size wall is a known and openly stated limitation; the
-decomposition front end (block/clique-separator and tree-decomposition based) is the
-route to larger instances by replacing the vertex count with a bounded decomposition
-width.
+The three decomposition scripts write a certificate for each of the 26 runs and check
+it with `proof/checker/certcheck` when it is written; a run passes only if its
+certificate is accepted (column `cert_valid` in the CSV files). The directory holds 24
+files because two instances, Petersen and the dodecahedral graph at `k = 3`, are run
+by both `run_decomp.py` and `run_largenk.py` and share a file name. Any certificate can
+be checked again directly:
+
+```sh
+proof/checker/certcheck benchmarks/results/certs/myciel3_k3.cert
+# VALID: no proper 3-coloring exists (n=11, m=20)
+```
+
+`benchmarks/README.md` describes each experiment in more detail.
+
+## The `udg-color` language
+
+A program declares graphs, palettes, restrictions, transforms, instances and queries.
+The checker accepts a pipeline only if every stage is a certified reduction and the
+stages are composed in a legal order. The program below is
+`src/examples/paper_figure.udgc`, shown in Figure 5 of the paper:
+
+```
+graph gInput = graph { vertices=[1,2,3,4,5],
+                       edges=[(1,2),(2,3),(3,1),(1,4),(3,5)] }
+palette pNamed = colors [red, blue, green]
+restrictions rMain = { precolor 1 : red; differentColor(1,2); useAtMost 3 }
+transform tExact   = colorChoice 3 >>> gadgetize >>> layout >>> emit
+transform tBounded = toUDG(boundedChi chromatic, keep=[1,2,3], trackOrigin=true)
+instance inst1 = color gInput using pNamed subjectTo rMain via tExact
+instance inst2 = color gInput using pNamed subjectTo rMain via tBounded
+compute  chiInput = chromaticNumber(gInput)
+```
+
+`tExact` is the exact path, typed `Col ~> Dev`. `tBounded` is the supergraph path,
+typed `Col ~> Col` with the effect `mono` (the chromatic number is never lowered, but
+its increase is not bounded).
+
+The stages of the exact path are:
+
+| Stage | Typed as | Role |
+|---|---|---|
+| `colorChoice k` | `Coloring n k ~> IS (n·k)` | Stage 1: color-choice graph |
+| `gadgetize` | `IS ~> WIS` | Stage 2: gadget instance with offset `C` |
+| `layout [opts]` | `WIS ~> UDG` | Stage 3: geometric layout |
+| `emit` | `UDG ~> Dev` | Device instance and atom-budget check |
+
+The checker enforces two layers. The first is static well-formedness: scope, palette
+and vertex membership, restriction validity, and signature agreement, with diagnostics
+numbered as in the error list of Section 9.2 of the paper. Restrictions on single
+vertices and pairs (`precolor`, `allow`, `forbid`, `sameColor`, `differentColor`,
+`distinctOn`) are compiled into the color-choice graph (Proposition 4.3); the
+counting restrictions `useExactly`, and `useAtMost j` with `j < k`, are rejected on
+the exact path (#13). The second is the
+certified-reduction discipline. A stage that produces sort `S` can feed only a stage
+that expects `S`, so a misordered pipeline is rejected. The supergraph path is
+rejected when `σ(G) > 5`, where `σ(G)` is the largest independence number of a
+neighborhood. The `emit` stage checks the atom budget: it reports an error when the
+`nk` logical atoms alone exceed `Nmax`, and reports that an instance fits only when
+the bound `4(nk)²` is within `Nmax`; otherwise device fit must be decided from the
+metric layout. Section 9.2 of the paper lists what the prototype checks and what it
+does not check yet.
+
+Other examples in `src/examples/`:
+
+- `triangle.udgc`: the smallest end-to-end pipeline, a 3-coloring of `K3`.
+- `paper_example.udgc`: the exact path and the supergraph path on the same graph.
+- `supergraph_star.udgc`: the star `K(1,6)`, on which the supergraph path is rejected.
+- `errors.udgc`: a program that triggers the static error catalogue.
+
+The command-line driver:
+
+```
+udgc FILE.udgc                    parse, type-check and elaborate (default)
+udgc --check FILE.udgc            parse and type-check only
+udgc --emit-sim FILE.udgc [DIR]   type-check, then write <instance>.sim.json files
+                                  for the simulator (default DIR: sim/instances)
+```
+
+For example, from `src/`: `cabal run udgc -- examples/paper_figure.udgc`.
+
+## Citation
+
+If you use this artifact, please cite the paper:
+
+```bibtex
+@misc{NaderiMazzaraCiancarini2026,
+  author = {Naderi, Mahmoud and Mazzara, Manuel and Ciancarini, Paolo},
+  title  = {Certified Compilation of Graph Coloring to Neutral-Atom Hardware:
+            An Exact Gadgetized Reduction with a Heuristic Layout Optimizer},
+  year   = {2026},
+  note   = {Manuscript},
+  url    = {https://github.com/slant14/Graph-colouring}
+}
+```
+
+## Contact
+
+Mahmoud Naderi, Innopolis University (m.naderi@innopolis.university).

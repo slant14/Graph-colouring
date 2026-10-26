@@ -1,0 +1,13 @@
+-- The well-typed program of the paper's "A well-typed program" figure, in the
+-- keyword-declaration form. Run:  cabal run udgc -- examples/paper_figure.udgc
+-- Expected: 0 errors; inst1 is typed through the exact gadget pipeline
+-- (Coloring ~> Dev), tBounded is a same-vertex supergraph typed `mono`.
+
+graph gInput = graph { vertices=[1,2,3,4,5], edges=[(1,2),(2,3),(3,1),(1,4),(3,5)] }
+palette pNamed = colors [red, blue, green]
+restrictions rMain = { precolor 1 : red; differentColor(1,2); useAtMost 3 }
+transform tExact   = colorChoice 3 >>> gadgetize >>> layout >>> emit
+transform tBounded = toUDG(boundedChi chromatic, keep=[1,2,3], trackOrigin=true)
+instance inst1 = color gInput using pNamed subjectTo rMain via tExact
+instance inst2 = color gInput using pNamed subjectTo rMain via tBounded
+compute  chiInput = chromaticNumber(gInput)

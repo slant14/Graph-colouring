@@ -31,8 +31,8 @@ cases =
          "examples/triangle.udgc" NoErrors
   , Case "star supergraph rejected by sigma>5"
          "examples/supergraph_star.udgc" (HasErrSubstr "sigma")
-  , Case "error catalogue raises #2,#3,#4,#5,#8,#9 and a stage-ordering error"
-         "examples/errors.udgc" (HasCodesAnd [2, 3, 4, 5, 8, 9] "stage-ordering")
+  , Case "error catalogue raises #2,#3,#4,#5,#8,#9,#13 and a stage-ordering error"
+         "examples/errors.udgc" (HasCodesAnd [2, 3, 4, 5, 8, 9, 13] "stage-ordering")
   ]
 
 runCase :: Case -> IO (String, Bool, String)

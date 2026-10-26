@@ -10,7 +10,8 @@ pSmall :: Palette
 pSmall = colors [red, blue]
 
 -- validated where it is used (below): vertex 4 (#2), color green (#4),
--- useExactly 3 against a size-2 palette (#5)
+-- useExactly 3 against a size-2 palette (#5); useExactly is also a counting
+-- restriction the exact pipeline cannot enforce (#13)
 restrictions rBad = { precolor 4 : green; useExactly 3 }
 
 -- #9: an exact transform cannot drop vertices
@@ -18,7 +19,7 @@ tExactDrop :: Coloring 3 2 ~> UDG 0
 tExactDrop = toUDG(exact, drop=[2, 3])
 
 -- #8: the same vertex appears in both keep and drop
-tOverlap = toUDG(preserve chromatic, keep=[1, 2], drop=[2, 3])
+tOverlap = toUDG(boundedChi chromatic, keep=[1, 2], drop=[2, 3])
 
 -- stage-ordering error: emit (UDG ~> Dev) cannot follow colorChoice (Col ~> IS)
 tMisordered = colorChoice 2 >>> emit

@@ -32,12 +32,12 @@ langDef = emptyDef
       [ "graph", "palette", "colors", "size", "udg", "radius", "vertices"
       , "edges", "restrictions", "transform", "instance", "compute", "color"
       , "using", "subjectTo", "via", "apply", "to", "chromaticNumber"
-      , "toUDG", "exact", "preserve", "compose", "encodeColoring", "superUDG"
+      , "toUDG", "exact", "boundedChi", "compose", "encodeColoring", "superUDG"
       , "colorChoice", "gadgetize", "layout", "emit"
       , "precolor", "allow", "forbid", "sameColor", "differentColor"
       , "useAtMost", "useExactly", "distinctOn", "keep", "drop", "trackOrigin"
       , "kColorable", "chromatic", "bipartite", "true", "false"
-      , "safe", "asafe"
+      , "safe", "asafe", "mono"
       , "Coloring", "IS", "WIS", "UDG", "Dev"
       , "Graph", "Palette", "Restrictions", "Instance", "Result", "Int"
       ]
@@ -181,7 +181,7 @@ toUDGExpr = do
 transformMode :: Parser TransformMode
 transformMode =
       (reserved "exact" >> pure Exact)
-  <|> (reserved "preserve" >> Preserve <$> property)
+  <|> (reserved "boundedChi" >> BoundedChi <$> property)
   <?> "transform mode"
 
 property :: Parser Property
@@ -268,6 +268,7 @@ effectP :: Parser Effect
 effectP =
       (reserved "safe"  >> pure Safe)
   <|> (reserved "asafe" >> ASafe <$> natural)
+  <|> (reserved "mono"  >> pure Mono)
   <?> "effect"
 
 -- ── Bindings and the program ─────────────────────────────────────────────────

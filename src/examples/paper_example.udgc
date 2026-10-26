@@ -22,7 +22,7 @@ solve3 :: Result
 solve3 = color gInput using pNamed subjectTo rMain via encode3
 
 -- secondary (supergraph) path: SAME vertices, carries a safety effect.
-super :: Coloring 5 3 ~> Coloring 5 4 ! asafe 1
+super :: Coloring 5 3 ~> Coloring 5 4 ! mono
 super = superUDG
 
 -- a pure query

@@ -1,6 +1,16 @@
-name,n,m,chi,k,whole_slots,max_piece_slots,device_calls,colors_used,colorable,expected_colorable,proper,seconds,ok,note
-C24 (cycle),24,24,2,8,192,11,8,5,True,True,True,8.5,True,"n·k=192, 2^192 monolithic"
-Ladder 2x10,20,28,2,8,160,11,10,4,True,True,True,8.6,True,"tw 2, n·k=160"
-Petersen,10,15,3,8,80,13,3,6,True,True,True,12.2,True,"cubic, n·k=80"
-Dodecahedral,20,30,3,8,160,13,7,7,True,True,True,21.7,True,"cubic, n·k=160"
-"Star K1,12",13,12,2,10,130,11,12,2,True,True,True,13.2,True,"k=10, n·k=130"
+name,n,m,chi,k,whole_slots,max_piece_slots,device_calls,device_witnesses,classical_checks,device_misses,cert,cert_nodes,cert_valid,cert_check_s,colors_used,colorable,expected_colorable,proper,seconds,ok,note
+C24 (cycle),24,24,2,8,192,11,8,8,0,0,coloring,24,True,0.003,5,True,True,True,10.1,True,"n·k=192, 2^192 monolithic"
+Ladder 2x10,20,28,2,8,160,11,10,10,0,0,coloring,20,True,0.002,4,True,True,True,11.8,True,"tw 2, n·k=160"
+Petersen,10,15,3,8,80,13,3,3,0,0,coloring,10,True,0.017,6,True,True,True,21.3,True,"cubic, n·k=80"
+Dodecahedral,20,30,3,8,160,13,7,7,0,0,coloring,20,True,0.008,7,True,True,True,64.3,True,"cubic, n·k=160"
+"Star K1,12",13,12,2,10,130,11,12,12,0,0,coloring,13,True,0.003,2,True,True,True,29.6,True,"k=10, n·k=130"
+C24 (cycle),24,24,2,2,48,12,4,4,0,0,coloring,24,True,0.002,2,True,True,True,9.3,True,k=chi
+C24 (cycle),24,24,2,1,24,7,1,0,1,0,refutation,3,True,0.003,0,False,False,,0.2,True,k=chi-1
+Ladder 2x10,20,28,2,2,40,12,6,6,0,0,coloring,20,True,0.002,2,True,True,True,5.4,True,k=chi
+Ladder 2x10,20,28,2,1,20,11,1,0,1,0,refutation,2,True,0.002,0,False,False,,0.8,True,k=chi-1
+Petersen,10,15,3,3,30,10,4,3,1,0,coloring,10,True,0.003,3,True,True,True,1.6,True,k=chi
+Petersen,10,15,3,2,20,8,10,2,8,0,refutation,49,True,0.005,0,False,False,,1.5,True,k=chi-1
+Dodecahedral,20,30,3,3,60,10,25,16,9,0,coloring,20,True,0.002,3,True,True,True,8.4,True,k=chi
+Dodecahedral,20,30,3,2,40,8,16,2,14,0,refutation,79,True,0.003,0,False,False,,2.8,True,k=chi-1
+"Star K1,12",13,12,2,2,26,3,12,12,0,0,coloring,13,True,0.002,2,True,True,True,0.8,True,k=chi
+"Star K1,12",13,12,2,1,13,2,1,0,1,0,refutation,2,True,0.002,0,False,False,,0.0,True,k=chi-1

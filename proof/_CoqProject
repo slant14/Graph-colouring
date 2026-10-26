@@ -6,3 +6,5 @@ Sorts.v
 Stages.v
 Pipeline.v
 Effect.v
+Robust.v
+Certificate.v

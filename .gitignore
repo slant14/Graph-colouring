@@ -20,6 +20,7 @@
 *.fff
 *.ttt
 *.abs
+*.spl
 # Compiled documents (regenerate from source)
 *.pdf
 # ...except the built paper, kept in the repo for readers
@@ -65,3 +66,15 @@ venv/
 .DS_Store
 ._*
 *.swp
+
+# Extracted, compiled certificate checker (proof/checker; rebuilt by `make`)
+proof/checker/certcheck
+proof/checker/certcheck.ml
+proof/checker/certcheck.mli
+proof/checker/*.cm*
+proof/checker/*.o
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Journal submission package (generated from paper.tex; kept locally)
+# ─────────────────────────────────────────────────────────────────────────────
+submission/

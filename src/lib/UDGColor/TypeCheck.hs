@@ -7,9 +7,12 @@
 --     elimination, and signature agreement (the @errors.tex@ catalogue); and
 --   * a /certified-reduction layer/ — every transform is typed as an
 --     answer-preserving morphism @A ~> B ! e@ between problem-types, composition
---     checks stage-ordering, @emit@ enforces the device budget @N <= Nmax@, and
---     same-vertex (supergraph) transforms carry a safety effect gated by the
---     impossibility side-condition @sigma(G) <= 5@.
+--     checks stage-ordering, @emit@ checks the atom budget (an error when the
+--     @nk@ logical atoms alone exceed @Nmax@; device fit is established only
+--     when Nguyen et al.'s bound @4(nk)^2@ is within @Nmax@), counting
+--     restrictions that no independence constraint expresses are rejected
+--     (#13), and same-vertex (supergraph) transforms carry the safety effect
+--     @mono@ and are screened by the side-condition @sigma(G) <= 5@.
 --
 -- Everything here is /before/ the simulation: it decides whether a program
 -- denotes a faithful pipeline, and the companion "UDGColor.Elaborate" then
@@ -231,10 +234,16 @@ typeofTransform env nm = go
     go (LayoutT _)        = Right (RType SWIS SUDG Safe)
     go EmitT              = Right (RType SUDG SDev Safe)
     go (EncodeColoring _) = Right (RType SCol SWIS Safe)
-    go SuperUDG           = Right (RType SCol SCol (ASafe 1))
+    -- same-vertex supergraphs never lower chi (Prop. "Safety => decoder
+    -- correctness") but nothing statically bounds the increase: `mono`.  A
+    -- bound `asafe c` needs witnesses (a colouring of H, a clique of G) that
+    -- the checker does not have before elaboration.
+    go SuperUDG           = Right (RType SCol SCol Mono)
     go (ToUDG mode _)     = Right $ case mode of
         Exact          -> RType SCol SUDG Safe
-        Preserve _     -> RType SCol SCol Safe   -- supergraph; sigma<=5 gated at use
+        -- supergraph: adds edges, so chi may rise -- never `safe`, and no
+        -- discharged bound: `mono`; sigma<=5 screened at use
+        BoundedChi _   -> RType SCol SCol Mono
     go (TRef r)           =
       case Map.lookup r env of
         Just (ETransform rt _) -> Right rt
@@ -277,13 +286,13 @@ optionDiags nm (Pipe f g)  = optionDiags nm f ++ optionDiags nm g
 optionDiags _  _           = []
 
 -- | Extract the pipeline's palette @k@ (from @colorChoice k@ / @encodeColoring k@
--- / @preserve kColorable(k)@), threading through references.
+-- / @boundedChi kColorable(k)@), threading through references.
 transformK :: Env -> TransformExpr -> Maybe Int
 transformK env = go
   where
     go (ColorChoice k)              = Just k
     go (EncodeColoring k)           = Just k
-    go (ToUDG (Preserve (KColorable k)) _) = Just k
+    go (ToUDG (BoundedChi (KColorable k)) _) = Just k
     go (Pipe f g)                   = go f `orElse` go g
     go (Compose rs)                 = firstJust (map fromRef rs)
     go (TRef r)                     = fromRef r
@@ -318,7 +327,31 @@ inferInstance env nm (InstanceExpr gName mPal mRestr mTrans) =
       k     = kPal `orElse` kTrans
 
       dTrans = dTrans0 ++ maybe [] (transformUseDiags nm mg k) mRt
-  in dGraph ++ dPal ++ dRestr ++ dTrans ++ dK
+
+      dCount = case mRestr of
+                 Just r | Just (ERestr rs) <- Map.lookup r env -> countingDiags nm k rs
+                 _ -> []
+  in dGraph ++ dPal ++ dRestr ++ dCount ++ dTrans ++ dK
+
+-- | Counting restrictions (#13). @useExactly@ is not hereditary and
+-- @useAtMost j@ with @j < k@ bounds the number of distinct colors, so neither is
+-- an independence constraint on the color-choice graph, and the exact pipeline
+-- (through which every instance is elaborated) cannot enforce them.
+-- @useAtMost j@ with @j >= k@ is vacuous and accepted.
+countingDiags :: Name -> Maybe Int -> [Restriction] -> [Diag]
+countingDiags nm k rs = concatMap one rs
+  where
+    one (UseExactly j) =
+      [ err nm (Just 13) $
+          "useExactly " ++ show j ++ " is a counting restriction, not an independence "
+            ++ "constraint on the color-choice graph; the exact pipeline cannot enforce it" ]
+    one (UseAtMost j)
+      | Just kk <- k, j < kk =
+          [ err nm (Just 13) $
+              "useAtMost " ++ show j ++ " < k=" ++ show kk ++ " is a counting restriction, "
+                ++ "not an independence constraint; use a palette of " ++ show j
+                ++ " colors instead" ]
+    one _ = []
 
 -- | Checks on the @via@ transform at an instance site: it must start from a
 -- coloring instance; supergraph (Col ~> Col) transforms are gated by sigma<=5;
@@ -334,29 +367,37 @@ transformUseDiags nm mg k rt =
                  _              -> []
       dBudget = case (rTgt rt, mg, k) of
                  (SDev, Just g, Just kk) ->
-                   let n = G.order g
-                       atoms = estimateAtoms g kk
-                   in if atoms > defaultNmax
+                   let nk    = G.order g * kk
+                       bound = metricAtomBound g kk
+                   in if nk > defaultNmax
                         then [ err nm Nothing $
-                                 "device budget exceeded: N=" ++ show atoms
-                                   ++ " atoms > Nmax=" ++ show defaultNmax
-                                   ++ "  (n=" ++ show n ++ ", k=" ++ show kk ++ ")" ]
-                        else [ warn nm $
-                                 "feasible: N=" ++ show atoms ++ " atoms <= Nmax="
+                                 "atom budget exceeded: the instance needs at least nk="
+                                   ++ show nk ++ " atoms (its logical atoms) > Nmax="
                                    ++ show defaultNmax ]
+                        else if bound <= defaultNmax
+                          then [ warn nm $
+                                   "fits the device: at most 4(nk)^2=" ++ show bound
+                                     ++ " atoms <= Nmax=" ++ show defaultNmax ]
+                          else [ warn nm $
+                                   "device fit not established: nk=" ++ show nk
+                                     ++ " <= Nmax=" ++ show defaultNmax
+                                     ++ ", but the atom bound 4(nk)^2=" ++ show bound
+                                     ++ " exceeds it; compute the metric layout"
+                                     ++ " (benchmarks/run_layout.jl)" ]
                  _ -> []
   in dSrc ++ dSigma ++ dBudget
 
--- | The neighborhood-independence side-condition of Theorem "Supergraph
--- inflation is unbounded": supergraph safety is only available when
--- @sigma(G) = max_v alpha(G[N(v)]) <= 5@.
+-- | The neighborhood-independence screen behind Theorem "Supergraph inflation
+-- is unbounded": when @sigma(G) = max_v alpha(G[N(v)]) > 5@ every same-vertex
+-- UDG supergraph has false edges (packing lemma), so the supergraph path is
+-- screened out.  The screen is conservative, not a safety proof.
 sigmaDiag :: Name -> G.Graph String -> [Diag]
 sigmaDiag nm g =
   let s = sigmaG g
   in [ err nm Nothing $
-         "supergraph safety unavailable: sigma(G)=" ++ show s
-           ++ " > 5, so no UDG supergraph bounds chromatic inflation "
-           ++ "(Thm. impossibility); use the exact gadget path instead"
+         "supergraph path screened out: sigma(G)=" ++ show s
+           ++ " > 5, so every same-vertex UDG supergraph has false edges and "
+           ++ "chi(H) >= 1 + ceil(sigma/5) (packing lemma); use the exact gadget path instead"
      | s > 5 ]
 
 sigmaG :: G.Graph String -> Int
@@ -364,14 +405,21 @@ sigmaG g =
   maximum (0 : [ O.independenceNumber (G.inducedSubgraph (G.neighbors v g) g)
                | v <- Set.toList (G.vertices g) ])
 
--- | Worst-case gadgetized atom count used by the budget premise:
--- @|V(A)| = nk + 2|E(G')|@ with @|E(G')| = n*C(k,2) + m*k@.
+-- | The number of vertices @nk + 2|E(G')|@ (with @|E(G')| = n*C(k,2) + m*k@) of
+-- the /combinatorial/ gadget instance @A_4(G')@ the elaborator builds (each
+-- G'-edge a weighted 4-path). This is not an atom count of a metric unit-disk
+-- layout and is not compared with @Nmax@; see 'metricAtomBound'.
 estimateAtoms :: G.Graph String -> Int -> Int
 estimateAtoms g k =
   let n  = G.order g
       m  = G.size g
       e' = n * (k * (k - 1) `div` 2) + m * k
   in n * k + 2 * e'
+
+-- | Nguyen et al.'s upper bound of @4N^2@ atoms for the crossing lattice on
+-- @N = nk@ copy lines (their Sec. V A; paper, Proposition "Atom budget").
+metricAtomBound :: G.Graph String -> Int -> Int
+metricAtomBound g k = let nk = G.order g * k in 4 * nk * nk
 
 -- ── Restriction validation (errors.tex #2, #4, #5, #6) ───────────────────────
 
@@ -386,7 +434,9 @@ validateRestrictions nm rs palCols palSize g = concatMap one rs
                         "restriction mentions vertex " ++ show v
                           ++ " not in the instance graph (or wrong restriction set, #6)" ]
     inPal c
-      | null palCols          = []   -- size-only palette: no color names to check
+      | null palCols, Just s <- palSize
+      , c `elem` map show [1 .. s] = []   -- size-only palette: colors are 1..s
+      | null palCols, Nothing <- palSize = []
       | c `elem` palCols      = []
       | otherwise = [ err nm (Just 4) $ "color " ++ show c ++ " not in palette" ]
     sizeCheck j what
@@ -462,6 +512,8 @@ scopeErr nm r = err nm Nothing ("not in scope: " ++ r)
 effPlus :: Effect -> Effect -> Effect
 effPlus Safe e               = e
 effPlus e Safe               = e
+effPlus Mono _               = Mono
+effPlus _ Mono               = Mono
 effPlus (ASafe a) (ASafe b)  = ASafe (a + b)
 
 orElse :: Maybe a -> Maybe a -> Maybe a

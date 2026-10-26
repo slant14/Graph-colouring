@@ -13,15 +13,14 @@ module UDGColor.Emit
   ) where
 
 import           Data.List   (intercalate)
-import           Data.Map    (Map)
 import qualified Data.Map    as Map
 import qualified Data.Set    as Set
 
 import           UDGColor.Ast
 import qualified UDGColor.Graph  as G
 import           UDGColor.Gadget (Gadget(..), gadgetize)
-import           UDGColor.Oracle (isKColorable)
-import           UDGColor.Stage1 (colorChoiceGraphPrecolored)
+import           UDGColor.Elaborate (colorIndexFor, isKColorableUnder, slotRestrOf)
+import           UDGColor.Stage1 (SlotRestr, colorChoiceGraphRestricted, noRestr)
 import           UDGColor.TypeCheck (Entity(..), Env)
 
 -- | JSON for every @instance@ in the program, paired with the instance name.
@@ -34,8 +33,8 @@ instanceJson :: Env -> Name -> InstanceExpr -> Either String String
 instanceJson env nm (InstanceExpr gName mPal mRestr _) = do
   g <- maybe (Left ("graph " ++ gName ++ " unresolved")) Right (graphOf gName)
   k <- maybe (Left "palette size / k unknown") Right kOf
-  let beta    = betaOf g k
-      gp      = colorChoiceGraphPrecolored k g beta
+  let sr      = restrOf g k
+      gp      = colorChoiceGraphRestricted k g sr
       gad     = gadgetize gp
       slots   = Set.toAscList (G.vertices gp)              -- canonical order
       idx     = Map.fromList (zip slots [0 :: Int ..])
@@ -47,7 +46,7 @@ instanceJson env nm (InstanceExpr gName mPal mRestr _) = do
     , ("n",          int (G.order g))
     , ("k",          int k)
     , ("offsetC",    num (gOffset gad))
-    , ("colorable",  bool (isKColorable k g))
+    , ("colorable",  bool (isKColorableUnder k g sr))
     , ("originalVertices", arr (map str (Set.toList (G.vertices g))))
     , ("originalEdges",    arr [ pair (str u) (str v) | (u, v) <- Set.toList (G.edges g) ])
     , ("slots",      arr [ pair (str v) (int i) | (v, i) <- slots ])
@@ -62,22 +61,16 @@ instanceJson env nm (InstanceExpr gName mPal mRestr _) = do
     transK = Nothing  -- k is taken from the palette for emission
     kOf = palSize `mplusM` transK
 
-    colorIndex = case mPal of
-      Just p -> case Map.lookup p env of
-        Just (EPalette cs _) -> Map.fromList (zip cs [1 :: Int ..])
-        _                    -> Map.empty
-      Nothing -> Map.empty
+    palCols = case mPal of
+      Just p -> case Map.lookup p env of Just (EPalette cs _) -> Just cs; _ -> Nothing
+      Nothing -> Nothing
 
-    betaOf :: G.Graph String -> Int -> Map String Int
-    betaOf g _ = case mRestr of
+    restrOf :: G.Graph String -> Int -> SlotRestr String
+    restrOf g k = case mRestr of
       Just r -> case Map.lookup r env of
-        Just (ERestr rs) -> Map.fromList
-          [ (v, i)
-          | Precolor v c <- rs
-          , Just i <- [Map.lookup c colorIndex]
-          , Set.member v (G.vertices g) ]
-        _ -> Map.empty
-      Nothing -> Map.empty
+        Just (ERestr rs) -> slotRestrOf k (colorIndexFor palCols (Just k)) (G.vertices g) rs
+        _ -> noRestr
+      Nothing -> noRestr
 
 mplusM :: Maybe a -> Maybe a -> Maybe a
 mplusM (Just x) _ = Just x

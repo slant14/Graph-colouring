@@ -1,17 +1,20 @@
 (** * Pipeline.v — composition, end-to-end soundness, and ordering.
 
     This file assembles the per-stage reductions of [Stages.v] into the whole
-    compiler [Col ⇝ IS ⇝ WIS ⇝ UDG ⇝ Dev] and proves the two head theorems of
-    [type-system/type-system.tex]:
+    compiler [Col ⇝ IS ⇝ WIS⟨N,C⟩ ⇝ UDG⟨N⟩ ⇝ Dev⟨N⟩] and proves the head
+    theorems of [type-system/type-system.tex]:
 
-      - Theorem 5.2 (Pipeline soundness): an optimal device measurement decodes
-        back to a *proper k-colouring* — [pipeline_sound];
-      - the decision content (α = n ⟺ k-colourable lifted to the device):
-        the device has an optimum iff [G] is colourable — [pipeline_decision].
+      - Pipeline soundness ([pipeline_sound]): an optimal device measurement
+        decodes to a correct answer, a proper k-colouring if [G] is
+        k-colourable and the answer "not k-colourable" otherwise;
+      - acceptance soundness ([pipeline_accept_sound]): *any* measurement whose
+        readout is accepted decodes to a proper k-colouring, optimal or not;
+      - the decision content ([pipeline_decision]): an optimal measurement has
+        [n] logical atoms selected exactly when [G] is k-colourable.
 
-    It also mechanises Corollary 5.3 (ill-ordered pipelines are ill-typed): a
-    syntactic step relation on sorts whose shape *is* the legal ordering, so the
-    three illegal pipelines simply have no derivation. *)
+    It also mechanises the ordering corollary twice: compositions in a wrong
+    stage order do not type-check ([Fail] commands below), and a syntactic step
+    relation on sorts has no transition for the illegal orders. *)
 
 From Stdlib Require Import PeanoNat Lia.
 From CertCol Require Import Problem Sorts Stages.
@@ -21,47 +24,83 @@ From CertCol Require Import Problem Sorts Stages.
 Section Pipeline.
   Variable k : nat.
   Variable g : Graph.
-  Variable C : nat.                 (* the gadget offset (carried index) *)
+  Variable N : nat.                 (* atom count of the device instance (index) *)
+  Variable C : nat.                 (* the gadget offset (index) *)
   Variable Realizes : Prop.         (* Stage-3 geometric realisability premise *)
   Variable HR : Realizes.
   Variable Nmax : nat.              (* device budget *)
-  Variable HN : gN g <= Nmax.       (* [Fit] premise *)
+  Variable HN : N <= Nmax.          (* [Fit] premise: the atom count fits *)
 
   (** [Col ⇝ IS ⇝ WIS ⇝ UDG ⇝ Dev], built by [Comp] from the four stage rules. *)
-  Definition pipeline : CRed (Pcol k g) (Pdev k g) :=
+  Definition pipeline : CRed (Pcol k g) (Pdev k g N) :=
     cred_comp (S1 k g)
-      (cred_comp (gadgetize k g)
-        (cred_comp (layout_exact k g Realizes HR)
-                   (emit k g Nmax HN))).
+      (cred_comp (gadgetize k g N C)
+        (cred_comp (layout_exact k g N C Realizes HR)
+                   (emit k g N Nmax HN))).
 
-  (** Theorem 5.2.  Any device measurement of optimal value decodes, through the
-      whole chain of total-on-optima decoders, to a proper k-colouring of G. *)
+  (** The composed decoder is the Stage-1 readout of the logical atoms. *)
+  Lemma pipeline_dec (m : DSol N) : dec pipeline m = decodeColoring k g (fst (unD m)).
+  Proof. reflexivity. Qed.
+
+  (** Pipeline soundness.  Any device measurement of optimal value decodes,
+      through the whole chain of total-on-optima decoders, to a correct answer:
+      a proper k-colouring, or "not k-colourable" when none exists. *)
   Theorem pipeline_sound :
-    forall m, IsOpt (Pdev k g) m ->
-      exists c, dec pipeline m = Some c /\ proper k g c.
+    forall m, IsOpt (Pdev k g N) m ->
+      exists a, dec pipeline m = Some a /\ IsOpt (Pcol k g) a.
+  Proof. exact (cred_sound pipeline). Qed.
+
+  Corollary pipeline_sound_colorable :
+    forall m, IsOpt (Pdev k g N) m -> colorable k g ->
+      exists c, dec pipeline m = Some (Some c) /\ proper k g c.
   Proof.
-    intros m Hm.
-    destruct (cred_sound pipeline m Hm) as [c [Hdec Hopt]].
-    exists c. split; [exact Hdec | exact Hopt].
+    intros m Hm Hcol. destruct (pipeline_sound m Hm) as [[c|] [Hd Ha]].
+    - exists c. split; assumption.
+    - exfalso. exact (Ha Hcol).
+  Qed.
+
+  (** Acceptance soundness: a readout that passes the check is a proper
+      k-colouring for *every* measurement.  Only the rejection of a readout
+      depends on optimality, which cannot be checked (Remark 4.6). *)
+  Theorem pipeline_accept_sound :
+    forall m c, dec pipeline m = Some (Some c) -> proper k g c.
+  Proof.
+    intros m c H. rewrite pipeline_dec in H.
+    exact (decodeColoring_accept_sound k g _ c H).
   Qed.
 
 End Pipeline.
 
 (** ** The decision theorem.
 
-    Reaching a device optimum is possible exactly when G is k-colourable: the
-    Stage-1 exactness refinement [P_s1] survives composition to the device. *)
-Theorem pipeline_decision (k : nat) (g : Graph) :
-  (exists m, IsOpt (Pdev k g) m) <-> colorable k g.
-Proof.
-  split.
-  - intros [m [Hiso Hcount]].
-    apply (stage1_exact k g).
-    exists (fst m). split; [exact Hiso | exact Hcount].
-  - intros Hcol.
-    apply (stage1_exact k g) in Hcol. destruct Hcol as [sel [Hiso Hcount]].
-    exists (sel, fun _ => false). simpl. split; [exact Hiso | exact Hcount].
-Qed.
+    At an optimal measurement, [n] logical atoms are selected exactly when [G]
+    is k-colourable: the Stage-1 exactness refinement [P_s1] survives
+    composition to the device. *)
+Theorem pipeline_decision (k : nat) (g : Graph) (N : nat) (m : DSol N) :
+  IsOpt (Pdev k g N) m ->
+  (colorable k g <-> count_some (fst (unD m)) (gN g) = gN g).
+Proof. intros Hm. exact (stage1_opt k g (fst (unD m)) Hm). Qed.
+
+(** ** Ill-ordered compositions do not type-check.
+
+    The sorts [Pwis], [Pudg] and [Pdev] have distinct solution types, so the
+    stage reductions compose only in the legal order, and the atom count [N]
+    must agree from the gadget stage to the device.  Each [Fail] below succeeds
+    only because the composition it contains is rejected by Rocq. *)
+
+(* "emit before layout": [Fit] expects UDG, is given WIS. *)
+Fail Definition emit_before_layout (k : nat) (g : Graph) (N C Nmax : nat)
+     (H : N <= Nmax) :=
+  cred_comp (gadgetize k g N C) (emit k g N Nmax H).
+
+(* "gadgetize before colorChoice": [S2] expects IS, is given Col. *)
+Fail Definition gadgetize_before_choice (k : nat) (g : Graph) (N C : nat) :=
+  cred_comp (gadgetize k g N C) (S1 k g).
+
+(* The atom count checked by [Fit] must be the one the gadget stage produced. *)
+Fail Definition mismatched_atom_count (k : nat) (g : Graph) (N C Nmax : nat)
+     (R : Prop) (HR : R) (H : S N <= Nmax) :=
+  cred_comp (layout_exact k g N C R HR) (emit k g (S N) Nmax H).
 
 (** ** Corollary 5.3 — ill-ordered pipelines are ill-typed.
 

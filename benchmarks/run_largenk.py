@@ -19,6 +19,7 @@ from __future__ import annotations
 import csv
 import json
 import os
+import re
 import sys
 import time
 from typing import List
@@ -45,6 +46,18 @@ SUITE = [
     ("Petersen",      nx.petersen_graph(),        8, 3, True, "cubic, n·k=80"),
     ("Dodecahedral",  nx.dodecahedral_graph(),    8, 3, True, "cubic, n·k=160"),
     ("Star K1,12",    nx.star_graph(12),         10, 2, True, "k=10, n·k=130"),
+    # the same graphs at k = chi (feasible) and k = chi - 1 (infeasible), so the
+    # non-colourable direction is exercised, not only the easy k >> chi one
+    ("C24 (cycle)",   nx.cycle_graph(24),         2, 2, True,  "k=chi"),
+    ("C24 (cycle)",   nx.cycle_graph(24),         1, 2, False, "k=chi-1"),
+    ("Ladder 2x10",   nx.grid_2d_graph(2, 10),    2, 2, True,  "k=chi"),
+    ("Ladder 2x10",   nx.grid_2d_graph(2, 10),    1, 2, False, "k=chi-1"),
+    ("Petersen",      nx.petersen_graph(),        3, 3, True,  "k=chi"),
+    ("Petersen",      nx.petersen_graph(),        2, 3, False, "k=chi-1"),
+    ("Dodecahedral",  nx.dodecahedral_graph(),    3, 3, True,  "k=chi"),
+    ("Dodecahedral",  nx.dodecahedral_graph(),    2, 3, False, "k=chi-1"),
+    ("Star K1,12",    nx.star_graph(12),          2, 2, True,  "k=chi"),
+    ("Star K1,12",    nx.star_graph(12),          1, 2, False, "k=chi-1"),
 ]
 
 
@@ -55,23 +68,33 @@ def run() -> List[dict]:
         adj = D.adjacency(n, edges)
         st = D.Stats()
         t0 = time.time()
-        col = D.solve(set(range(n)), k, {}, adj, st)
+        col, ref = D.solve_cert(set(range(n)), k, {}, adj, st)
+        slug = re.sub(r"[^A-Za-z0-9]+", "_", name).strip("_")
+        cert_path = os.path.join(HERE, "results", "certs", f"{slug}_k{k}.cert")
+        D.write_certificate(cert_path, n, edges, k, coloring=col, refutation=ref)
+        cert_ok, cert_msg, cert_s = D.check_certificate(cert_path)
+        cert_n = D.cert_nodes(ref) if ref is not None else n
         dt = time.time() - t0
         colorable = col is not None
         proper = D.is_proper_full(n, edges, col, k) if col else None
         ncolors = len(set(col.values())) if col else 0
-        ok = (colorable == exp_col) and (not exp_col or proper)
+        ok = (colorable == exp_col) and (not exp_col or proper) and bool(cert_ok)
         whole = n * k
         rows.append({
             "name": name, "n": n, "m": len(edges), "chi": chi, "k": k,
             "whole_slots": whole, "max_piece_slots": st.max_piece_slots,
-            "device_calls": st.device_calls, "colors_used": ncolors,
+            "device_calls": st.device_calls,
+            "device_witnesses": st.device_witnesses,
+            "classical_checks": st.classical_checks,
+            "device_misses": st.device_misses,
+            "cert": "coloring" if col is not None else "refutation",
+            "cert_nodes": cert_n, "cert_valid": cert_ok, "cert_check_s": cert_s, "colors_used": ncolors,
             "colorable": colorable, "expected_colorable": exp_col,
             "proper": proper, "seconds": round(dt, 1), "ok": ok, "note": note,
         })
         verdict = "PASS" if ok else "FAIL"
         print(f"  {name:14} n={n:2} k={k:2}  n·k={whole:3}  "
-              f"max piece={st.max_piece_slots:2}  calls={st.device_calls:3}  "
+              f"max piece={st.max_piece_slots:2}  calls={st.device_calls:3} (witn={st.device_witnesses}, exact={st.classical_checks}, miss={st.device_misses})  cert={'OK' if cert_ok else 'FAIL'}:{cert_n}  "
               f"colours used={ncolors:2}  "
               f"{'proper' if proper else 'IMPROPER'}  [{verdict}]  ({dt:.0f}s)")
     return rows
@@ -83,7 +106,7 @@ def save(rows):
     with open(os.path.join(outdir, "largenk.json"), "w") as fh:
         json.dump(rows, fh, indent=2)
     cols = ["name", "n", "m", "chi", "k", "whole_slots", "max_piece_slots",
-            "device_calls", "colors_used", "colorable", "expected_colorable",
+            "device_calls", "device_witnesses", "classical_checks", "device_misses", "cert", "cert_nodes", "cert_valid", "cert_check_s", "colors_used", "colorable", "expected_colorable",
             "proper", "seconds", "ok", "note"]
     with open(os.path.join(outdir, "largenk.csv"), "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols)

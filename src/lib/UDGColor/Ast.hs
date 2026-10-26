@@ -101,7 +101,10 @@ data TransformExpr
   | TRef Name                           -- ^ reference to a named transform
   deriving (Eq, Show)
 
-data TransformMode = Exact | Preserve Property deriving (Eq, Show)
+-- | @exact@ demands a faithful unit-disk realization; @boundedChi P@ (the
+-- same-vertex supergraph mode) promises only that @P@ is not lowered, with a
+-- bounded (not certified) increase -- it is typed @asafe@, never @safe@.
+data TransformMode = Exact | BoundedChi Property deriving (Eq, Show)
 
 data Property = KColorable Int | Chromatic | Bipartite deriving (Eq, Show)
 
@@ -148,8 +151,10 @@ data Problem
   | PDev (Maybe Int)               -- ^ @Dev N@
   deriving (Eq, Show)
 
--- | Safety effect (the type-and-effect annotation of §"Refinement B").
-data Effect = Safe | ASafe Int deriving (Eq, Show)
+-- | Safety effect (the type-and-effect annotation of §"Refinement B"):
+-- @Safe@ preserves chi; @ASafe c@ never lowers chi and raises it by at most @c@
+-- (only with a discharged witness premise); @Mono@ never lowers chi, no bound.
+data Effect = Safe | ASafe Int | Mono deriving (Eq, Show)
 
 -- | The bare sort of a problem-type, ignoring indices. Composition adjacency is
 -- checked at this granularity.
@@ -175,6 +180,7 @@ ppSort SDev  = "Dev"
 ppEffect :: Effect -> String
 ppEffect Safe      = "safe"
 ppEffect (ASafe c) = "asafe " ++ show c
+ppEffect Mono      = "mono"
 
 ppProblem :: Problem -> String
 ppProblem (PCol n k) = "Coloring" ++ idx n ++ idx k

@@ -34,8 +34,16 @@ Definition proper (k : nat) (g : Graph) (c : Coloring) : Prop :=
 
 Definition colorable (k : nat) (g : Graph) : Prop := exists c, proper k g c.
 
+(** The [Col] problem asks for a decision with a witness: a solution is either a
+    colouring ([Some c]) or the answer "not k-colourable" ([None]).  [Some c] is
+    correct when [c] is proper, and [None] is correct when no proper colouring
+    exists. *)
 Definition Pcol (k : nat) (g : Graph) : Problem :=
-  {| Sol := Coloring; IsOpt := proper k g |}.
+  {| Sol   := option Coloring;
+     IsOpt := fun a => match a with
+                       | Some c => proper k g c
+                       | None   => ~ colorable k g
+                       end |}.
 
 (** ** Colour-choice independent sets (the [IS] solution domain). *)
 
@@ -94,25 +102,41 @@ Proof.
 Qed.
 
 (** The independent-set problem-type [IS⟨nk⟩{P_s1}].  Its optima are the
-    *maximum-size* (= n) independent selections — exactly the witnesses the
-    Stage-1 theorem puts in bijection with proper colourings. *)
+    *maximum* independent selections in the standard sense: no independent
+    selection is larger.  Stage-1 exactness ([Stages.stage1_opt]) then says that
+    a maximum has size [n] exactly when [G] is k-colourable. *)
+Definition maximum (k : nat) (g : Graph) (sel : Sel) : Prop :=
+  isol k g sel /\
+  forall sel', isol k g sel' -> count_some sel' (gN g) <= count_some sel (gN g).
+
 Definition Pis (k : nat) (g : Graph) : Problem :=
-  {| Sol   := Sel;
-     IsOpt := fun sel => isol k g sel /\ count_some sel (gN g) = gN g |}.
+  {| Sol := Sel; IsOpt := maximum k g |}.
 
-(** ** Gadget weighted-IS (the [WIS] solution domain).
+(** ** Gadget weighted-IS, unit-disk and device sorts.
 
-    The gadget array adds ancilla atoms; a solution carries the logical
-    selection together with an ancilla occupancy.  Its optima project (drop the
-    ancilla) onto [Pis] optima — the [decodeLogical] of Stage 2. *)
+    Stage 2 is mechanised at its interface: a solution of the gadget instance
+    carries the logical selection together with an ancilla occupancy, and its
+    optima are those whose logical part is a maximum of [Pis]; the offset [C] and
+    the atom count [N] are indices of the sort ([WIS⟨N,C⟩] in the paper).
+
+    The three sorts have the same optima but *distinct* solution types, indexed
+    by [N] (and [C]), so no two of them are convertible: composing the stage
+    reductions in a wrong order, or with mismatched atom counts, is a type
+    error (see [Pipeline.v]). *)
 Definition WSel := (Sel * (nat -> bool))%type.
 
-Definition Pwis (k : nat) (g : Graph) : Problem :=
-  {| Sol   := WSel;
-     IsOpt := fun s => isol k g (fst s) /\ count_some (fst s) (gN g) = gN g |}.
+Record WSol (N C : nat) := mkW { unW : WSel }.
+Record USol (N : nat) := mkU { unU : WSel }.
+Record DSol (N : nat) := mkD { unD : WSel }.
+Arguments mkW {N C}. Arguments unW {N C}.
+Arguments mkU {N}.   Arguments unU {N}.
+Arguments mkD {N}.   Arguments unD {N}.
 
-(** Geometry (Stage 3) and the device budget (Emit) never relabel a solution,
-    so [UDG] and [Dev] share [WIS]'s optima; the stage rules carry identity
-    decoders and differ only in their (geometric / budget) premises. *)
-Definition Pudg (k : nat) (g : Graph) : Problem := Pwis k g.
-Definition Pdev (k : nat) (g : Graph) : Problem := Pwis k g.
+Definition Pwis (k : nat) (g : Graph) (N C : nat) : Problem :=
+  {| Sol := WSol N C; IsOpt := fun s => maximum k g (fst (unW s)) |}.
+
+Definition Pudg (k : nat) (g : Graph) (N : nat) : Problem :=
+  {| Sol := USol N; IsOpt := fun s => maximum k g (fst (unU s)) |}.
+
+Definition Pdev (k : nat) (g : Graph) (N : nat) : Problem :=
+  {| Sol := DSol N; IsOpt := fun s => maximum k g (fst (unD s)) |}.
