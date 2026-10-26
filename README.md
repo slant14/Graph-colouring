@@ -1,11 +1,13 @@
-# Certified Compilation of Graph Coloring to Neutral-Atom Hardware
+# Certifying Compilation of Graph Coloring to Neutral-Atom Hardware
 
-This repository is the artifact for the paper *Certified Compilation of Graph Coloring
-to Neutral-Atom Hardware: An Exact Gadgetized Reduction with a Heuristic Layout
-Optimizer* by Mahmoud Naderi, Manuel Mazzara and Paolo Ciancarini. It contains the
+This repository is the artifact for the paper *Certifying Compilation of Graph Coloring
+to Neutral-Atom Hardware: Typed Exact Reductions with Verified Verdicts* by Mahmoud
+Naderi, Manuel Mazzara and Paolo Ciancarini. It contains the
 paper source, the Rocq mechanization and its extracted certificate checker, the
 Haskell front end `udg-color`, a Rydberg-blockade simulator, and every benchmark
-script and recorded result that the paper reports.
+script and recorded result that the paper reports. The version described in the paper
+is release [v1.0](https://github.com/slant14/Graph-colouring/releases/tag/v1.0)
+(commit `cb71118`).
 
 ## Overview
 
@@ -225,8 +227,8 @@ If you use this artifact, please cite the paper:
 ```bibtex
 @misc{NaderiMazzaraCiancarini2026,
   author = {Naderi, Mahmoud and Mazzara, Manuel and Ciancarini, Paolo},
-  title  = {Certified Compilation of Graph Coloring to Neutral-Atom Hardware:
-            An Exact Gadgetized Reduction with a Heuristic Layout Optimizer},
+  title  = {Certifying Compilation of Graph Coloring to Neutral-Atom Hardware:
+            Typed Exact Reductions with Verified Verdicts},
   year   = {2026},
   note   = {Manuscript},
   url    = {https://github.com/slant14/Graph-colouring}

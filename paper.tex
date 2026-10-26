@@ -1,4 +1,4 @@
-%% Certified Compilation of Graph Coloring to Neutral-Atom Hardware
+%% Certifying Compilation of Graph Coloring to Neutral-Atom Hardware
 %% Elsevier CAS single-column class (cas-sc). Body transplanted from paper.tex.
 \documentclass[a4paper,fleqn]{cas-sc}
 
@@ -87,11 +87,11 @@
 \def\floatpagepagefraction{1}
 \def\textpagefraction{.001}
 
-\shorttitle{Certified Compilation of Graph Coloring to Neutral-Atom Hardware}
+\shorttitle{Certifying Compilation of Graph Coloring to Neutral-Atom Hardware}
 \shortauthors{M. Naderi et~al.}
 
-\title[mode=title]{Certified Compilation of Graph Coloring to Neutral-Atom
-Hardware: An Exact Gadgetized Reduction with a Heuristic Layout Optimizer}
+\title[mode=title]{Certifying Compilation of Graph Coloring to Neutral-Atom
+Hardware: Typed Exact Reductions with Verified Verdicts}
 
 % ── Authors and affiliations ───────────────────────────────────────────────────
 \author[1]{Mahmoud Naderi}
@@ -150,7 +150,7 @@ atoms per vertex, yet only the smallest instances fit a $256$-atom device.
 
 \begin{keywords}
 graph coloring \sep unit-disk graph \sep maximum independent set \sep
-neutral-atom computing \sep certified compilation \sep type-and-effect system
+neutral-atom computing \sep certifying algorithms \sep type-and-effect system
 \end{keywords}
 
 \maketitle
@@ -212,10 +212,13 @@ cannot produce a wrong answer.
 \begin{enumerate}[label=(\arabic*),leftmargin=2.2em,itemsep=1pt]
   \item An exact two-stage reduction from $k$-colorability to UDG--MWIS with an
         end-to-end exactness and decoding meta-theorem
-        (Theorem~\ref{thm:endtoend}) and $O((nk)^2)$ size bounds; an impossibility
-        result that rules out the supergraph route as a correctness mechanism
-        (Theorem~\ref{thm:impossibility}); and seven polynomial-time layout
-        heuristics with termination guarantees (Section~\ref{sec:heuristics}).
+        (Theorem~\ref{thm:endtoend}), which extends to the pairwise restrictions of
+        the language (Proposition~\ref{prop:restrictions}). The gadget instance
+        needs $O((nk)^2)$ atoms in general; lifting a lattice bound of
+        \citet[App.~A]{Nguyen2023}, we show that it needs only $O(nk^2(p+1))$ atoms
+        for graphs of pathwidth $p$ (Proposition~\ref{prop:pathwidth}). An
+        impossibility result rules out the supergraph route as a correctness
+        mechanism (Theorem~\ref{thm:impossibility}).
   \item A coloring-specification language and a \emph{certified-reduction type
         system} (Section~\ref{sec:lang}): composing decoder-carrying stages gives
         end-to-end soundness (Theorem~\ref{thm:typesound}), the legal stage order
@@ -225,31 +228,29 @@ cannot produce a wrong answer.
         that compose. As a result, if $G$ is $k$-colorable, a solve that misses the
         optimum of the combinatorial gadget instance by $\varepsilon$ decodes to a
         proper coloring with at most $k+\varepsilon$ colors
-        (Theorem~\ref{thm:robust}, mechanized as a single Rocq theorem). This
-        additive guarantee complements the known result that such reductions do
-        not preserve approximation ratios.
+        (Theorem~\ref{thm:robust}). This additive guarantee complements the known
+        result that such reductions do not preserve approximation ratios.
   \item \emph{Certificates in both directions}: each verdict of a separator
         decomposition is emitted either as a coloring or as a refutation tree, and a
         checker proved sound in Rocq and extracted to OCaml accepts it. Colorings
         thus come from the device, and lower bounds come from classical refutations
         checked by a verified program (Section~\ref{sec:certs}).
-  \item A \emph{pathwidth size bound}: we lift the $O(N\cdot\mathrm{pw})$ lattice
-        bound of \citet[App.~A]{Nguyen2023} to $G'_k$ and show that the gadget
-        instance of a graph of pathwidth $p$ needs $O(nk^2(p+1))$ atoms, linear in
-        $n$, under stated assumptions on how the lines are placed
-        (Proposition~\ref{prop:pathwidth}).
-  \item An implementation and evaluation (Section~\ref{sec:eval}): an axiom-free
-        Rocq mechanization of the calculus, the combinatorial gadget, the checkers
-        and Theorem~\ref{thm:robust}; a prototype Haskell front end; and
-        validation against a brute-force oracle and a classical Rydberg simulator.
-        The validation covers imperfect sweeps,
-        metric layouts, and a certified decomposition that establishes
-        $\chi(\texttt{myciel3})=4$.
 \end{enumerate}
+
+\noindent Section~\ref{sec:eval} reports the implementation and its evaluation. The
+calculus, the combinatorial gadget, the checkers and Theorem~\ref{thm:robust} are
+mechanized axiom-free in Rocq; a prototype Haskell front end type-checks and
+elaborates programs. The evaluation compares a classical Rydberg simulator with a
+brute-force oracle and covers imperfect sweeps, metric layouts, and a certified
+decomposition that establishes $\chi(\texttt{myciel3})=4$. The compiler itself is not
+verified. It is \emph{certifying} in the sense of \citet{McConnell2011}: its
+reductions are proved correct once, and each verdict of the decomposition comes with
+a certificate that a checker proved sound in Rocq accepts.
 
 \paragraph{Artifact and structure.} The Rocq development, the Haskell package
 \texttt{udg-color}, the simulator, and all benchmark scripts and results are publicly
-available at \url{https://github.com/slant14/Graph-colouring}.
+available at \url{https://github.com/slant14/Graph-colouring}; this paper describes
+release v1.0 (commit \texttt{cb71118}).
 Sections~\ref{sec:background}--\ref{sec:overview} give the background and the
 pipeline; Sections~\ref{sec:gadget}--\ref{sec:pipeline} cover the exact path and the
 heuristic layout; Section~\ref{sec:related} reviews related work;
@@ -1069,7 +1070,7 @@ from $p(c)$ in the directions of Proposition~\ref{prop:starudg}; each group is a
 clique, distinct groups are more than $r$ apart, and $\chi(H)=\lceil n/5\rceil+1$.
 \end{proof}
 
-\subsection{The layout loss and the seven heuristics}
+\subsection{The layout loss and the heuristics}
 \label{sec:seven}
 
 For the gadget instance $A$ with prescribed adjacency $E_A$, the heuristics minimize
@@ -1084,61 +1085,22 @@ the \emph{realization} loss
 where $d_{uv}=\|p(u)-p(v)\|_2$. The three terms penalize a prescribed edge longer
 than $r$, a non-edge shorter than $r+\epsilon$, and a pair of atoms closer than
 $d_{\min}$. The loss measures how far a placement is from realizing $E_A$ exactly; it
-does not compare the placement with $G$. The seven heuristics initialize, run, repair
-and tune this optimization.
+does not compare the placement with $G$. Seven heuristics initialize, run, repair
+and tune this optimization. We give here the three that act on the lattice
+construction evaluated in Section~\ref{sec:layouteval}; the other four apply to
+free-form layouts and are in Appendix~\ref{app:freeform}.
 
-\paragraph{H1 (loss minimization).} Gradient descent on~\eqref{eq:layoutloss} over
-$p$ and $r$, then a hard feasibility check (every
-prescribed edge realized, every non-edge excluded, all distances $\ge d_{\min}$); a
-missing edge triggers $r\leftarrow\max_{\{u,v\}\in E_A}d_{uv}$ and a rebuild. Each step
-costs $O(|V(A)|^2)$.
-\textbf{H2 (chain-aware weighting).} Weight the loss terms by gadget-chain length, so
-that edges routed through many crossings are compacted first. This weighting, a
-geometric analogue of DSATUR's saturation degree~\cite{Brelaz1979}, targets the
-$O((nk)^2)$ bottleneck.
-\textbf{H3 (over-packing control).} Every UDG clique lies in some $N[v]$; detect
-spurious dense clusters locally in $O(|V(A)|\Delta^2)$ and push the offending atoms
-apart. The hardware bounds clique size: let the \emph{device clique bound}
-$\omega_{\max}$ be the largest clique number of any $\UDG(p,r)$ with $r\le r_{\max}$ and
-pairwise spacing at least $d_{\min}$. This is a device constant, not the clique number
-of a particular graph.
-
-\begin{proposition}[Hardware-bounded cliques]
-\label{prop:hwclique}
-With $\omega_{\max}$ as just defined,
-\[
-  \omega_{\max}\;\le\;\Bigl\lfloor\Bigl(1+\tfrac{2r_{\max}}
-      {\sqrt{3}\,d_{\min}}\Bigr)^{\!2}\Bigr\rfloor .
-\]
-\end{proposition}
-
-\begin{proof}
-A clique $K$ of a realizable $\UDG(p,r)$ has diameter at most $r$, so by Jung's
-theorem~\cite{Jung1901} it lies in a closed disk of radius $R=r/\sqrt3$. The open
-disks of radius $d_{\min}/2$ around its atoms are pairwise disjoint and lie in the
-concentric disk of radius $R+d_{\min}/2$, so comparing areas,
-$|K|\,(d_{\min}/2)^2\le(R+d_{\min}/2)^2$, i.e.\
-$|K|\le\bigl(1+2r/(\sqrt3\,d_{\min})\bigr)^2$. Use $r\le r_{\max}$ and integrality.
-\end{proof}
-
-\noindent The bound caps local density in terms of physical parameters
-alone~\cite{Henriet2020,Scholl2021}; the optimal planar packing
-density~\cite{FejesToth1953} would improve the constant asymptotically from $4/3$ to
-$2\pi/(3\sqrt3)\approx1.21$, which we do not need.
-
-\paragraph{H4 (Laplacian initialization).} Start H1 from the Fiedler vector and the
-next Laplacian eigenvector~\cite{Fiedler1973,Chung1997,Belkin2001},
-$p_0(v_i)=(\phi_2(i),\phi_3(i))$, which places adjacent atoms close
-together~\cite{Fruchterman1991}; $O(|V(A)|^2)$ dense, $O(t\,|E_A|)$ for $t$ sparse iterations.
+\paragraph{H4 (Laplacian initialization).} Place vertex $v_i$ at
+$p_0(v_i)=(\phi_2(i),\phi_3(i))$, using the Fiedler vector and the next Laplacian
+eigenvector~\cite{Fiedler1973,Chung1997,Belkin2001}, which places adjacent atoms
+close together~\cite{Fruchterman1991}; $O(|V(A)|^2)$ dense, $O(t\,|E_A|)$ for $t$
+sparse iterations. On a lattice construction, the Fiedler vector alone orders the
+copy lines.
 \textbf{H5 (monotone local repair).} Push or pull offending pairs, accepting a move
 only if it strictly decreases the potential
 $\Phi=\sum_{\{u,v\}\in\mathcal X}\eta_{uv}$ over the violations $\mathcal X$, with
 integer weights $\eta_{uv}\ge1$. As $\Phi$ is a nonnegative integer that every
 accepted move decreases, at most $\Phi_0\le|V(A)|^2\max\eta$ moves occur.
-\textbf{H6 (radius sweep).} With $p$ fixed, sort the pairwise distances; the minimum
-feasible radius is $r^\star=\max_{\{u,v\}\in E_A}d_{uv}$, and over $[r^\star,r_{\max}]$
-we select a Pareto point in (realized non-edges, area, $r$)~\cite{Miettinen1999};
-$O(|V(A)|^2\log|V(A)|)$, plus $O(|V(A)|^2)$ per radius.
 \textbf{H7 (quality as evaluation).} Discrete measures such as realized non-edges and
 decoded gap are piecewise constant in $(p,r)$ and give no useful gradient, so they are
 used only to \emph{evaluate} and \emph{select} layouts.
@@ -1160,7 +1122,7 @@ make a decoded answer wrong. For a lattice construction such as that of
 Theorem~\ref{thm:gadget}, whose coordinates and radius are fixed once the copy lines
 are ordered, the optimizer acts through that order (H4 initializes it, an H5-style
 repair improves it, H7 selects by atom count; Section~\ref{sec:layouteval}), while
-H1--H3 and H6 apply to free-form gadget layouts.
+H1--H3 and H6 apply to free-form gadget layouts (Appendix~\ref{app:freeform}).
 
 % =============================================================================
 \section{Integrated pipeline and complexity}
@@ -1173,8 +1135,8 @@ $O(nk^2+mk)$ time (Theorem~\ref{thm:col2is}) and gadgetizes it in polynomial tim
 (Proposition~\ref{prop:atombudget}). It then lays out $A$: H4 initializes, H1--H2 run
 for a budget of $T=\mathrm{poly}(N)$ steps followed by the feasibility check (raising
 $r$ or rebuilding on failure), H3 and H5 repair, and H6 selects $(p,r^\star)$ with
-$r^\star\le r_{\max}$ and area at most $A_{\max}$, at the costs of
-Section~\ref{sec:seven}. Finally, the device solves MWIS on $A$ at $(p,r^\star)$. The
+$r^\star\le r_{\max}$ and area at most $A_{\max}$, at the costs given in
+Section~\ref{sec:seven} and Appendix~\ref{app:freeform}. Finally, the device solves MWIS on $A$ at $(p,r^\star)$. The
 decoder returns the Stage-1 readout of $S=\ell^{-1}(S_A)$ in $O(N)$ time if this
 readout passes the check of Section~\ref{sec:decode}, and reports a solve failure
 otherwise (Theorem~\ref{thm:endtoend}). The layout can affect feasibility, never
@@ -2185,7 +2147,8 @@ All $26$ decomposition runs produce certificates: the $21$ rows of
 Table~\ref{tab:decomp} and five further colorable runs recorded in
 \texttt{decomp.csv} (Frucht at $k=3$, Heawood and Pappus at $k=2$, and second runs of
 Petersen and the dodecahedral graph at $k=3$). The verified checker accepts all $26$,
-each in under $20$\,ms. The $19$ colorable runs are certified by their
+each in under $20$\,ms. The two repeated runs write to the same file names as the
+first runs, so the artifact keeps $24$ distinct certificate files. The $19$ colorable runs are certified by their
 colorings; the $7$ non-colorable ones by refutations of $2$ to $794$ nodes: $2$--$3$
 nodes for the $1$-colorability checks, $49$ for Petersen and $79$ for the dodecahedral
 graph at $k=2$, $95$ for $C_{21}$ at $k=2$, and $794$ for \texttt{myciel3} at $k=3$,
@@ -2343,6 +2306,60 @@ classical~\cite{LekkerkerkerBoland1962,Golumbic1980}.
 \noindent Together with Proposition~\ref{prop:starudg}, which realizes exactly the
 stars $K_{1,t}$ with $t\le5$, these are the families on which the backend is exact.
 
+
+% =============================================================================
+\section{Heuristics for free-form layouts}
+\label{app:freeform}
+% =============================================================================
+
+These four heuristics complete the layout optimizer of Section~\ref{sec:seven}. They
+apply to free-form gadget layouts, in which atoms may be placed anywhere; a lattice
+construction fixes the coordinates once the copy lines are ordered and does not use
+them. H1 starts from the placement of H4.
+
+\paragraph{H1 (loss minimization).} Gradient descent on~\eqref{eq:layoutloss} over
+$p$ and $r$, then a hard feasibility check (every
+prescribed edge realized, every non-edge excluded, all distances $\ge d_{\min}$); a
+missing edge triggers $r\leftarrow\max_{\{u,v\}\in E_A}d_{uv}$ and a rebuild. Each step
+costs $O(|V(A)|^2)$.
+\textbf{H2 (chain-aware weighting).} Weight the loss terms by gadget-chain length, so
+that edges routed through many crossings are compacted first. This weighting, a
+geometric analogue of DSATUR's saturation degree~\cite{Brelaz1979}, targets the
+$O((nk)^2)$ bottleneck.
+\textbf{H3 (over-packing control).} Every UDG clique lies in some $N[v]$; detect
+spurious dense clusters locally in $O(|V(A)|\Delta^2)$ and push the offending atoms
+apart. The hardware bounds clique size: let the \emph{device clique bound}
+$\omega_{\max}$ be the largest clique number of any $\UDG(p,r)$ with $r\le r_{\max}$ and
+pairwise spacing at least $d_{\min}$. This is a device constant, not the clique number
+of a particular graph.
+
+\begin{proposition}[Hardware-bounded cliques]
+\label{prop:hwclique}
+With $\omega_{\max}$ as just defined,
+\[
+  \omega_{\max}\;\le\;\Bigl\lfloor\Bigl(1+\tfrac{2r_{\max}}
+      {\sqrt{3}\,d_{\min}}\Bigr)^{\!2}\Bigr\rfloor .
+\]
+\end{proposition}
+
+\begin{proof}
+A clique $K$ of a realizable $\UDG(p,r)$ has diameter at most $r$, so by Jung's
+theorem~\cite{Jung1901} it lies in a closed disk of radius $R=r/\sqrt3$. The open
+disks of radius $d_{\min}/2$ around its atoms are pairwise disjoint and lie in the
+concentric disk of radius $R+d_{\min}/2$, so comparing areas,
+$|K|\,(d_{\min}/2)^2\le(R+d_{\min}/2)^2$, i.e.\
+$|K|\le\bigl(1+2r/(\sqrt3\,d_{\min})\bigr)^2$. Use $r\le r_{\max}$ and integrality.
+\end{proof}
+
+\noindent The bound caps local density in terms of physical parameters
+alone~\cite{Henriet2020,Scholl2021}; the optimal planar packing
+density~\cite{FejesToth1953} would improve the constant asymptotically from $4/3$ to
+$2\pi/(3\sqrt3)\approx1.21$, which we do not need.
+\textbf{H6 (radius sweep).} With $p$ fixed, sort the pairwise distances; the minimum
+feasible radius is $r^\star=\max_{\{u,v\}\in E_A}d_{uv}$, and over $[r^\star,r_{\max}]$
+we select a Pareto point in (realized non-edges, area, $r$)~\cite{Miettinen1999};
+$O(|V(A)|^2\log|V(A)|)$, plus $O(|V(A)|^2)$ per radius.
+
 % =============================================================================
 \section*{Data availability}
 % =============================================================================
@@ -2352,7 +2369,10 @@ extracted certificate checker (\texttt{proof/}), the Haskell package \texttt{udg
 and the Rydberg simulator (\texttt{src/}), and the benchmark scripts with all recorded
 results and certificates (\texttt{benchmarks/}). The metric layouts use Julia~1.11 with
 UnitDiskMapping.jl~0.5.1~\cite{UnitDiskMapping}, and the other benchmarks are Python
-scripts; together they reproduce every numeric result of Section~\ref{sec:eval}.
+scripts; together they reproduce every numeric result of Section~\ref{sec:eval}. The
+version described in this paper is release v1.0,
+\url{https://github.com/slant14/Graph-colouring/releases/tag/v1.0} (commit
+\texttt{cb71118069a3d4dac8c30ef4a1f826d700ac0b51}).
 
 
 % =============================================================================
